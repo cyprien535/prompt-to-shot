@@ -1403,6 +1403,348 @@
         font-size: 13.5px;
         color: rgba(255, 255, 255, 0.7);
       }
+
+      /* ========================================================
+         GALLERY / SHOWCASE SECTION (EDITORIAL PORTFOLIO)
+         ======================================================== */
+      .showcase-section {
+        position: relative;
+        background: #ffffff;
+        color: #161c08;
+        padding: 100px 24px 140px;
+        z-index: 30;
+        border-top: 1px solid #e2e8f0;
+      }
+
+      .sc-container {
+        max-width: 1240px;
+        margin: 0 auto;
+      }
+
+      /* Showcase Header Block */
+      .sc-header-block {
+        text-align: center;
+        max-width: 860px;
+        margin: 0 auto 48px;
+      }
+
+      .sc-kicker {
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        padding: 6px 18px;
+        margin-bottom: 20px;
+      }
+
+      .sc-title {
+        font-family: 'DM Serif Display', Georgia, serif;
+        font-size: clamp(34px, 4.4vw, 54px);
+        line-height: 1.12;
+        color: #161c08;
+        margin-bottom: 20px;
+        letter-spacing: -0.015em;
+        text-wrap: balance;
+      }
+
+      .sc-subtitle {
+        font-size: clamp(15.5px, 1.8vw, 18px);
+        line-height: 1.65;
+        color: #4a5568;
+        max-width: 760px;
+        margin: 0 auto;
+        text-wrap: balance;
+      }
+
+      /* Filter Bar */
+      .sc-filter-bar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 54px;
+        flex-wrap: wrap;
+      }
+
+      .sc-filter-btn {
+        background: #f8fafc;
+        color: #4a5568;
+        border: 1.5px solid #e2e8f0;
+        padding: 9px 20px;
+        border-radius: 9999px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 13.5px;
+        cursor: pointer;
+        transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .sc-filter-btn:hover {
+        background: #f1f5f9;
+        color: #161c08;
+        border-color: #cbd5e1;
+        transform: translateY(-1px);
+      }
+
+      .sc-filter-btn.active {
+        background: #161c08;
+        color: #ffffff;
+        border-color: #161c08;
+        box-shadow: 0 4px 14px rgba(22, 28, 8, 0.2);
+      }
+
+      /* Editorial Portfolio Flow */
+      .sc-portfolio-flow {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        margin-bottom: 80px;
+      }
+
+      /* Top Featured Asymmetric Row */
+      .sc-featured-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      @media (min-width: 900px) {
+        .sc-featured-row {
+          grid-template-columns: 1.15fr 0.85fr;
+          gap: 40px;
+        }
+      }
+
+      /* Staggered Masonry / Editorial Grid */
+      .sc-grid-trio {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      @media (min-width: 640px) {
+        .sc-grid-trio {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .sc-grid-trio {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      .sc-grid-quad {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      @media (min-width: 640px) {
+        .sc-grid-quad {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .sc-grid-quad {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      /* Individual Poster Card */
+      .sc-poster-card {
+        position: relative;
+        border-radius: 20px;
+        background: #ffffff;
+        padding: 12px 12px 18px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 14px 34px rgba(15, 30, 60, 0.07);
+        cursor: pointer;
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, opacity 0.3s ease;
+        overflow: hidden;
+        user-select: none;
+      }
+
+      .sc-poster-card:hover {
+        transform: translateY(-8px) scale(1.015) !important;
+        box-shadow: 0 24px 50px rgba(15, 30, 60, 0.16);
+        border-color: rgba(22, 28, 8, 0.2);
+      }
+
+      /* Subtle Editorial Rotations on Desktop */
+      @media (min-width: 1024px) {
+        .sc-tilt-left-sm {
+          transform: rotate(-1.2deg);
+        }
+        .sc-tilt-right-sm {
+          transform: rotate(1.4deg);
+        }
+        .sc-tilt-left-md {
+          transform: rotate(-2deg);
+        }
+        .sc-tilt-right-md {
+          transform: rotate(1.8deg);
+        }
+      }
+
+      .sc-media-frame {
+        position: relative;
+        width: 100%;
+        border-radius: 14px;
+        overflow: hidden;
+        background: #0f172a;
+        aspect-ratio: 3 / 4;
+      }
+
+      .sc-poster-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .sc-poster-card:hover .sc-poster-img {
+        transform: scale(1.05);
+      }
+
+      /* Top Category Badge on Image */
+      .sc-badge {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        background: rgba(22, 28, 8, 0.85);
+        color: #ffffff;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        font-size: 11px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        padding: 5px 12px;
+        border-radius: 9999px;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        z-index: 2;
+      }
+
+      .sc-badge.glow-yellow {
+        background: #f6f03b;
+        color: #161c08;
+        border-color: #ffffff;
+      }
+
+      /* Hover Inspect Prompt Indicator */
+      .sc-hover-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 40%, rgba(22, 28, 8, 0.75) 100%);
+        opacity: 0;
+        transition: opacity 0.25s ease;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding-bottom: 20px;
+        z-index: 3;
+      }
+
+      .sc-poster-card:hover .sc-hover-overlay {
+        opacity: 1;
+      }
+
+      .sc-hover-prompt-btn {
+        background: #f6f03b;
+        color: #161c08;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        font-size: 12.5px;
+        padding: 7px 16px;
+        border-radius: 9999px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transform: translateY(10px);
+        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .sc-poster-card:hover .sc-hover-prompt-btn {
+        transform: translateY(0);
+      }
+
+      /* Meta below image */
+      .sc-card-meta {
+        padding: 14px 6px 4px;
+      }
+
+      .sc-card-tag {
+        font-size: 11.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #3195e0;
+        margin-bottom: 4px;
+      }
+
+      .sc-card-title {
+        font-family: 'DM Serif Display', Georgia, serif;
+        font-size: 21px;
+        line-height: 1.2;
+        color: #161c08;
+        margin-bottom: 4px;
+      }
+
+      .sc-card-desc {
+        font-size: 13.5px;
+        color: #64748b;
+        line-height: 1.45;
+      }
+
+      /* Showcase Bottom CTA Strip */
+      .sc-cta-strip {
+        background: linear-gradient(135deg, #161c08 0%, #202b12 100%);
+        color: #ffffff;
+        border-radius: 24px;
+        padding: 44px 32px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border: 2px solid rgba(246, 240, 59, 0.3);
+        box-shadow: 0 20px 50px rgba(22, 28, 8, 0.2);
+        margin-top: 30px;
+      }
+
+      .sc-cta-strip-kicker {
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        padding: 5px 16px;
+        margin-bottom: 16px;
+      }
+
+      .sc-cta-strip-title {
+        font-family: 'DM Serif Display', Georgia, serif;
+        font-size: clamp(26px, 3.4vw, 38px);
+        color: #ffffff;
+        margin-bottom: 12px;
+      }
+
+      .sc-cta-strip-body {
+        font-size: clamp(14.5px, 1.6vw, 16.5px);
+        color: rgba(255, 255, 255, 0.85);
+        max-width: 660px;
+        margin: 0 auto 28px;
+        line-height: 1.6;
+      }
     </style>
   </head>
   <body>
@@ -1441,7 +1783,7 @@
           <span class="nav-sep" aria-hidden="true">·</span>
           <a href="#problem-solution" class="nav-link nav-scroll-link">Avant / Après</a>
           <span class="nav-sep" aria-hidden="true">·</span>
-          <a href="#showcase" class="nav-link" data-modal="showcase">Galerie</a>
+          <a href="#showcase" class="nav-link nav-scroll-link">Galerie</a>
           <span class="nav-sep" aria-hidden="true">·</span>
           <a href="#classroom" class="nav-link" data-modal="classroom">Cours</a>
           <span class="nav-sep" aria-hidden="true">·</span>
@@ -1905,6 +2247,238 @@
 
         </div>
       </section>
+
+      <!-- Gallery / Showcase Section (Editorial Portfolio) -->
+      <section class="showcase-section" id="showcase">
+        <div class="sc-container">
+
+          <!-- Showcase Header Block -->
+          <div class="sc-header-block">
+            <div class="highlighter-label sc-kicker">
+              <span class="hl-text">Galerie & Portfolio</span>
+            </div>
+            <h2 class="sc-title">Campagnes & Affiches Réalisées par nos Étudiants</h2>
+            <p class="sc-subtitle">
+              Du packshot cosmétique de prestige aux affiches de festivals, chaque visuel allie photoréalisme chirurgical, typographie nette et direction artistique primée. Cliquez sur une affiche pour inspecter la recette de prompt et les paramètres de studio.
+            </p>
+          </div>
+
+          <!-- Filter Bar -->
+          <div class="sc-filter-bar" role="tablist" aria-label="Filtrer les affiches par catégorie">
+            <button class="sc-filter-btn active" data-filter="all">Toutes les Affiches (9)</button>
+            <button class="sc-filter-btn" data-filter="cosmetics">Cosmétique & Beauté</button>
+            <button class="sc-filter-btn" data-filter="food">Food & Boissons</button>
+            <button class="sc-filter-btn" data-filter="events">Événements & Tech</button>
+            <button class="sc-filter-btn" data-filter="packaging">Packaging & Retail</button>
+          </div>
+
+          <!-- Editorial Portfolio Flow -->
+          <div class="sc-portfolio-flow">
+            
+            <!-- Row 1: The Master Showcase (Asymmetrical Duo) -->
+            <div class="sc-featured-row">
+              
+              <!-- Poster 1: Lumina Botanica (Cosmetics) -->
+              <div class="sc-poster-card sc-tilt-left-sm" data-poster="sc-1" data-cat="cosmetics" tabindex="0" role="button" aria-label="Affiche Cosmétique Lumina Botanica">
+                <div class="sc-media-frame">
+                  <span class="sc-badge glow-yellow">Cosmétique & Luxe</span>
+                  <img class="sc-poster-img" src="/images/poster_cosmetics.jpg" alt="Affiche publicitaire cosmétique Lumina Botanica" loading="lazy" />
+                  <div class="sc-hover-overlay">
+                    <span class="sc-hover-prompt-btn">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                      Inspecter le Prompt
+                    </span>
+                  </div>
+                </div>
+                <div class="sc-card-meta">
+                  <div class="sc-card-tag">Packshot Studio · Gouttelettes & Macro</div>
+                  <h3 class="sc-card-title">Lumina Botanica · Élixir Cellulaire</h3>
+                  <p class="sc-card-desc">Flacon ambré sur basalte noir humide, reflets d'eau et pétales d'orchidées sauvages.</p>
+                </div>
+              </div>
+
+              <!-- Poster 2: Creative Horizons (Events) -->
+              <div class="sc-poster-card sc-tilt-right-sm" data-poster="sc-2" data-cat="events" tabindex="0" role="button" aria-label="Affiche Conférence Creative Horizons 2026">
+                <div class="sc-media-frame">
+                  <span class="sc-badge">Événement & Tech</span>
+                  <img class="sc-poster-img" src="/images/poster_summit.jpg" alt="Affiche Conférence Creative Horizons 2026 Paris" loading="lazy" />
+                  <div class="sc-hover-overlay">
+                    <span class="sc-hover-prompt-btn">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                      Inspecter le Prompt
+                    </span>
+                  </div>
+                </div>
+                <div class="sc-card-meta">
+                  <div class="sc-card-tag">Affiche Keynote · Typographie Nette</div>
+                  <h3 class="sc-card-title">Creative Horizons 2026 · Paris</h3>
+                  <p class="sc-card-desc">Ruban sculptural métallique irisé en lévitation, architecture béton et néons ambrés.</p>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Row 2: Dynamic Trio (Staggered Offsets) -->
+            <div class="sc-grid-trio">
+              
+              <!-- Poster 3: Chrono Obsidian (Luxury Watches & Tech) -->
+              <div class="sc-poster-card sc-tilt-left-md" data-poster="sc-3" data-cat="events" tabindex="0" role="button" aria-label="Affiche Horlogerie Chrono Obsidian">
+                <div class="sc-media-frame">
+                  <span class="sc-badge">Haute Horlogerie</span>
+                  <img class="sc-poster-img" src="/images/poster_watch.jpg" alt="Affiche Chronographe Suisse Chrono Obsidian" loading="lazy" />
+                  <div class="sc-hover-overlay">
+                    <span class="sc-hover-prompt-btn">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                      Inspecter le Prompt
+                    </span>
+                  </div>
+                </div>
+                <div class="sc-card-meta">
+                  <div class="sc-card-tag">Macro Précision · Titane Brossé</div>
+                  <h3 class="sc-card-title">Chrono Obsidian · Précision Infinie</h3>
+                  <p class="sc-card-desc">Chronomètre squelette avec accents luminescents turquoise et micro-gouttelettes d'eau.</p>
+                </div>
+              </div>
+
+              <!-- Poster 4: Aurora Citrus (Food & Beverages) -->
+              <div class="sc-poster-card" data-poster="sc-4" data-cat="food" tabindex="0" role="button" aria-label="Affiche Aurora Citrus Canette Givrée">
+                <div class="sc-media-frame">
+                  <span class="sc-badge glow-yellow">Cannes Lions · Boissons</span>
+                  <img class="sc-poster-img" src="/images/poster_after_ai.jpg" alt="Affiche publicitaire Aurora Citrus avec splash" loading="lazy" />
+                  <div class="sc-hover-overlay">
+                    <span class="sc-hover-prompt-btn">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                      Inspecter le Prompt
+                    </span>
+                  </div>
+                </div>
+                <div class="sc-card-meta">
+                  <div class="sc-card-tag">Campagne Estivale · Splash Volumétrique</div>
+                  <h3 class="sc-card-title">Aurora Citrus · Fraîcheur Polaire</h3>
+                  <p class="sc-card-desc">Canette d'agrumes givrée de gouttelettes réelles avec projection dynamique de quartiers de mandarine.</p>
+                </div>
+              </div>
+
+              <!-- Poster 5: Soummam Yago (Food & Dairy) -->
+              <div class="sc-poster-card sc-tilt-right-md" data-poster="sc-5" data-cat="food" tabindex="0" role="button" aria-label="Affiche Soummam Yago Yaourt Fraise">
+                <div class="sc-media-frame">
+                  <span class="sc-badge">Commercial Food</span>
+                  <img class="sc-poster-img" src="/images/853639915_122132098514917799_8680055729774653392_n.jpg" alt="Affiche Soummam Yago Yaourt Fraise en suspension" loading="lazy" />
+                  <div class="sc-hover-overlay">
+                    <span class="sc-hover-prompt-btn">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                      Inspecter le Prompt
+                    </span>
+                  </div>
+                </div>
+                <div class="sc-card-meta">
+                  <div class="sc-card-tag">Dynamique de Fluides · 3D Splash</div>
+                  <h3 class="sc-card-title">Soummam Yago · Yaourt aux Fraises</h3>
+                  <p class="sc-card-desc">Bouteille en lévitation enveloppée d'un vortex de lait et de fraises fraîches en plein soleil.</p>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Row 3: Quad Showcase (Packaging, Food & Social Media) -->
+            <div class="sc-grid-quad">
+              
+              <!-- Poster 6: Tường An Cooking Oil (Food & Culinary) -->
+              <div class="sc-poster-card sc-tilt-left-sm" data-poster="sc-6" data-cat="food" tabindex="0" role="button" aria-label="Affiche Culinaire Huile Tường An">
+                <div class="sc-media-frame">
+                  <span class="sc-badge">Print & Outdoor</span>
+                  <img class="sc-poster-img" src="/images/858894691_122132451518917799_401566089164284770_n.jpg" alt="Affiche Tường An Cooking Oil avec splash d'huile dorée" loading="lazy" />
+                  <div class="sc-hover-overlay">
+                    <span class="sc-hover-prompt-btn">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                      Inspecter le Prompt
+                    </span>
+                  </div>
+                </div>
+                <div class="sc-card-meta">
+                  <div class="sc-card-tag">Nature Morte · Splash Doré</div>
+                  <h3 class="sc-card-title">Tường An · Huile Gastronomique</h3>
+                  <p class="sc-card-desc">Tourbillon d'huile limpide entouré d'ingrédients frais du marché.</p>
+                </div>
+              </div>
+
+              <!-- Poster 7: Kiki's Crispy (Packaging & Retail) -->
+              <div class="sc-poster-card" data-poster="sc-7" data-cat="packaging" tabindex="0" role="button" aria-label="Affiche Packaging Kiki's Crispy">
+                <div class="sc-media-frame">
+                  <span class="sc-badge">Packaging & Retail</span>
+                  <img class="sc-poster-img" src="/images/829250489_122129791172917799_8465261343643478983_n.jpg" alt="Affiche packaging Kiki's Delicious Crispy banana chips" loading="lazy" />
+                  <div class="sc-hover-overlay">
+                    <span class="sc-hover-prompt-btn">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                      Inspecter le Prompt
+                    </span>
+                  </div>
+                </div>
+                <div class="sc-card-meta">
+                  <div class="sc-card-tag">Doypack Kraft · Rendu Rayons de Soleil</div>
+                  <h3 class="sc-card-title">Kiki's · Plantain Chips Dorées</h3>
+                  <p class="sc-card-desc">Sachets kraft éco-conçus et bol en bois sur table de cuisine ensoleillée.</p>
+                </div>
+              </div>
+
+              <!-- Poster 8: Coca-Cola Ice (Food & Beverage) -->
+              <div class="sc-poster-card sc-tilt-right-sm" data-poster="sc-8" data-cat="food" tabindex="0" role="button" aria-label="Affiche Coca-Cola Givrée">
+                <div class="sc-media-frame">
+                  <span class="sc-badge">Campagne Mondiale</span>
+                  <img class="sc-poster-img" src="/images/831727472_122130279716917799_6358197100971641401_n.jpg" alt="Affiche Coca-Cola Réfrigérante sur lit de glaçons" loading="lazy" />
+                  <div class="sc-hover-overlay">
+                    <span class="sc-hover-prompt-btn">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                      Inspecter le Prompt
+                    </span>
+                  </div>
+                </div>
+                <div class="sc-card-meta">
+                  <div class="sc-card-tag">Éclairage Soleil & Glace Vive</div>
+                  <h3 class="sc-card-title">Coca-Cola · Fraîcheur Intense</h3>
+                  <p class="sc-card-desc">Canette emblématique 350 ml perlée d'eau glacée au cœur de glaçons translucides.</p>
+                </div>
+              </div>
+
+              <!-- Poster 9: Imdi Fruits Parfait (Desserts & Social) -->
+              <div class="sc-poster-card" data-poster="sc-9" data-cat="food" tabindex="0" role="button" aria-label="Affiche Dessert Imdi Fruits">
+                <div class="sc-media-frame">
+                  <span class="sc-badge">Social Media Ads</span>
+                  <img class="sc-poster-img" src="/images/818365479_122128349066917799_7606925868454223497_n.jpg" alt="Affiche dessert gourmand Imdi Fruits Parfait" loading="lazy" />
+                  <div class="sc-hover-overlay">
+                    <span class="sc-hover-prompt-btn">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                      Inspecter le Prompt
+                    </span>
+                  </div>
+                </div>
+                <div class="sc-card-meta">
+                  <div class="sc-card-tag">Food Styling · Texture Onctueuse</div>
+                  <h3 class="sc-card-title">Imdi Fruits · Parfait Mangue & Fraise</h3>
+                  <p class="sc-card-desc">Gobelet transparent débordant de coulis crémeux, granola doré et cuillère en bois.</p>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Showcase Bottom Invitation Strip -->
+          <div class="sc-cta-strip">
+            <div class="highlighter-label sc-cta-strip-kicker">
+              <span class="hl-text">Vous aussi, créez ces visuels</span>
+            </div>
+            <h3 class="sc-cta-strip-title">Prêt à maîtriser la création d'affiches publicitaires de ce niveau ?</h3>
+            <p class="sc-cta-strip-body">
+              Rejoignez plus de 14 000 créatifs et apprenez la méthodologie complète : de l'ingénierie de prompt avancée au photoréalisme chirurgical pour des marques réelles.
+            </p>
+            <button class="ps-cta-button btn-enroll" aria-label="Rejoindre la formation Créer des Affiches Pro">
+              Rejoindre la formation · Accès Immédiat 100 % Gratuit
+            </button>
+          </div>
+
+        </div>
+      </section>
     </div>
 
     <!-- Interactive Modal: Card Prompt Inspector & Enrollment Modal -->
@@ -2301,6 +2875,243 @@
             xBtn.style.opacity = isPaused ? '0.6' : '1';
           });
         }
+
+        // --- Showcase Gallery Filter & Prompt Inspector ---
+        const filterBtns = document.querySelectorAll('.sc-filter-btn');
+        const posterCards = document.querySelectorAll('.sc-poster-card');
+
+        filterBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            const filter = btn.getAttribute('data-filter');
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            posterCards.forEach(card => {
+              const cat = card.getAttribute('data-cat');
+              if (filter === 'all' || cat === filter) {
+                card.style.display = 'block';
+                card.style.opacity = '1';
+                card.style.pointerEvents = 'auto';
+              } else {
+                card.style.display = 'none';
+                card.style.opacity = '0';
+                card.style.pointerEvents = 'none';
+              }
+            });
+          });
+        });
+
+        // Detailed Prompt Recipes & Technical Specs for all 9 Posters
+        const galleryPosters = {
+          'sc-1': {
+            title: 'Lumina Botanica · Élixir Cellulaire',
+            category: 'Cosmétique & Soins de Luxe',
+            format: 'Campagne Presse & Affichage 120×176 cm · 300 DPI',
+            prompt: 'Award-winning luxury commercial beauty cosmetics advertising poster. In the center, an elegant amber frosted glass serum dropper bottle with gold foil typography reading "LUMINA BOTANICA - ÉLIXIR CELLULAIRE". Resting on a raw wet black volcanic stone slab with gentle water ripples, morning dew drops, and soft cream-colored wild white orchid petals. High-end cosmetic photography, soft atmospheric lighting, premium French perfumery aesthetic, razor sharp focus, 8k commercial quality.',
+            specs: {
+              focal: 'Macro 100mm f/2.8 IS',
+              lighting: 'Diffusion Softbox 120cm + Rim Light chaud',
+              engine: 'Midjourney v6.1 / Upscale Topaz 8K',
+              aspectRatio: '3:4 Portrait'
+            },
+            img: '/images/poster_cosmetics.jpg'
+          },
+          'sc-2': {
+            title: 'Creative Horizons 2026 · Paris',
+            category: 'Conférence & Événement Tech / Design',
+            format: 'Affiche Urbaine Grand Format & Réseaux Sociaux',
+            prompt: 'Official keynote advertising poster for an international creative design conference. Bold architectural typography at the top reading "CREATIVE HORIZONS 2026" with subtext "PARIS · LE FUTUR DU DESIGN IA". A futuristic sculptural iridescent metallic ribbon floating in a dark minimalist museum hall with subtle amber and electric blue ambient lighting, architectural shadows, editorial graphic design layout, Cannes Lions poster quality, clean sharp vector-like typography, photorealistic 8k render.',
+            specs: {
+              focal: 'Focale 35mm Grand Angle Cinéma',
+              lighting: 'Contre-jour ambré & néons froids',
+              engine: 'Flux Pro v1.1 Ultra + Typo Vectorielle',
+              aspectRatio: '3:4 Portrait'
+            },
+            img: '/images/poster_summit.jpg'
+          },
+          'sc-3': {
+            title: 'Chrono Obsidian · Précision Infinie',
+            category: 'Haute Horlogerie & Produit Luxe',
+            format: 'Couverture Magazine & Abribus Urbain',
+            prompt: 'Commercial luxury Swiss watch advertising poster. Close-up of an exquisite skeleton titanium mechanical chronograph watch with sapphire crystal, glowing luminescent accents, water droplets, and floating micro-gears against an intense deep navy and slate grey brushed steel background. Crisp white typography at the top reading "CHRONO OBSIDIAN - PRÉCISION INFINIE". Ultra-high resolution, dramatic magazine advertising layout, Leica optical precision, 8k commercial quality.',
+            specs: {
+              focal: 'Leica Apo-Macro-Elmarit 90mm',
+              lighting: 'Spot focalisé + réflecteur argenté',
+              engine: 'SDXL Custom Fine-tuned Horlogerie',
+              aspectRatio: '3:4 Portrait'
+            },
+            img: '/images/poster_watch.jpg'
+          },
+          'sc-4': {
+            title: 'Aurora Citrus · Fraîcheur Polaire',
+            category: 'Boisson Pétillante & Food Commercial',
+            format: 'Campagne Estivale Abribus & Billboard 4×3',
+            prompt: 'Commercial beverage advertising masterclass poster for "AURORA CITRUS". Premium aluminum soda can covered in real frosted condensation droplets, surrounded by high-speed liquid citrus splash, floating sliced sweet oranges, crystal-clear ice cubes, volumetric sunlight beams, Cannes Lions winning commercial photography, razor-sharp focus, 8k resolution.',
+            specs: {
+              focal: '85mm f/1.4 Art à 1/8000s',
+              lighting: 'Flash stroboscopique haute vitesse + Golden Hour',
+              engine: 'Flux 1.0 Dev + Loras Condensation Pro',
+              aspectRatio: '3:4 Portrait'
+            },
+            img: '/images/poster_after_ai.jpg'
+          },
+          'sc-5': {
+            title: 'Soummam Yago · Yaourt aux Fraises',
+            category: 'Produit Laitier & Campagne Mass Market',
+            format: 'Affichage Print National & Digital Billboard',
+            prompt: 'Dynamic 3D commercial food poster of "SOUMMAM YAGO" strawberry yogurt bottle suspended in mid-air. Surrounded by a spiraling vortex splash of velvety white milk, levitating juicy ripe strawberries and sliced berries under a radiant sunny blue sky with soft white clouds, high-speed shutter studio advertising shoot, 8k resolution.',
+            specs: {
+              focal: '70mm f/2.8 Studio',
+              lighting: 'Simulation plein soleil d\'été + fill diffuseur',
+              engine: 'Midjourney v6.0 + Retouche RAW',
+              aspectRatio: '3:4 Portrait'
+            },
+            img: '/images/853639915_122132098514917799_8680055729774653392_n.jpg'
+          },
+          'sc-6': {
+            title: 'Tường An · Huile Gastronomique',
+            category: 'Food Advertising & Restauration',
+            format: 'Presse Culinaire & Packaging Promotionnel',
+            prompt: 'Commercial culinary poster featuring "TƯỜNG AN COOKING OIL" bottle in clear golden glass. A dynamic splash of pure golden cooking oil crowns the bottle neck, surrounded by fresh market vegetables, juicy red tomatoes, garlic cloves, chili peppers and wooden kitchen elements, soft warm window sunlight, commercial culinary advertising styling.',
+            specs: {
+              focal: '50mm f/1.8 Natural',
+              lighting: 'Lumière naturelle traversante + contre-jour chaud',
+              engine: 'Stable Diffusion 3.5 Large',
+              aspectRatio: '3:4 Portrait'
+            },
+            img: '/images/858894691_122132451518917799_401566089164284770_n.jpg'
+          },
+          'sc-7': {
+            title: "Kiki's · Plantain Chips Dorées",
+            category: 'Packaging Retail & Branding Éco-responsable',
+            format: 'E-commerce Hero & Plaquette de Distribution',
+            prompt: 'Commercial product photography poster for "KIKI\'S DELICIOUS CRISPY" banana plantain chips. Two standing matte kraft paper doypack pouches with clear windows revealing crunchy golden chips, wooden bowl filled with chips, fresh green and yellow bananas, bright modern kitchen countertop, warm morning sunlight, premium retail packaging look.',
+            specs: {
+              focal: '85mm f/2.0 Portrait',
+              lighting: 'Lumière matinale rasante 5400K',
+              engine: 'Midjourney v6.1 + Rendu Kraft Réaliste',
+              aspectRatio: '3:4 Portrait'
+            },
+            img: '/images/829250489_122129791172917799_8465261343643478983_n.jpg'
+          },
+          'sc-8': {
+            title: 'Coca-Cola · Fraîcheur Intense',
+            category: 'Boisson Commerciale & Campagne Urbaine',
+            format: 'Affichage Sucette Urbaine & PLV Magasin',
+            prompt: 'Iconic commercial product advertising shot of an icy red 350ml Coca-Cola soda can embedded in freshly crushed sparkling ice cubes. Glass filled with effervescent soda and bubbly ice in background, tropical outdoor palm leaves blur, brilliant summer daylight, droplets sliding down aluminum, high-end commercial ad standard.',
+            specs: {
+              focal: '100mm Macro f/2.8',
+              lighting: 'Rim light bleu ciel + flash face 1/4000s',
+              engine: 'Flux Pro + Texture Condensation',
+              aspectRatio: '3:4 Portrait'
+            },
+            img: '/images/831727472_122130279716917799_6358197100971641401_n.jpg'
+          },
+          'sc-9': {
+            title: 'Imdi Fruits · Parfait Gourmand',
+            category: 'Social Media Campaign & Food Styling',
+            format: 'Campagne Instagram & TikTok Ads 9:16 / 4:5',
+            prompt: 'High-end food commercial photography of "IMDI FRUITS" dessert cup. Creamy white fruit yogurt layered with juicy mango chunks, fresh sliced strawberries, crunchy golden granola on top, wooden spoon lifting a generous dollop, warm bakery lighting, clean tabletop, irresistible commercial dessert appeal.',
+            specs: {
+              focal: '60mm f/2.2 Macro',
+              lighting: 'Softbox latérale 45° + réflecteur blanc',
+              engine: 'Midjourney v6.1 Food Special',
+              aspectRatio: '3:4 Portrait'
+            },
+            img: '/images/818365479_122128349066917799_7606925868454223497_n.jpg'
+          }
+        };
+
+        posterCards.forEach(card => {
+          card.addEventListener('click', () => {
+            const id = card.getAttribute('data-poster');
+            const data = galleryPosters[id];
+            if (!data) return;
+
+            openModal(`
+              <div style="text-align: left;">
+                <div style="display: flex; gap: 18px; align-items: flex-start; margin-bottom: 20px;">
+                  <img src="${data.img}" alt="${data.title}" style="width: 110px; height: 146px; object-fit: cover; border-radius: 12px; border: 3px solid #ffffff; box-shadow: 0 8px 24px rgba(0,0,0,0.12); flex-shrink: 0;" />
+                  <div>
+                    <div style="display: inline-block; background: #f6f03b; color: #161c08; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 11px; padding: 3px 9px; border-radius: 4px; margin-bottom: 6px; letter-spacing: 0.04em; text-transform: uppercase;">
+                      ${data.category}
+                    </div>
+                    <h3 style="font-family: 'DM Serif Display', serif; font-size: 24px; line-height: 1.15; color: #161c08; margin: 4px 0 6px;">${data.title}</h3>
+                    <div style="font-size: 13px; color: #64748b; line-height: 1.4;">${data.format}</div>
+                  </div>
+                </div>
+
+                <!-- Technical Specs Grid -->
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 18px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px;">
+                  <div>
+                    <span style="display: block; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Optique & Focale</span>
+                    <span style="font-size: 13px; color: #1e293b; font-weight: 600;">${data.specs.focal}</span>
+                  </div>
+                  <div>
+                    <span style="display: block; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Éclairage de Studio</span>
+                    <span style="font-size: 13px; color: #1e293b; font-weight: 600;">${data.specs.lighting}</span>
+                  </div>
+                  <div>
+                    <span style="display: block; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Moteur de Rendu</span>
+                    <span style="font-size: 13px; color: #1e293b; font-weight: 600;">${data.specs.engine}</span>
+                  </div>
+                  <div>
+                    <span style="display: block; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Ratio & Résolution</span>
+                    <span style="font-size: 13px; color: #1e293b; font-weight: 600;">${data.specs.aspectRatio} · Ultra 8K</span>
+                  </div>
+                </div>
+
+                <!-- Prompt Recipe Box with Copy Button -->
+                <div style="background: #0f172a; border-radius: 12px; padding: 14px 16px; margin-bottom: 20px; position: relative;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <span style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Recette de Prompt Exacte</span>
+                    <button id="btn-copy-prompt" style="background: rgba(255,255,255,0.15); color: #ffffff; border: none; font-size: 11.5px; font-weight: 600; padding: 4px 10px; border-radius: 6px; cursor: pointer; transition: all 0.2s;">
+                      Copier le Prompt
+                    </button>
+                  </div>
+                  <code id="prompt-code-text" style="display: block; font-family: monospace; font-size: 12px; color: #e2e8f0; line-height: 1.55; white-space: pre-wrap;">"${data.prompt}"</code>
+                </div>
+
+                <button class="btn-enroll" style="width: 100%; background: #161c08; color: #ffffff; padding: 12px; border-radius: 12px; font-weight: 600; font-size: 15px; border: none; cursor: pointer; transition: background 0.2s;">
+                  Apprendre à générer ce type d'affiche
+                </button>
+              </div>
+            `);
+
+            // Copy button logic
+            const copyBtn = document.getElementById('btn-copy-prompt');
+            const codeEl = document.getElementById('prompt-code-text');
+            if (copyBtn && codeEl) {
+              copyBtn.addEventListener('click', () => {
+                const text = codeEl.innerText.replace(/^"|"$/g, '');
+                navigator.clipboard.writeText(text).then(() => {
+                  copyBtn.innerText = '✓ Copié !';
+                  copyBtn.style.background = '#10b981';
+                  setTimeout(() => {
+                    copyBtn.innerText = 'Copier le Prompt';
+                    copyBtn.style.background = 'rgba(255,255,255,0.15)';
+                  }, 2000);
+                });
+              });
+            }
+
+            // Rebind the modal's inner enroll button
+            const innerBtn = modalBody.querySelector('.btn-enroll');
+            if (innerBtn) {
+              innerBtn.addEventListener('click', () => {
+                document.querySelector('.nav-pill-button').click();
+              });
+            }
+          });
+
+          // Keyboard Enter / Space support
+          card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              card.click();
+            }
+          });
+        });
       })();
     </script>
   </body>
