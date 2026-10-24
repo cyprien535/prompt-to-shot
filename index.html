@@ -1,0 +1,1452 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skyprompt — Prompt-to-Pixel Art, No Cost!</title>
+    <meta name="description" content="Bright, playful landing hero for Skyprompt, an online course on AI image generation. Prompt-to-Pixel Art, No Cost!" />
+    <meta property="og:title" content="Skyprompt — Prompt-to-Pixel Art, No Cost!" />
+    <meta property="og:description" content="Turn plain words into images you love — lesson by lesson, from first idea to finished piece." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <style>
+      /* Self-hosted Latin woff2 font definitions */
+      @font-face {
+        font-family: 'DM Serif Display';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('/fonts/dm-serif-display-v17-latin-regular.woff2') format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+
+      @font-face {
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('/fonts/poppins-v24-latin-400.woff2') format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+
+      @font-face {
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: url('/fonts/poppins-v24-latin-600.woff2') format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+
+      @font-face {
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url('/fonts/poppins-v24-latin-700.woff2') format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+
+      :root {
+        --u: max(calc(100vw / 1440), calc(100vh / 900));
+        --n: clamp(0.62px, min(calc(100vw / 1440), calc(100vh / 900)), 1.6px);
+      }
+
+      *, *::before, *::after {
+        box-controller: border-box;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background: #3195e0;
+        color: #ffffff;
+        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        user-select: none;
+      }
+
+      body {
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Desktop viewport container */
+      .viewport-stage {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background: #3195e0;
+      }
+
+      /* 1440x900 Frame: centered horizontally and anchored to top */
+      .skyprompt-frame {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: calc(1440 * var(--u));
+        height: calc(900 * var(--u));
+        transform: translateX(-50%);
+        overflow: hidden;
+        pointer-events: auto;
+      }
+
+      /* Plate: 1440x900 base image */
+      .scene-plate {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      /* Looping video: overlaid at 111.11% frame width, left -5.556% */
+      .scene-video {
+        position: absolute;
+        top: 0;
+        left: -5.556%;
+        width: 111.11%;
+        height: 100%;
+        object-fit: cover;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      /* Nav bar: pinned to viewport edges with fit unit --n */
+      .site-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: calc(88 * var(--n));
+        z-index: 100;
+        pointer-events: none;
+      }
+
+      .nav-interactive {
+        pointer-events: auto;
+      }
+
+      /* Flower Logo: 44x44 at (118, 22) */
+      .nav-logo-link {
+        position: absolute;
+        left: calc(118 * var(--n));
+        top: calc(22 * var(--n));
+        width: calc(44 * var(--n));
+        height: calc(44 * var(--n));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        text-decoration: none;
+      }
+
+      .nav-logo-link:hover {
+        transform: rotate(25deg) scale(1.08);
+      }
+
+      .nav-logo-svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15));
+      }
+
+      /* Links: Story · Study Plan · Showcase · Classroom · Q&A, white, 17px, centred at y = 44, 35.5px apart */
+      .nav-center-links {
+        position: absolute;
+        left: 50%;
+        top: calc(44 * var(--n));
+        transform: translate(-50%, -50%);
+        display: flex;
+        align-items: center;
+        gap: calc(35.5 * var(--n));
+        white-space: nowrap;
+      }
+
+      .nav-link {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 400;
+        font-size: calc(17 * var(--n));
+        line-height: 1;
+        color: #ffffff;
+        text-decoration: none;
+        transition: opacity 0.18s ease, transform 0.18s ease;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+        position: relative;
+        cursor: pointer;
+      }
+
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 100%;
+        height: 1.5px;
+        background: #ffffff;
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform 0.2s ease;
+      }
+
+      .nav-link:hover {
+        opacity: 0.95;
+      }
+
+      .nav-link:hover::after {
+        transform: scaleX(1);
+      }
+
+      .nav-sep {
+        font-family: 'Poppins', sans-serif;
+        font-size: calc(17 * var(--n));
+        color: rgba(255, 255, 255, 0.7);
+        user-select: none;
+      }
+
+      /* X button: 50px translucent white circle, 283 from the right */
+      .nav-x-button {
+        position: absolute;
+        right: calc(283 * var(--n));
+        top: calc(19 * var(--n));
+        width: calc(50 * var(--n));
+        height: calc(50 * var(--n));
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.45);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        cursor: pointer;
+        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+      }
+
+      .nav-x-button:hover {
+        background: rgba(255, 255, 255, 0.38);
+        transform: scale(1.06);
+      }
+
+      .nav-x-button:active {
+        transform: scale(0.96);
+      }
+
+      /* Nav Pill: white "Begin the Journey" pill, 168x44, 107 from the right */
+      .nav-pill-button {
+        position: absolute;
+        right: calc(107 * var(--n));
+        top: calc(22 * var(--n));
+        width: calc(168 * var(--n));
+        height: calc(44 * var(--n));
+        border-radius: 9999px;
+        background: #ffffff;
+        color: #161c08;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: calc(14.2 * var(--n));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        cursor: pointer;
+        box-shadow: 0 calc(4 * var(--n)) calc(14 * var(--n)) rgba(0, 0, 0, 0.14);
+        border: none;
+        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background 0.2s ease;
+      }
+
+      .nav-pill-button:hover {
+        transform: translateY(-1.5px) scale(1.02);
+        box-shadow: 0 calc(6 * var(--n)) calc(18 * var(--n)) rgba(0, 0, 0, 0.2);
+        background: #fbfbfb;
+      }
+
+      .nav-pill-button:active {
+        transform: translateY(0) scale(0.98);
+      }
+
+      /* Rough yellow highlighter swipe base style */
+      .highlighter-label {
+        position: absolute;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        letter-spacing: -0.018em;
+        color: #161c08;
+        z-index: 10;
+        white-space: nowrap;
+      }
+
+      /* The rough SVG brush shape with jagged edges, filled #f6f03b, plus drop-shadow(0 0 1.5u rgba(246,240,59,.75)) bleed */
+      .highlighter-label::before {
+        content: '';
+        position: absolute;
+        inset: -12% -8%;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 56' preserveAspectRatio='none'%3E%3Cpath d='M 7,16 C 10,13 6,8 14,14 C 28,11 62,14 104,11 C 146,8 174,12 191,9 C 196,12 198,9 199,13 C 196,17 199,21 197,25 C 200,30 198,34 199,39 C 196,44 198,48 192,50 C 176,52 148,49 110,51 C 72,54 36,50 14,53 C 10,51 7,53 4,48 C 7,44 3,40 6,36 C 3,31 6,27 4,22 C 7,18 4,16 7,16 Z' fill='%23f6f03b'/%3E%3C/svg%3E");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        filter: drop-shadow(0 0 calc(1.5 * var(--u)) rgba(246, 240, 59, 0.75));
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      /* Headline block coordinates */
+      /* "Begin": 131x44 at (657, 117), 40px */
+      .hl-begin {
+        left: calc(657 * var(--u));
+        top: calc(117 * var(--u));
+        width: calc(131 * var(--u));
+        height: calc(44 * var(--u));
+        font-size: calc(40 * var(--u));
+        line-height: calc(44 * var(--u));
+      }
+
+      /* Headline "Prompt-to-Pixel Art": 103px, centred, top 140 */
+      .hero-headline {
+        position: absolute;
+        left: 50%;
+        top: calc(140 * var(--u));
+        transform: translateX(-50%);
+        font-family: 'DM Serif Display', Georgia, serif;
+        font-weight: 400;
+        font-size: calc(103 * var(--u));
+        line-height: 1.02;
+        color: #ffffff;
+        -webkit-text-stroke: calc(1.1 * var(--u)) #ffffff;
+        text-align: center;
+        white-space: nowrap;
+        z-index: 8;
+        letter-spacing: -0.01em;
+        text-shadow: 0 calc(4 * var(--u)) calc(24 * var(--u)) rgba(0, 30, 80, 0.22);
+      }
+
+      /* "No Cost!": 176x45 at (638, 241), 39px */
+      .hl-no-cost {
+        left: calc(638 * var(--u));
+        top: calc(241 * var(--u));
+        width: calc(176 * var(--u));
+        height: calc(45 * var(--u));
+        font-size: calc(39 * var(--u));
+        line-height: calc(45 * var(--u));
+      }
+
+      /* Subline: 17.2px / 24.5px, centred, top 312, two lines */
+      .hero-subline {
+        position: absolute;
+        left: 50%;
+        top: calc(312 * var(--u));
+        transform: translateX(-50%);
+        font-family: 'Poppins', sans-serif;
+        font-weight: 400;
+        font-size: calc(17.2 * var(--u));
+        line-height: calc(24.5 * var(--u));
+        color: #ffffff;
+        text-align: center;
+        white-space: nowrap;
+        z-index: 8;
+        text-shadow: 0 calc(1 * var(--u)) calc(4 * var(--u)) rgba(0, 20, 60, 0.25);
+      }
+
+      /* Four Art Cards */
+      .art-cards-fan {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 15;
+      }
+
+      .art-card {
+        position: absolute;
+        width: calc(132 * var(--u));
+        height: calc(162 * var(--u));
+        border: calc(5 * var(--u)) solid #ffffff;
+        border-radius: calc(12 * var(--u));
+        overflow: hidden;
+        box-shadow: 0 calc(8 * var(--u)) calc(22 * var(--u)) rgba(12, 32, 65, 0.2);
+        background: #ffffff;
+        pointer-events: auto;
+        cursor: pointer;
+        transform-origin: center center;
+        transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.24s ease;
+      }
+
+      .art-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* (472, 419) at -12°: cottage on a sea cliff */
+      .card-1 {
+        left: calc(472 * var(--u));
+        top: calc(419 * var(--u));
+        transform: rotate(-12deg);
+        z-index: 11;
+      }
+
+      /* (601, 407) at -4°: orange kitten in a blue beanie and scarf */
+      .card-2 {
+        left: calc(601 * var(--u));
+        top: calc(407 * var(--u));
+        transform: rotate(-4deg);
+        z-index: 12;
+      }
+
+      /* (711, 409) at 4°: smiling succulent in a terracotta pot */
+      .card-3 {
+        left: calc(711 * var(--u));
+        top: calc(409 * var(--u));
+        transform: rotate(4deg);
+        z-index: 13;
+      }
+
+      /* (827, 419) at 12°: golden retriever in a cowboy hat and red bandana */
+      .card-4 {
+        left: calc(827 * var(--u));
+        top: calc(419 * var(--u));
+        transform: rotate(12deg);
+        z-index: 14;
+      }
+
+      /* Hover: cards lift 18u, straighten and grow to 1.07 */
+      .card-1:hover {
+        transform: translateY(calc(-18 * var(--u))) rotate(0deg) scale(1.07) !important;
+        box-shadow: 0 calc(18 * var(--u)) calc(36 * var(--u)) rgba(10, 30, 70, 0.32);
+        z-index: 25 !important;
+      }
+
+      .card-2:hover {
+        transform: translateY(calc(-18 * var(--u))) rotate(0deg) scale(1.07) !important;
+        box-shadow: 0 calc(18 * var(--u)) calc(36 * var(--u)) rgba(10, 30, 70, 0.32);
+        z-index: 25 !important;
+      }
+
+      .card-3:hover {
+        transform: translateY(calc(-18 * var(--u))) rotate(0deg) scale(1.07) !important;
+        box-shadow: 0 calc(18 * var(--u)) calc(36 * var(--u)) rgba(10, 30, 70, 0.32);
+        z-index: 25 !important;
+      }
+
+      .card-4:hover {
+        transform: translateY(calc(-18 * var(--u))) rotate(0deg) scale(1.07) !important;
+        box-shadow: 0 calc(18 * var(--u)) calc(36 * var(--u)) rgba(10, 30, 70, 0.32);
+        z-index: 25 !important;
+      }
+
+      /* Labels and arrows */
+      /* "Starts from Zero!" at (395, 424), rotated -11° */
+      .hl-starts-zero {
+        left: calc(395 * var(--u));
+        top: calc(424 * var(--u));
+        padding: calc(4 * var(--u)) calc(12 * var(--u));
+        font-size: calc(18.5 * var(--u));
+        transform: rotate(-11deg);
+        z-index: 16;
+      }
+
+      /* "Real Client Results" at (927, 518), rotated -6° */
+      .hl-client-results {
+        left: calc(927 * var(--u));
+        top: calc(518 * var(--u));
+        padding: calc(4 * var(--u)) calc(14 * var(--u));
+        font-size: calc(18.5 * var(--u));
+        transform: rotate(-6deg);
+        z-index: 16;
+      }
+
+      /* Hand-drawn yellow arrows with paint bleed filter */
+      .arrow-svg-container {
+        position: absolute;
+        pointer-events: none;
+        z-index: 17;
+      }
+
+      .arrow-starts-zero {
+        left: calc(448 * var(--u));
+        top: calc(442 * var(--u));
+        width: calc(46 * var(--u));
+        height: calc(34 * var(--u));
+      }
+
+      .arrow-dog-up {
+        left: calc(882 * var(--u));
+        top: calc(484 * var(--u));
+        width: calc(48 * var(--u));
+        height: calc(42 * var(--u));
+      }
+
+      .arrow-double-down {
+        left: calc(972 * var(--u));
+        top: calc(552 * var(--u));
+        width: calc(42 * var(--u));
+        height: calc(52 * var(--u));
+      }
+
+      /* Call to action, on the island */
+      /* Highlighter "Zero Cost": 96x25 at (672, 584) */
+      .hl-zero-cost {
+        left: calc(672 * var(--u));
+        top: calc(584 * var(--u));
+        width: calc(96 * var(--u));
+        height: calc(25 * var(--u));
+        font-size: calc(14.5 * var(--u));
+        line-height: calc(25 * var(--u));
+        z-index: 20;
+      }
+
+      /* White pill "Begin the Journey": 195x44 at (622, 624), 17px Poppins 600 */
+      .island-pill-button {
+        position: absolute;
+        left: calc(622 * var(--u));
+        top: calc(624 * var(--u));
+        width: calc(195 * var(--u));
+        height: calc(44 * var(--u));
+        border-radius: 9999px;
+        background: #ffffff;
+        color: #161c08;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: calc(17 * var(--u));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        box-shadow: 0 calc(4 * var(--u)) calc(16 * var(--u)) rgba(0, 0, 0, 0.16);
+        cursor: pointer;
+        z-index: 20;
+        border: none;
+        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background 0.2s ease;
+      }
+
+      .island-pill-button:hover {
+        transform: translateY(calc(-2 * var(--u))) scale(1.02);
+        box-shadow: 0 calc(8 * var(--u)) calc(22 * var(--u)) rgba(0, 0, 0, 0.24);
+        background: #fbfbfb;
+      }
+
+      .island-pill-button:active {
+        transform: translateY(0) scale(0.98);
+      }
+
+      /* Note "No art skills needed to start.": 15.6px, centred at top 682 */
+      .island-note {
+        position: absolute;
+        left: 50%;
+        top: calc(682 * var(--u));
+        transform: translateX(-50%);
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        font-size: calc(15.6 * var(--u));
+        line-height: calc(22 * var(--u));
+        color: #ffffff;
+        text-align: center;
+        white-space: nowrap;
+        text-shadow: 0 calc(1 * var(--u)) calc(5 * var(--u)) rgba(0, 20, 50, 0.32);
+        z-index: 20;
+      }
+
+      /* Entrance Animation setup: initial states */
+      .anim-nav {
+        opacity: 0;
+      }
+
+      .anim-headline {
+        opacity: 0;
+      }
+
+      .anim-subline {
+        opacity: 0;
+      }
+
+      /* Highlighter swipe wrapper & word landing */
+      .anim-hl::before {
+        clip-path: inset(0 100% 0 0);
+      }
+
+      .anim-hl .hl-text {
+        opacity: 0;
+        display: inline-block;
+        transform: translateY(-4px) scale(0.96);
+      }
+
+      /* Modal Dialog (Interactive feedback for links and enroll CTA) */
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(14, 34, 60, 0.6);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.24s ease;
+      }
+
+      .modal-backdrop.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .modal-card {
+        background: #ffffff;
+        color: #161c08;
+        border-radius: 20px;
+        max-width: 520px;
+        width: 100%;
+        padding: 32px;
+        box-shadow: 0 25px 60px rgba(0, 20, 50, 0.35);
+        transform: translateY(20px) scale(0.96);
+        transition: transform 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+      }
+
+      .modal-backdrop.active .modal-card {
+        transform: translateY(0) scale(1);
+      }
+
+      .modal-close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #f1f4f8;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #4a5568;
+        transition: background 0.16s ease, transform 0.16s ease;
+      }
+
+      .modal-close-btn:hover {
+        background: #e2e8f0;
+        transform: scale(1.08);
+      }
+
+      /* Reduced motion: no entrance and no video */
+      @media (prefers-reduced-motion: reduce) {
+        .scene-video {
+          display: none !important;
+        }
+
+        .anim-nav,
+        .anim-headline,
+        .anim-subline,
+        .anim-hl .hl-text {
+          opacity: 1 !important;
+          filter: none !important;
+          transform: none !important;
+        }
+
+        .hero-headline,
+        .hero-subline {
+          transform: translateX(-50%) !important;
+        }
+
+        .anim-hl::before {
+          clip-path: inset(0 0 0 0) !important;
+        }
+      }
+
+      /* Mobile layout: Phones (<= 820px) */
+      @media (max-width: 820px) {
+        body {
+          overflow-y: auto !important;
+          overflow-x: hidden !important;
+        }
+
+        .viewport-stage {
+          height: auto !important;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          background: #3195e0;
+        }
+
+        /* Top: compact nav (logo, the pill and a round menu button) */
+        .site-nav {
+          position: sticky;
+          top: 0;
+          height: 68px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 16px;
+          background: rgba(49, 149, 224, 0.88);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          z-index: 120;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-logo-link {
+          position: static;
+          width: 38px;
+          height: 38px;
+        }
+
+        .nav-center-links {
+          display: none;
+        }
+
+        .mobile-nav-right {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .nav-pill-button {
+          position: static;
+          width: auto;
+          height: 36px;
+          padding: 0 16px;
+          font-size: 13.5px;
+        }
+
+        .nav-x-button {
+          position: static;
+          width: 38px;
+          height: 38px;
+        }
+
+        /* Copy in flow, centred */
+        .mobile-copy-flow {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 28px 20px 20px;
+          text-align: center;
+          z-index: 20;
+        }
+
+        .mobile-copy-flow .hl-begin-mobile {
+          position: relative;
+          display: inline-block;
+          font-size: 28px;
+          line-height: 34px;
+          margin-bottom: 6px;
+        }
+
+        .mobile-copy-flow .hero-headline-mobile {
+          font-family: 'DM Serif Display', Georgia, serif;
+          font-size: clamp(38px, 9vw, 54px);
+          line-height: 1.05;
+          color: #ffffff;
+          -webkit-text-stroke: 0.8px #ffffff;
+          text-align: center;
+          margin: 6px 0 12px;
+        }
+
+        .mobile-copy-flow .hl-no-cost-mobile {
+          position: relative;
+          display: inline-block;
+          font-size: 28px;
+          line-height: 34px;
+          margin-bottom: 18px;
+        }
+
+        .mobile-copy-flow .hero-subline-mobile {
+          font-size: 15.5px;
+          line-height: 23px;
+          color: rgba(255, 255, 255, 0.95);
+          max-width: 440px;
+          margin: 0 auto;
+        }
+
+        /* Below: same frame scaled to 100vw/720 and cropped around the island */
+        .mobile-island-viewport {
+          --u-mob: calc(100vw / 720);
+          position: relative;
+          width: 100%;
+          height: calc(520 * var(--u-mob));
+          overflow: hidden;
+          margin-top: 10px;
+        }
+
+        /* Top edge fading into page gradient sampled from plate's sky (#3195e0 -> #49a9f3) */
+        .mobile-sky-gradient-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 90px;
+          background: linear-gradient(to bottom, #3195e0 0%, rgba(49, 149, 224, 0.6) 40%, rgba(49, 149, 224, 0) 100%);
+          z-index: 30;
+          pointer-events: none;
+        }
+
+        /* Frame inside mobile island container */
+        .mobile-island-viewport .skyprompt-frame {
+          --u: calc(100vw / 720);
+          top: calc(-340 * var(--u));
+        }
+
+        /* Hide desktop copy inside the frame when on mobile flow */
+        .desktop-only-copy {
+          display: none !important;
+        }
+      }
+
+      @media (min-width: 821px) {
+        .mobile-copy-flow,
+        .mobile-island-viewport {
+          display: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- SVG Defs for Glow Filter and Arrowheads -->
+    <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
+      <defs>
+        <filter id="yellow-bleed" x="-30%" y="-30%" width="160%" height="160%">
+          <feDropShadow dx="0" dy="0" stdDeviation="2.5" flood-color="#f6f03b" flood-opacity="0.85" />
+        </filter>
+      </defs>
+    </svg>
+
+    <div class="viewport-stage">
+      <!-- Pinned Top Navigation Bar -->
+      <header class="site-nav anim-nav">
+        <!-- Logo: white six-petal flower, 44x44 at (118, 22) -->
+        <a href="#" class="nav-logo-link nav-interactive" aria-label="Skyprompt Home">
+          <svg class="nav-logo-svg" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g fill="#ffffff">
+              <path d="M22 4 C17 4 14 14 22 22 C30 14 27 4 22 4Z" />
+              <path d="M22 4 C17 4 14 14 22 22 C30 14 27 4 22 4Z" transform="rotate(60 22 22)" />
+              <path d="M22 4 C17 4 14 14 22 22 C30 14 27 4 22 4Z" transform="rotate(120 22 22)" />
+              <path d="M22 4 C17 4 14 14 22 22 C30 14 27 4 22 4Z" transform="rotate(180 22 22)" />
+              <path d="M22 4 C17 4 14 14 22 22 C30 14 27 4 22 4Z" transform="rotate(240 22 22)" />
+              <path d="M22 4 C17 4 14 14 22 22 C30 14 27 4 22 4Z" transform="rotate(300 22 22)" />
+              <circle cx="22" cy="22" r="5" fill="#f6f03b" />
+            </g>
+          </svg>
+        </a>
+
+        <!-- Links: Histoire · Programme · Galerie · Cours · FAQ, white, 17px, centred at y = 44, 35.5px apart -->
+        <nav class="nav-center-links nav-interactive" aria-label="Navigation principale" lang="fr">
+          <a href="#story" class="nav-link" data-modal="story">Histoire</a>
+          <span class="nav-sep" aria-hidden="true">·</span>
+          <a href="#study-plan" class="nav-link" data-modal="study-plan">Programme</a>
+          <span class="nav-sep" aria-hidden="true">·</span>
+          <a href="#showcase" class="nav-link" data-modal="showcase">Galerie</a>
+          <span class="nav-sep" aria-hidden="true">·</span>
+          <a href="#classroom" class="nav-link" data-modal="classroom">Cours</a>
+          <span class="nav-sep" aria-hidden="true">·</span>
+          <a href="#qa" class="nav-link" data-modal="qa">FAQ</a>
+        </nav>
+
+        <!-- Right actions -->
+        <div class="mobile-nav-right nav-interactive">
+          <!-- X button: 50px translucent white circle, 283 from the right -->
+          <button class="nav-x-button" id="btn-sound-toggle" aria-label="Toggle Atmosphere Motion & Audio" title="Toggle Loop Motion & Info">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+
+          <!-- Nav Pill: white "Begin the Journey" pill, 168x44, 107 from the right -->
+          <button class="nav-pill-button btn-enroll" aria-label="Begin the Journey - Enroll for Free">
+            Begin the Journey
+          </button>
+        </div>
+      </header>
+
+      <!-- Mobile In-Flow Copy (<= 820px) -->
+      <section class="mobile-copy-flow">
+        <div class="highlighter-label hl-begin-mobile">
+          <span class="hl-text">Begin</span>
+        </div>
+        <h1 class="hero-headline-mobile">Prompt-to-Pixel Art</h1>
+        <div class="highlighter-label hl-no-cost-mobile">
+          <span class="hl-text">No Cost!</span>
+        </div>
+        <p class="hero-subline-mobile">
+          Turn plain words into images you love — lesson by lesson, from first idea to finished piece.
+        </p>
+      </section>
+
+      <!-- Desktop Hero Frame (1440x900) -->
+      <main class="skyprompt-frame" id="hero-frame">
+        <!-- Plate: ONE background image (1440x900) -->
+        <img
+          class="scene-plate"
+          src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/dc4ac5c7-4eee-48ab-814c-cbba3c9fd1b7.jpg"
+          alt="Floating grassy island with waterfall hanging in a clear blue sky above clouds"
+          fetchpriority="high"
+        />
+
+        <!-- Looping Video: 111.11% frame width, left -5.556% -->
+        <video
+          class="scene-video"
+          src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/81764d30-8120-4ab5-8491-4dd852b82496.mp4"
+          autoplay
+          loop
+          muted
+          playsinline
+          aria-hidden="true"
+        ></video>
+
+        <!-- Desktop Headline Block -->
+        <!-- Highlighter "Begin": 131x44 at (657, 117), 40px -->
+        <div class="highlighter-label hl-begin anim-hl desktop-only-copy" id="hl-begin">
+          <span class="hl-text">Begin</span>
+        </div>
+
+        <!-- Headline "Prompt-to-Pixel Art": 103px, centred, top 140 -->
+        <h1 class="hero-headline anim-headline desktop-only-copy" id="hero-headline">
+          Prompt-to-Pixel Art
+        </h1>
+
+        <!-- Highlighter "No Cost!": 176x45 at (638, 241), 39px -->
+        <div class="highlighter-label hl-no-cost anim-hl desktop-only-copy" id="hl-no-cost">
+          <span class="hl-text">No Cost!</span>
+        </div>
+
+        <!-- Subline: 17.2px / 24.5px, centred, top 312, two lines -->
+        <p class="hero-subline anim-subline desktop-only-copy" id="hero-subline">
+          Turn plain words into images you love — lesson<br />
+          by lesson, from first idea to finished piece.
+        </p>
+
+        <!-- Fan of Four Art Cards -->
+        <div class="art-cards-fan">
+          <!-- Card 1: (472, 419) at -12°: Gourmet Shrimp Noodles -->
+          <div
+            class="art-card card-1"
+            data-card="1"
+            data-title="Nouilles Gourmandes & Crevettes"
+            data-prompt="Professional studio food photography of a dynamic steaming noodle bowl with flying jumbo tiger shrimp, vibrant cilantro, lime slices and fresh chili peppers, bright commercial lighting, 8k resolution."
+            tabindex="0"
+            role="button"
+            aria-label="Art Card 1: Nouilles Gourmandes & Crevettes"
+          >
+            <img
+              src="/images/856303838_122132326850917799_932243747990997649_n.jpg"
+              alt="Nouilles Gourmandes & Crevettes"
+              loading="eager"
+            />
+          </div>
+
+          <!-- Card 2: (601, 407) at -4°: Frosted Orange Soda Can -->
+          <div
+            class="art-card card-2"
+            data-card="2"
+            data-title="Canette Youki Orangia Givrée"
+            data-prompt="Commercial beverage product shoot of a frosted orange soda can covered in real condensation droplets, surrounded by fresh orange wedges and crystal clear ice cubes on a sunny beach, high-end commercial ad."
+            tabindex="0"
+            role="button"
+            aria-label="Art Card 2: Canette Youki Orangia Givrée"
+          >
+            <img
+              src="/images/836459656_122130930446917799_5217070816236081023_n.jpg"
+              alt="Canette Youki Orangia Givrée"
+              loading="eager"
+            />
+          </div>
+
+          <!-- Card 3: (711, 409) at 4°: Soccer Victory in Stadium -->
+          <div
+            class="art-card card-3"
+            data-card="3"
+            data-title="Victoire au Stade de Football"
+            data-prompt="Dynamic sports photography capturing an elated soccer striker celebrating a goal, seen through the blurred white goal net with dramatic stadium lighting, golden hour sky, telephoto lens."
+            tabindex="0"
+            role="button"
+            aria-label="Art Card 3: Victoire au Stade de Football"
+          >
+            <img
+              src="/images/805696813_122127341906917799_3508408828817072122_n.jpg"
+              alt="Victoire au Stade de Football"
+              loading="eager"
+            />
+          </div>
+
+          <!-- Card 4: (827, 419) at 12°: Studio Portrait with Glasses -->
+          <div
+            class="art-card card-4"
+            data-card="4"
+            data-title="Portrait Studio Élégant"
+            data-prompt="Editorial studio portrait of a young man wearing stylish blue glasses and emerald knitwear, clean vivid green studio backdrop, soft Rembrandt lighting, photorealistic skin detail, 85mm lens."
+            tabindex="0"
+            role="button"
+            aria-label="Art Card 4: Portrait Studio Élégant"
+          >
+            <img
+              src="/images/783985363_122125434674917799_1098707579868121414_n.jpg"
+              alt="Portrait Studio Élégant"
+              loading="eager"
+            />
+          </div>
+        </div>
+
+        <!-- Labels and Arrows -->
+        <!-- Highlighter label "Starts from Zero!" at (395, 424), rotated -11° -->
+        <div class="highlighter-label hl-starts-zero">
+          <span class="hl-text">Starts from Zero!</span>
+        </div>
+
+        <!-- Hand-drawn yellow arrow curving into the first card -->
+        <svg class="arrow-svg-container arrow-starts-zero" viewBox="0 0 46 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 4,26 C 16,30 32,24 40,8" stroke="#f6f03b" stroke-width="3" stroke-linecap="round" filter="url(#yellow-bleed)" />
+          <path d="M 28,8 L 41,7 L 39,18" stroke="#f6f03b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#yellow-bleed)" />
+        </svg>
+
+        <!-- Highlighter label "Real Client Results" at (927, 518), rotated -6° -->
+        <div class="highlighter-label hl-client-results">
+          <span class="hl-text">Real Client Results</span>
+        </div>
+
+        <!-- Arrow curling up to the dog card -->
+        <svg class="arrow-svg-container arrow-dog-up" viewBox="0 0 48 42" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 40,36 C 36,20 26,10 8,6" stroke="#f6f03b" stroke-width="3" stroke-linecap="round" filter="url(#yellow-bleed)" />
+          <path d="M 12,18 L 7,5 L 20,7" stroke="#f6f03b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#yellow-bleed)" />
+        </svg>
+
+        <!-- Double arrow curling down -->
+        <svg class="arrow-svg-container arrow-double-down" viewBox="0 0 42 52" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Curving line -->
+          <path d="M 6,4 C 18,14 26,26 22,44" stroke="#f6f03b" stroke-width="3" stroke-linecap="round" filter="url(#yellow-bleed)" />
+          <!-- First arrowhead -->
+          <path d="M 13,37 L 22,45 L 28,36" stroke="#f6f03b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#yellow-bleed)" />
+          <!-- Second arrowhead below -->
+          <path d="M 13,44 L 22,51 L 28,43" stroke="#f6f03b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" filter="url(#yellow-bleed)" />
+        </svg>
+
+        <!-- Call to action, on the island -->
+        <!-- Highlighter "Zero Cost": 96x25 at (672, 584) -->
+        <div class="highlighter-label hl-zero-cost">
+          <span class="hl-text">Zero Cost</span>
+        </div>
+
+        <!-- White pill "Begin the Journey": 195x44 at (622, 624), 17px Poppins 600 -->
+        <button class="island-pill-button btn-enroll" aria-label="Begin the Journey - Enroll for Free">
+          Begin the Journey
+        </button>
+
+        <!-- Note "No art skills needed to start.": 15.6px, centred at top 682 -->
+        <p class="island-note">
+          No art skills needed to start.
+        </p>
+      </main>
+
+      <!-- Mobile cropped island view container (<= 820px) -->
+      <section class="mobile-island-viewport" aria-label="Interactive Art Island Showcase">
+        <div class="mobile-sky-gradient-overlay"></div>
+        <!-- Duplicate clone frame mounted for mobile viewport cropped around the island -->
+        <div class="skyprompt-frame" id="mobile-clone-frame">
+          <img
+            class="scene-plate"
+            src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/dc4ac5c7-4eee-48ab-814c-cbba3c9fd1b7.jpg"
+            alt="Island preview"
+          />
+          <video
+            class="scene-video"
+            src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/81764d30-8120-4ab5-8491-4dd852b82496.mp4"
+            autoplay
+            loop
+            muted
+            playsinline
+            aria-hidden="true"
+          ></video>
+
+          <div class="art-cards-fan">
+            <div class="art-card card-1" data-card="1" tabindex="0">
+              <img src="/images/856303838_122132326850917799_932243747990997649_n.jpg" alt="Nouilles Gourmandes & Crevettes" />
+            </div>
+            <div class="art-card card-2" data-card="2" tabindex="0">
+              <img src="/images/836459656_122130930446917799_5217070816236081023_n.jpg" alt="Canette Youki Orangia Givrée" />
+            </div>
+            <div class="art-card card-3" data-card="3" tabindex="0">
+              <img src="/images/805696813_122127341906917799_3508408828817072122_n.jpg" alt="Victoire au Stade de Football" />
+            </div>
+            <div class="art-card card-4" data-card="4" tabindex="0">
+              <img src="/images/783985363_122125434674917799_1098707579868121414_n.jpg" alt="Portrait Studio Élégant" />
+            </div>
+          </div>
+
+          <div class="highlighter-label hl-starts-zero">
+            <span class="hl-text">Starts from Zero!</span>
+          </div>
+
+          <svg class="arrow-svg-container arrow-starts-zero" viewBox="0 0 46 34" fill="none">
+            <path d="M 4,26 C 16,30 32,24 40,8" stroke="#f6f03b" stroke-width="3" stroke-linecap="round" />
+            <path d="M 28,8 L 41,7 L 39,18" stroke="#f6f03b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+
+          <div class="highlighter-label hl-client-results">
+            <span class="hl-text">Real Client Results</span>
+          </div>
+
+          <svg class="arrow-svg-container arrow-dog-up" viewBox="0 0 48 42" fill="none">
+            <path d="M 40,36 C 36,20 26,10 8,6" stroke="#f6f03b" stroke-width="3" stroke-linecap="round" />
+            <path d="M 12,18 L 7,5 L 20,7" stroke="#f6f03b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+
+          <svg class="arrow-svg-container arrow-double-down" viewBox="0 0 42 52" fill="none">
+            <path d="M 6,4 C 18,14 26,26 22,44" stroke="#f6f03b" stroke-width="3" stroke-linecap="round" />
+            <path d="M 13,37 L 22,45 L 28,36" stroke="#f6f03b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M 13,44 L 22,51 L 28,43" stroke="#f6f03b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+
+          <div class="highlighter-label hl-zero-cost">
+            <span class="hl-text">Zero Cost</span>
+          </div>
+
+          <button class="island-pill-button btn-enroll">
+            Begin the Journey
+          </button>
+
+          <p class="island-note">
+            No art skills needed to start.
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <!-- Interactive Modal: Card Prompt Inspector & Enrollment Modal -->
+    <div class="modal-backdrop" id="app-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-card">
+        <button class="modal-close-btn" id="modal-close" aria-label="Close dialog">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        <div id="modal-body-content">
+          <!-- Dynamic Content Injected via Vanilla JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Vanilla JS Execution (No Framework, No Build Step) -->
+    <script>
+      (function() {
+        // --- Web Animations Timeline for Entrance ---
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (!prefersReducedMotion) {
+          const nav = document.querySelector('.anim-nav');
+          const beginHl = document.querySelector('#hl-begin');
+          const headline = document.querySelector('#hero-headline');
+          const noCostHl = document.querySelector('#hl-no-cost');
+          const subline = document.querySelector('#hero-subline');
+
+          // 1. Logo and nav buttons fade in at load (t = 0s)
+          if (nav && nav.animate) {
+            nav.animate([
+              { opacity: 0, transform: 'translateY(-8px)' },
+              { opacity: 1, transform: 'translateY(0)' }
+            ], {
+              duration: 400,
+              easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+              fill: 'forwards'
+            });
+          }
+
+          // Helper to execute yellow highlighter swipe and word landing
+          function runHighlighterEntrance(hlEl, startDelayMs) {
+            if (!hlEl) return;
+            const textSpan = hlEl.querySelector('.hl-text');
+
+            // Try pseudo-element animation for the yellow swipe on ::before
+            try {
+              if (hlEl.animate) {
+                hlEl.animate([
+                  { clipPath: 'inset(0 100% 0 0)' },
+                  { clipPath: 'inset(0 0% 0 0)' }
+                ], {
+                  pseudoElement: '::before',
+                  delay: startDelayMs,
+                  duration: 260,
+                  easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+                  fill: 'forwards'
+                });
+              }
+            } catch (err) {
+              // Fallback via style transition
+              setTimeout(() => {
+                hlEl.style.setProperty('--swiped', '1');
+              }, startDelayMs);
+            }
+
+            // Word lands right as the yellow marker swipe arrives
+            if (textSpan && textSpan.animate) {
+              textSpan.animate([
+                { opacity: 0, transform: 'translateY(-4px) scale(0.96)' },
+                { opacity: 1, transform: 'translateY(0) scale(1)' }
+              ], {
+                delay: startDelayMs + 180,
+                duration: 220,
+                easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                fill: 'forwards'
+              });
+            } else if (textSpan) {
+              setTimeout(() => {
+                textSpan.style.opacity = '1';
+                textSpan.style.transform = 'none';
+              }, startDelayMs + 180);
+            }
+          }
+
+          // At 0.35s (350ms): "Begin" is marked in (yellow swipes, word lands)
+          runHighlighterEntrance(beginHl, 350);
+
+          // At 0.7s (700ms): headline develops out of a 14px blur with a 1.04 -> 1 scale
+          if (headline && headline.animate) {
+            headline.animate([
+              { opacity: 0, filter: 'blur(14px)', transform: 'translateX(-50%) scale(1.04)' },
+              { opacity: 1, filter: 'blur(0px)', transform: 'translateX(-50%) scale(1)' }
+            ], {
+              delay: 700,
+              duration: 650,
+              easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+              fill: 'forwards'
+            });
+          }
+
+          // At 1.45s (1450ms): "No Cost!" is marked the same way
+          runHighlighterEntrance(noCostHl, 1450);
+
+          // At 1.85s (1850ms): subline settles out of a soft blur
+          if (subline && subline.animate) {
+            subline.animate([
+              { opacity: 0, filter: 'blur(8px)', transform: 'translateX(-50%) translateY(4px)' },
+              { opacity: 1, filter: 'blur(0px)', transform: 'translateX(-50%) translateY(0)' }
+            ], {
+              delay: 1850,
+              duration: 520,
+              easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+              fill: 'forwards'
+            });
+          }
+        } else {
+          // Reduced motion: pause all background videos
+          document.querySelectorAll('.scene-video').forEach(vid => {
+            vid.pause();
+          });
+        }
+
+        // --- Interactive Handlers (Enrollment Modal, Card Inspector, Nav) ---
+        const modal = document.getElementById('app-modal');
+        const modalBody = document.getElementById('modal-body-content');
+        const modalClose = document.getElementById('modal-close');
+
+        function openModal(contentHtml) {
+          modalBody.innerHTML = contentHtml;
+          modal.classList.add('active');
+        }
+
+        function closeModal() {
+          modal.classList.remove('active');
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeModal();
+        });
+        window.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+        });
+
+        // "Begin the Journey" buttons
+        document.querySelectorAll('.btn-enroll').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal(`
+              <div style="text-align: left;">
+                <div style="display: inline-block; background: #f6f03b; color: #161c08; font-family: 'Poppins', sans-serif; font-weight: 700; padding: 4px 10px; font-size: 13px; border-radius: 4px; margin-bottom: 12px;">Zero Cost · Instant Access</div>
+                <h3 id="modal-title" style="font-family: 'DM Serif Display', serif; font-size: 32px; line-height: 1.1; color: #161c08; margin-bottom: 8px;">Begin the Journey</h3>
+                <p style="font-size: 15px; color: #4a5568; line-height: 1.5; margin-bottom: 20px;">
+                  Turn your plain ideas into stunning pixel art, photorealistic portraits, and fantasy scenes. No design background or art skills needed to start.
+                </p>
+                <form id="enroll-form" onsubmit="event.preventDefault(); document.getElementById('enroll-feedback').style.display='block'; document.getElementById('enroll-form').style.display='none';">
+                  <div style="margin-bottom: 14px;">
+                    <label style="display: block; font-size: 12.5px; font-weight: 600; color: #2d3748; margin-bottom: 6px;">Your Name</label>
+                    <input type="text" required placeholder="Alex Morgan" style="width: 100%; padding: 10px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14.5px; outline: none;" />
+                  </div>
+                  <div style="margin-bottom: 20px;">
+                    <label style="display: block; font-size: 12.5px; font-weight: 600; color: #2d3748; margin-bottom: 6px;">Email Address</label>
+                    <input type="email" required placeholder="alex@example.com" style="width: 100%; padding: 10px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14.5px; outline: none;" />
+                  </div>
+                  <button type="submit" style="width: 100%; background: #161c08; color: #ffffff; padding: 12px; border-radius: 12px; font-weight: 600; font-size: 15px; border: none; cursor: pointer; transition: background 0.2s;">
+                    Claim Free Course Spot
+                  </button>
+                </form>
+                <div id="enroll-feedback" style="display: none; padding: 16px; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; color: #065f46; text-align: center;">
+                  <div style="font-weight: 700; font-size: 16px; margin-bottom: 4px;">Welcome to Skyprompt!</div>
+                  <div style="font-size: 14px;">Check your inbox for your Lesson 01 access link and starter prompts.</div>
+                </div>
+              </div>
+            `);
+          });
+        });
+
+        // Art Card Prompt Inspector
+        const cardDetails = {
+          '1': {
+            title: 'Nouilles Gourmandes & Crevettes',
+            lesson: 'Leçon 01 · Photographie Culinaire & Éléments en Mouvement',
+            prompt: 'Professional studio food photography of a dynamic steaming noodle bowl with flying jumbo tiger shrimp, vibrant cilantro, lime slices and fresh chili peppers, bright commercial lighting, 8k resolution.',
+            img: '/images/856303838_122132326850917799_932243747990997649_n.jpg'
+          },
+          '2': {
+            title: 'Canette Youki Orangia Givrée',
+            lesson: 'Leçon 02 · Rendu Publicitaire de Produit & Gouttelettes',
+            prompt: 'Commercial beverage product shoot of a frosted orange soda can covered in real condensation droplets, surrounded by fresh orange wedges and crystal clear ice cubes on a sunny beach, high-end commercial ad.',
+            img: '/images/836459656_122130930446917799_5217070816236081023_n.jpg'
+          },
+          '3': {
+            title: 'Victoire au Stade de Football',
+            lesson: 'Leçon 03 · Action Sportive & Perspective Immersive',
+            prompt: 'Dynamic sports photography capturing an elated soccer striker celebrating a goal, seen through the blurred white goal net with dramatic stadium lighting, golden hour sky, telephoto lens.',
+            img: '/images/805696813_122127341906917799_3508408828817072122_n.jpg'
+          },
+          '4': {
+            title: 'Portrait Studio Élégant',
+            lesson: 'Leçon 04 · Éclairage Portrait & Rendu de Peau Réaliste',
+            prompt: 'Editorial studio portrait of a young man wearing stylish blue glasses and emerald knitwear, clean vivid green studio backdrop, soft Rembrandt lighting, photorealistic skin detail, 85mm lens.',
+            img: '/images/783985363_122125434674917799_1098707579868121414_n.jpg'
+          }
+        };
+
+        document.querySelectorAll('.art-card').forEach(card => {
+          card.addEventListener('click', () => {
+            const id = card.getAttribute('data-card');
+            const data = cardDetails[id];
+            if (!data) return;
+            openModal(`
+              <div style="text-align: left;">
+                <div style="display: flex; gap: 16px; align-items: flex-start; margin-bottom: 16px;">
+                  <img src="${data.img}" alt="${data.title}" style="width: 90px; height: 110px; object-fit: cover; border-radius: 10px; border: 3px solid #f1f4f8;" />
+                  <div>
+                    <div style="font-size: 12px; font-weight: 700; color: #4a5568; text-transform: uppercase; letter-spacing: 0.04em;">${data.lesson}</div>
+                    <h3 style="font-family: 'DM Serif Display', serif; font-size: 24px; color: #161c08; margin: 4px 0;">${data.title}</h3>
+                    <div style="display: inline-block; background: #fef08a; color: #854d0e; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px;">Student Work · Prompt Breakdown</div>
+                  </div>
+                </div>
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 18px;">
+                  <div style="font-size: 11px; font-weight: 700; color: #64748b; margin-bottom: 6px; text-transform: uppercase;">Exact Prompt Recipe</div>
+                  <code style="display: block; font-family: monospace; font-size: 13px; color: #1e293b; line-height: 1.5; white-space: pre-wrap;">"${data.prompt}"</code>
+                </div>
+                <button class="btn-enroll" style="width: 100%; background: #161c08; color: #ffffff; padding: 11px; border-radius: 10px; font-weight: 600; font-size: 14px; border: none; cursor: pointer;">
+                  Learn This Recipe in Lesson ${id}
+                </button>
+              </div>
+            `);
+
+            // Rebind the modal's inner enroll button
+            const innerBtn = modalBody.querySelector('.btn-enroll');
+            if (innerBtn) {
+              innerBtn.addEventListener('click', () => {
+                document.querySelector('.nav-pill-button').click();
+              });
+            }
+          });
+
+          // Keyboard accessibility for cards
+          card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              card.click();
+            }
+          });
+        });
+
+        // Nav Links Content Modals (Histoire, Programme, Galerie, Cours, FAQ)
+        const navSections = {
+          'story': {
+            title: "L'Histoire de Skyprompt",
+            text: "Skyprompt est né d'une conviction simple : la créativité appartient à tous. Les outils traditionnels d'illustration numérique exigent des années d'entraînement, tandis que les tutoriels actuels submergent les débutants de jargon technique. Nous enseignons l'art de concevoir des images par l'intuition visuelle, la narration et le jeu."
+          },
+          'study-plan': {
+            title: "Programme gratuit sur 4 semaines",
+            text: "• Semaine 1 : Du texte brut aux prompts de haute précision (pondérations et nuances)<br>• Semaine 2 : Angles de caméra, focales et volumétrie atmosphérique<br>• Semaine 3 : Personnages cohérents, univers graphiques et émotions<br>• Semaine 4 : Portfolio final et premières réalisations pour des clients"
+          },
+          'showcase': {
+            title: "Galerie des étudiants",
+            text: "Plus de 14 000 étudiants ont déjà créé plus de 850 000 œuvres originales grâce aux principes de Skyprompt. Survolez l'une des quatre cartes sur l'île pour découvrir les recettes de prompt correspondantes."
+          },
+          'classroom': {
+            title: "Salle de cours vidéo à votre rythme",
+            text: "Des leçons interactives de 8 minutes pensées pour s'adapter à votre emploi du temps. Suivez les étapes pas à pas, copiez les prompts de départ en un clic et échangez vos retours au sein de la communauté."
+          },
+          'qa': {
+            title: "Foire aux questions (FAQ)",
+            text: "<strong>Est-ce vraiment 100 % gratuit ?</strong><br>Oui ! Zéro frais, aucune carte bancaire requise.<br><br><strong>Faut-il un ordinateur surpuissant ?</strong><br>Absolument pas. Tout fonctionne directement dans votre navigateur via des outils cloud."
+          }
+        };
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const key = link.getAttribute('data-modal');
+            const data = navSections[key];
+            if (!data) return;
+            openModal(`
+              <div style="text-align: left;">
+                <h3 style="font-family: 'DM Serif Display', serif; font-size: 28px; color: #161c08; margin-bottom: 12px;">${data.title}</h3>
+                <div style="font-size: 15px; color: #4a5568; line-height: 1.6; margin-bottom: 22px;">${data.text}</div>
+                <button class="btn-enroll" style="background: #161c08; color: #ffffff; padding: 10px 18px; border-radius: 10px; font-weight: 600; font-size: 14px; border: none; cursor: pointer;">
+                  Rejoindre le cours
+                </button>
+              </div>
+            `);
+            const innerBtn = modalBody.querySelector('.btn-enroll');
+            if (innerBtn) {
+              innerBtn.addEventListener('click', () => {
+                document.querySelector('.nav-pill-button').click();
+              });
+            }
+          });
+        });
+
+        // X Button: Replays entrance animation & toggles background video
+        const xBtn = document.getElementById('btn-sound-toggle');
+        if (xBtn) {
+          xBtn.addEventListener('click', () => {
+            const vids = document.querySelectorAll('.scene-video');
+            let isPaused = false;
+            vids.forEach(v => {
+              if (v.paused) {
+                v.play();
+              } else {
+                v.pause();
+                isPaused = true;
+              }
+            });
+            xBtn.setAttribute('title', isPaused ? 'Resume looping motion' : 'Pause looping motion');
+            xBtn.style.opacity = isPaused ? '0.6' : '1';
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

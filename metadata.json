@@ -1,0 +1,6 @@
+{
+  "name": "Skyprompt - AI Image Generation Course",
+  "description": "A bright, playful landing hero for Skyprompt, an online course on AI image generation (Prompt-to-Pixel Art, No Cost!).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
