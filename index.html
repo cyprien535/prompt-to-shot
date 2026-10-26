@@ -1766,108 +1766,65 @@
         box-shadow: 0 4px 14px rgba(22, 28, 8, 0.2);
       }
 
-      /* Editorial Portfolio Flow */
+      /* Uniform Gallery Grid (Compact & Consistent Size) */
       .sc-portfolio-flow {
-        display: flex;
-        flex-direction: column;
-        gap: 40px;
-        margin-bottom: 80px;
-      }
-
-      /* Top Featured Asymmetric Row */
-      .sc-featured-row {
         display: grid;
-        grid-template-columns: 1fr;
-        gap: 32px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+        margin-bottom: 60px;
       }
 
-      @media (min-width: 900px) {
-        .sc-featured-row {
-          grid-template-columns: 1.15fr 0.85fr;
-          gap: 40px;
-        }
-      }
-
-      /* Staggered Masonry / Editorial Grid */
-      .sc-grid-trio {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 32px;
-      }
-
-      @media (min-width: 640px) {
-        .sc-grid-trio {
-          grid-template-columns: repeat(2, 1fr);
-        }
-      }
-
-      @media (min-width: 1024px) {
-        .sc-grid-trio {
+      @media (min-width: 600px) {
+        .sc-portfolio-flow {
           grid-template-columns: repeat(3, 1fr);
+          gap: 16px;
         }
       }
 
-      .sc-grid-quad {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 28px;
-      }
-
-      @media (min-width: 640px) {
-        .sc-grid-quad {
-          grid-template-columns: repeat(2, 1fr);
-        }
-      }
-
-      @media (min-width: 1024px) {
-        .sc-grid-quad {
+      @media (min-width: 860px) {
+        .sc-portfolio-flow {
           grid-template-columns: repeat(4, 1fr);
+          gap: 18px;
         }
       }
 
-      /* Individual Poster Card */
+      @media (min-width: 1140px) {
+        .sc-portfolio-flow {
+          grid-template-columns: repeat(5, 1fr);
+          gap: 20px;
+        }
+      }
+
+      /* Individual Poster Card - Strictly Uniform Aspect Ratio and Size */
       .sc-poster-card {
         position: relative;
-        border-radius: 20px;
+        border-radius: 16px;
         background: #ffffff;
-        padding: 12px 12px 18px;
+        padding: 6px;
         border: 1px solid rgba(0, 0, 0, 0.08);
-        box-shadow: 0 14px 34px rgba(15, 30, 60, 0.07);
+        box-shadow: 0 6px 20px rgba(15, 30, 60, 0.06);
         cursor: pointer;
-        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, opacity 0.3s ease;
+        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
         overflow: hidden;
         user-select: none;
+        display: flex;
+        flex-direction: column;
       }
 
       .sc-poster-card:hover {
-        transform: translateY(-8px) scale(1.015) !important;
-        box-shadow: 0 24px 50px rgba(15, 30, 60, 0.16);
-        border-color: rgba(22, 28, 8, 0.2);
-      }
-
-      /* Subtle Editorial Rotations on Desktop */
-      @media (min-width: 1024px) {
-        .sc-tilt-left-sm {
-          transform: rotate(-1.2deg);
-        }
-        .sc-tilt-right-sm {
-          transform: rotate(1.4deg);
-        }
-        .sc-tilt-left-md {
-          transform: rotate(-2deg);
-        }
-        .sc-tilt-right-md {
-          transform: rotate(1.8deg);
-        }
+        transform: translateY(-5px) scale(1.025) !important;
+        box-shadow: 0 16px 36px rgba(15, 30, 60, 0.16);
+        border-color: #161c08;
+        z-index: 5;
       }
 
       .sc-media-frame {
         position: relative;
         width: 100%;
-        border-radius: 14px;
+        aspect-ratio: 3 / 4;
+        border-radius: 12px;
         overflow: hidden;
         background: #0f172a;
-        aspect-ratio: 3 / 4;
       }
 
       .sc-poster-img {
@@ -1875,68 +1832,46 @@
         height: 100%;
         object-fit: cover;
         display: block;
-        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       }
 
       .sc-poster-card:hover .sc-poster-img {
-        transform: scale(1.05);
+        transform: scale(1.06);
       }
 
-      /* Top Category Badge on Image */
-      .sc-badge {
+      /* Hover Zoom Overlay */
+      .sc-zoom-overlay {
         position: absolute;
-        top: 14px;
-        left: 14px;
-        background: rgba(22, 28, 8, 0.85);
-        color: #ffffff;
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        font-family: 'Poppins', sans-serif;
-        font-weight: 700;
-        font-size: 11px;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        padding: 5px 12px;
-        border-radius: 9999px;
-        border: 1px solid rgba(255, 255, 255, 0.25);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-        z-index: 2;
+        inset: 0;
+        background: rgba(22, 28, 8, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+        pointer-events: none;
       }
 
-      .sc-badge.glow-yellow {
-        background: #f6f03b;
+      .sc-poster-card:hover .sc-zoom-overlay {
+        opacity: 1;
+      }
+
+      .sc-zoom-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: #ffffff;
         color: #161c08;
-        border-color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+        transform: scale(0.85);
+        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       }
 
-
-
-      /* Meta below image */
-      .sc-card-meta {
-        padding: 14px 6px 4px;
-      }
-
-      .sc-card-tag {
-        font-size: 11.5px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: #3195e0;
-        margin-bottom: 4px;
-      }
-
-      .sc-card-title {
-        font-family: 'DM Serif Display', Georgia, serif;
-        font-size: 21px;
-        line-height: 1.2;
-        color: #161c08;
-        margin-bottom: 4px;
-      }
-
-      .sc-card-desc {
-        font-size: 13.5px;
-        color: #64748b;
-        line-height: 1.45;
+      .sc-poster-card:hover .sc-zoom-icon {
+        transform: scale(1);
       }
 
       /* Showcase Bottom CTA Strip */
@@ -2588,92 +2523,301 @@
             </p>
           </div>
 
-          <!-- Filter Bar -->
-          <div class="sc-filter-bar" role="tablist" aria-label="Filtrer les affiches par catégorie">
-            <button class="sc-filter-btn active" data-filter="all">Toutes les Affiches (5)</button>
-            <button class="sc-filter-btn" data-filter="food">Food & Boissons</button>
-            <button class="sc-filter-btn" data-filter="packaging">Packaging & Retail</button>
-            <button class="sc-filter-btn" data-filter="social">Social Media Ads</button>
+          <!-- Filter Bar / Portfolio Counter -->
+          <div class="sc-filter-bar" role="tablist" aria-label="Affiches de la galerie">
+            <button class="sc-filter-btn active" data-filter="all">Toutes les Réalisations (17 Affiches)</button>
           </div>
 
-          <!-- Editorial Portfolio Flow (5 Client & Student Campaigns) -->
+          <!-- Uniform Gallery Grid (17 Campaign Posters) -->
           <div class="sc-portfolio-flow">
-            
-            <!-- Row 1: The Master Showcase (Asymmetrical Duo) -->
-            <div class="sc-featured-row">
-              
-              <!-- Poster: Soummam Yago (Food & Dairy) -->
-              <div class="sc-poster-card sc-tilt-left-sm" data-poster="sc-5" data-cat="food" tabindex="0" role="button" aria-label="Affiche Soummam Yago Yaourt Fraise">
-                <div class="sc-media-frame">
-                  <span class="sc-badge glow-yellow">Campagne Nationale</span>
-                  <img class="sc-poster-img" src="/images/853639915_122132098514917799_8680055729774653392_n.jpg" alt="Affiche Soummam Yago Yaourt Fraise en suspension" loading="lazy" />
-                </div>
-                <div class="sc-card-meta">
-                  <div class="sc-card-tag">Dynamique de Fluides · 3D Splash</div>
-                  <h3 class="sc-card-title">Soummam Yago · Yaourt aux Fraises</h3>
-                  <p class="sc-card-desc">Bouteille en lévitation enveloppée d'un vortex de lait et de fraises fraîches en plein soleil.</p>
-                </div>
-              </div>
-
-              <!-- Poster: Imdi Fruits Parfait (Desserts & Social) -->
-              <div class="sc-poster-card sc-tilt-right-sm" data-poster="sc-9" data-cat="social" tabindex="0" role="button" aria-label="Affiche Dessert Imdi Fruits">
-                <div class="sc-media-frame">
-                  <span class="sc-badge">Social Media Ads</span>
-                  <img class="sc-poster-img" src="/images/818365479_122128349066917799_7606925868454223497_n.jpg" alt="Affiche dessert gourmand Imdi Fruits Parfait" loading="lazy" />
-                </div>
-                <div class="sc-card-meta">
-                  <div class="sc-card-tag">Food Styling · Texture Onctueuse</div>
-                  <h3 class="sc-card-title">Imdi Fruits · Parfait Mangue & Fraise</h3>
-                  <p class="sc-card-desc">Gobelet transparent débordant de coulis crémeux, granola doré et cuillère en bois.</p>
+            <!-- 1. Soummam Yago Strawberry Yogurt -->
+            <div class="sc-poster-card" data-img="/images/853639915_122132098514917799_8680055729774653392_n.jpg" tabindex="0" role="button" aria-label="Agrandir l'affiche">
+              <div class="sc-media-frame">
+                <img class="sc-poster-img" src="/images/853639915_122132098514917799_8680055729774653392_n.jpg" alt="Affiche Soummam Yago" loading="lazy" />
+                <div class="sc-zoom-overlay" aria-hidden="true">
+                  <div class="sc-zoom-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </div>
                 </div>
               </div>
-
             </div>
 
-            <!-- Row 2: Dynamic Trio (Staggered Offsets) -->
-            <div class="sc-grid-trio">
-              
-              <!-- Poster: Tường An Cooking Oil (Food & Culinary) -->
-              <div class="sc-poster-card sc-tilt-left-md" data-poster="sc-6" data-cat="food" tabindex="0" role="button" aria-label="Affiche Culinaire Huile Tường An">
-                <div class="sc-media-frame">
-                  <span class="sc-badge">Print & Outdoor</span>
-                  <img class="sc-poster-img" src="/images/858894691_122132451518917799_401566089164284770_n.jpg" alt="Affiche Tường An Cooking Oil avec splash d'huile dorée" loading="lazy" />
-                </div>
-                <div class="sc-card-meta">
-                  <div class="sc-card-tag">Nature Morte · Splash Doré</div>
-                  <h3 class="sc-card-title">Tường An · Huile Gastronomique</h3>
-                  <p class="sc-card-desc">Tourbillon d'huile limpide entouré d'ingrédients frais du marché.</p>
-                </div>
-              </div>
-
-              <!-- Poster: Kiki's Crispy (Packaging & Retail) -->
-              <div class="sc-poster-card" data-poster="sc-7" data-cat="packaging" tabindex="0" role="button" aria-label="Affiche Packaging Kiki's Crispy">
-                <div class="sc-media-frame">
-                  <span class="sc-badge">Packaging & Retail</span>
-                  <img class="sc-poster-img" src="/images/829250489_122129791172917799_8465261343643478983_n.jpg" alt="Affiche packaging Kiki's Delicious Crispy banana chips" loading="lazy" />
-                </div>
-                <div class="sc-card-meta">
-                  <div class="sc-card-tag">Doypack Kraft · Rendu Rayons de Soleil</div>
-                  <h3 class="sc-card-title">Kiki's · Plantain Chips Dorées</h3>
-                  <p class="sc-card-desc">Sachets kraft éco-conçus et bol en bois sur table de cuisine ensoleillée.</p>
+            <!-- 2. Imdi Fruits Parfait -->
+            <div class="sc-poster-card" data-img="/images/818365479_122128349066917799_7606925868454223497_n.jpg" tabindex="0" role="button" aria-label="Agrandir l'affiche">
+              <div class="sc-media-frame">
+                <img class="sc-poster-img" src="/images/818365479_122128349066917799_7606925868454223497_n.jpg" alt="Affiche Imdi Fruits Parfait" loading="lazy" />
+                <div class="sc-zoom-overlay" aria-hidden="true">
+                  <div class="sc-zoom-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </div>
                 </div>
               </div>
-
-              <!-- Poster: Coca-Cola Ice (Food & Beverage) -->
-              <div class="sc-poster-card sc-tilt-right-md" data-poster="sc-8" data-cat="food" tabindex="0" role="button" aria-label="Affiche Coca-Cola Givrée">
-                <div class="sc-media-frame">
-                  <span class="sc-badge glow-yellow">Campagne Mondiale</span>
-                  <img class="sc-poster-img" src="/images/831727472_122130279716917799_6358197100971641401_n.jpg" alt="Affiche Coca-Cola Réfrigérante sur lit de glaçons" loading="lazy" />
-                </div>
-                <div class="sc-card-meta">
-                  <div class="sc-card-tag">Éclairage Soleil & Glace Vive</div>
-                  <h3 class="sc-card-title">Coca-Cola · Fraîcheur Intense</h3>
-                  <p class="sc-card-desc">Canette emblématique 350 ml perlée d'eau glacée au cœur de glaçons translucides.</p>
-                </div>
-              </div>
-
             </div>
 
+            <!-- 3. Tường An Cooking Oil -->
+            <div class="sc-poster-card" data-img="/images/858894691_122132451518917799_401566089164284770_n.jpg" tabindex="0" role="button" aria-label="Agrandir l'affiche">
+              <div class="sc-media-frame">
+                <img class="sc-poster-img" src="/images/858894691_122132451518917799_401566089164284770_n.jpg" alt="Affiche Huile Tường An" loading="lazy" />
+                <div class="sc-zoom-overlay" aria-hidden="true">
+                  <div class="sc-zoom-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Kiki's Crispy Chips -->
+            <div class="sc-poster-card" data-img="/images/829250489_122129791172917799_8465261343643478983_n.jpg" tabindex="0" role="button" aria-label="Agrandir l'affiche">
+              <div class="sc-media-frame">
+                <img class="sc-poster-img" src="/images/829250489_122129791172917799_8465261343643478983_n.jpg" alt="Affiche Kiki's Crispy Chips" loading="lazy" />
+                <div class="sc-zoom-overlay" aria-hidden="true">
+                  <div class="sc-zoom-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. Coca-Cola Ice -->
+            <div class="sc-poster-card" data-img="/images/831727472_122130279716917799_6358197100971641401_n.jpg" tabindex="0" role="button" aria-label="Agrandir l'affiche">
+              <div class="sc-media-frame">
+                <img class="sc-poster-img" src="/images/831727472_122130279716917799_6358197100971641401_n.jpg" alt="Affiche Coca-Cola Givrée" loading="lazy" />
+                <div class="sc-zoom-overlay" aria-hidden="true">
+                  <div class="sc-zoom-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 6. Campaign Poster 841388324 -->
+            <div class="sc-poster-card" data-img="/images/841388324_122131466714917799_7029469907167913761_n.jpg" tabindex="0" role="button" aria-label="Agrandir l'affiche">
+              <div class="sc-media-frame">
+                <img class="sc-poster-img" src="/images/841388324_122131466714917799_7029469907167913761_n.jpg" alt="Affiche publicitaire IA" loading="lazy" />
+                <div class="sc-zoom-overlay" aria-hidden="true">
+                  <div class="sc-zoom-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 7. Campaign Poster 856303838 -->
+            <div class="sc-poster-card" data-img="/images/856303838_122132326850917799_932243747990997649_n.jpg" tabindex="0" role="button" aria-label="Agrandir l'affiche">
+              <div class="sc-media-frame">
+                <img class="sc-poster-img" src="/images/856303838_122132326850917799_932243747990997649_n.jpg" alt="Affiche publicitaire IA" loading="lazy" />
+                <div class="sc-zoom-overlay" aria-hidden="true">
+                  <div class="sc-zoom-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 8. Campaign Poster 836459656 -->
+            <div class="sc-poster-card" data-img="/images/836459656_122130930446917799_5217070816236081023_n.jpg" tabindex="0" role="button" aria-label="Agrandir l'affiche">
+              <div class="sc-media-frame">
+                <img class="sc-poster-img" src="/images/836459656_122130930446917799_5217070816236081023_n.jpg" alt="Affiche publicitaire IA" loading="lazy" />
+                <div class="sc-zoom-overlay" aria-hidden="true">
+                  <div class="sc-zoom-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 9. Campaign Poster 805696813 -->
+            <div class="sc-poster-card" data-img="/images/805696813_122127341906917799_3508408828817072122_n.jpg" tabindex="0" role="button" aria-label="Agrandir l'affiche">
+              <div class="sc-media-frame">
+                <img class="sc-poster-img" src="/images/805696813_122127341906917799_3508408828817072122_n.jpg" alt="Affiche publicitaire IA" loading="lazy" />
+                <div class="sc-zoom-overlay" aria-hidden="true">
+                  <div class="sc-zoom-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 10. Campaign Poster 787341581 -->
+            <div class="sc-poster-card" data-img="/images/787341581_122125698818917799_7233518791325308353_n.jpg" tabindex="0" role="button" aria-label="Agrandir l'affiche">
+              <div class="sc-media-frame">
+                <img class="sc-poster-img" src="/images/787341581_122125698818917799_7233518791325308353_n.jpg" alt="Affiche publicitaire IA" loading="lazy" />
+                <div class="sc-zoom-overlay" aria-hidden="true">
+                  <div class="sc-zoom-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 11. Campaign Poster 786303371 -->
+            <div class="sc-poster-card" data-img="/images/786303371_122125791302917799_7455335168873685687_n.jpg" tabindex="0" role="button" aria-label="Agrandir l'affiche">
+              <div class="sc-media-frame">
+                <img class="sc-poster-img" src="/images/786303371_122125791302917799_7455335168873685687_n.jpg" alt="Affiche publicitaire IA" loading="lazy" />
+                <div class="sc-zoom-overlay" aria-hidden="true">
+                  <div class="sc-zoom-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 12. Campaign Poster 786035751 -->
+            <div class="sc-poster-card" data-img="/images/786035751_122125534046917799_2016391313558187181_n.jpg" tabindex="0" role="button" aria-label="Agrandir l'affiche">
+              <div class="sc-media-frame">
+                <img class="sc-poster-img" src="/images/786035751_122125534046917799_2016391313558187181_n.jpg" alt="Affiche publicitaire IA" loading="lazy" />
+                <div class="sc-zoom-overlay" aria-hidden="true">
+                  <div class="sc-zoom-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 13. Campaign Poster 785059089 -->
+            <div class="sc-poster-card" data-img="/images/785059089_122125601696917799_2846571648448504750_n.jpg" tabindex="0" role="button" aria-label="Agrandir l'affiche">
+              <div class="sc-media-frame">
+                <img class="sc-poster-img" src="/images/785059089_122125601696917799_2846571648448504750_n.jpg" alt="Affiche publicitaire IA" loading="lazy" />
+                <div class="sc-zoom-overlay" aria-hidden="true">
+                  <div class="sc-zoom-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 14. Campaign Poster 785048276 -->
+            <div class="sc-poster-card" data-img="/images/785048276_122125593662917799_5920021471269287396_n.jpg" tabindex="0" role="button" aria-label="Agrandir l'affiche">
+              <div class="sc-media-frame">
+                <img class="sc-poster-img" src="/images/785048276_122125593662917799_5920021471269287396_n.jpg" alt="Affiche publicitaire IA" loading="lazy" />
+                <div class="sc-zoom-overlay" aria-hidden="true">
+                  <div class="sc-zoom-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 15. Campaign Poster 784927663 -->
+            <div class="sc-poster-card" data-img="/images/784927663_122125689848917799_6139118684632284703_n.jpg" tabindex="0" role="button" aria-label="Agrandir l'affiche">
+              <div class="sc-media-frame">
+                <img class="sc-poster-img" src="/images/784927663_122125689848917799_6139118684632284703_n.jpg" alt="Affiche publicitaire IA" loading="lazy" />
+                <div class="sc-zoom-overlay" aria-hidden="true">
+                  <div class="sc-zoom-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 16. Campaign Poster 784351544 -->
+            <div class="sc-poster-card" data-img="/images/784351534_122125544546917799_8200174654693073636_n.jpg" tabindex="0" role="button" aria-label="Agrandir l'affiche">
+              <div class="sc-media-frame">
+                <img class="sc-poster-img" src="/images/784351534_122125544546917799_8200174654693073636_n.jpg" alt="Affiche publicitaire IA" loading="lazy" />
+                <div class="sc-zoom-overlay" aria-hidden="true">
+                  <div class="sc-zoom-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 17. Campaign Poster 783985363 -->
+            <div class="sc-poster-card" data-img="/images/783985363_122125434674917799_1098707579868121414_n.jpg" tabindex="0" role="button" aria-label="Agrandir l'affiche">
+              <div class="sc-media-frame">
+                <img class="sc-poster-img" src="/images/783985363_122125434674917799_1098707579868121414_n.jpg" alt="Affiche publicitaire IA" loading="lazy" />
+                <div class="sc-zoom-overlay" aria-hidden="true">
+                  <div class="sc-zoom-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="11" y1="8" x2="11" y2="14"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Showcase Bottom Invitation Strip -->
@@ -3237,146 +3381,25 @@
           setTimeout(updateHeight, 200);
         })();
 
-        // --- Showcase Gallery Filter & Modal Preview ---
-        const filterBtns = document.querySelectorAll('.sc-filter-btn');
+        // --- Showcase Gallery Modal Lightbox Preview ---
         const posterCards = document.querySelectorAll('.sc-poster-card');
-
-        filterBtns.forEach(btn => {
-          btn.addEventListener('click', () => {
-            const filter = btn.getAttribute('data-filter');
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            posterCards.forEach(card => {
-              const cat = card.getAttribute('data-cat');
-              if (filter === 'all' || cat === filter) {
-                card.style.display = 'block';
-                card.style.opacity = '1';
-                card.style.pointerEvents = 'auto';
-              } else {
-                card.style.display = 'none';
-                card.style.opacity = '0';
-                card.style.pointerEvents = 'none';
-              }
-            });
-          });
-        });
-
-        // Detailed Technical Specs for the 5 Active Student & Client Posters
-        const galleryPosters = {
-          'sc-5': {
-            title: 'Soummam Yago · Yaourt aux Fraises',
-            category: 'Produit Laitier & Campagne Mass Market',
-            format: 'Affichage Print National & Digital Billboard',
-            prompt: 'Dynamic 3D commercial food poster of "SOUMMAM YAGO" strawberry yogurt bottle suspended in mid-air. Surrounded by a spiraling vortex splash of velvety white milk, levitating juicy ripe strawberries and sliced berries under a radiant sunny blue sky with soft white clouds, high-speed shutter studio advertising shoot, 8k resolution.',
-            specs: {
-              focal: '70mm f/2.8 Studio',
-              lighting: 'Simulation plein soleil d\'été + fill diffuseur',
-              engine: 'Midjourney v6.0 + Retouche RAW',
-              aspectRatio: '3:4 Portrait'
-            },
-            img: '/images/853639915_122132098514917799_8680055729774653392_n.jpg'
-          },
-          'sc-6': {
-            title: 'Tường An · Huile Gastronomique',
-            category: 'Food Advertising & Restauration',
-            format: 'Presse Culinaire & Packaging Promotionnel',
-            prompt: 'Commercial culinary poster featuring "TƯỜNG AN COOKING OIL" bottle in clear golden glass. A dynamic splash of pure golden cooking oil crowns the bottle neck, surrounded by fresh market vegetables, juicy red tomatoes, garlic cloves, chili peppers and wooden kitchen elements, soft warm window sunlight, commercial culinary advertising styling.',
-            specs: {
-              focal: '50mm f/1.8 Natural',
-              lighting: 'Lumière naturelle traversante + contre-jour chaud',
-              engine: 'Stable Diffusion 3.5 Large',
-              aspectRatio: '3:4 Portrait'
-            },
-            img: '/images/858894691_122132451518917799_401566089164284770_n.jpg'
-          },
-          'sc-7': {
-            title: "Kiki's · Plantain Chips Dorées",
-            category: 'Packaging Retail & Branding Éco-responsable',
-            format: 'E-commerce Hero & Plaquette de Distribution',
-            prompt: 'Commercial product photography poster for "KIKI\'S DELICIOUS CRISPY" banana plantain chips. Two standing matte kraft paper doypack pouches with clear windows revealing crunchy golden chips, wooden bowl filled with chips, fresh green and yellow bananas, bright modern kitchen countertop, warm morning sunlight, premium retail packaging look.',
-            specs: {
-              focal: '85mm f/2.0 Portrait',
-              lighting: 'Lumière matinale rasante 5400K',
-              engine: 'Midjourney v6.1 + Rendu Kraft Réaliste',
-              aspectRatio: '3:4 Portrait'
-            },
-            img: '/images/829250489_122129791172917799_8465261343643478983_n.jpg'
-          },
-          'sc-8': {
-            title: 'Coca-Cola · Fraîcheur Intense',
-            category: 'Boisson Commerciale & Campagne Urbaine',
-            format: 'Affichage Sucette Urbaine & PLV Magasin',
-            prompt: 'Iconic commercial product advertising shot of an icy red 350ml Coca-Cola soda can embedded in freshly crushed sparkling ice cubes. Glass filled with effervescent soda and bubbly ice in background, tropical outdoor palm leaves blur, brilliant summer daylight, droplets sliding down aluminum, high-end commercial ad standard.',
-            specs: {
-              focal: '100mm Macro f/2.8',
-              lighting: 'Rim light bleu ciel + flash face 1/4000s',
-              engine: 'Flux Pro + Texture Condensation',
-              aspectRatio: '3:4 Portrait'
-            },
-            img: '/images/831727472_122130279716917799_6358197100971641401_n.jpg'
-          },
-          'sc-9': {
-            title: 'Imdi Fruits · Parfait Gourmand',
-            category: 'Social Media Campaign & Food Styling',
-            format: 'Campagne Instagram & TikTok Ads 9:16 / 4:5',
-            prompt: 'High-end food commercial photography of "IMDI FRUITS" dessert cup. Creamy white fruit yogurt layered with juicy mango chunks, fresh sliced strawberries, crunchy golden granola on top, wooden spoon lifting a generous dollop, warm bakery lighting, clean tabletop, irresistible commercial dessert appeal.',
-            specs: {
-              focal: '60mm f/2.2 Macro',
-              lighting: 'Softbox latérale 45° + réflecteur blanc',
-              engine: 'Midjourney v6.1 Food Special',
-              aspectRatio: '3:4 Portrait'
-            },
-            img: '/images/818365479_122128349066917799_7606925868454223497_n.jpg'
-          }
-        };
 
         posterCards.forEach(card => {
           card.addEventListener('click', () => {
-            const id = card.getAttribute('data-poster');
-            const data = galleryPosters[id];
-            if (!data) return;
+            const imgSrc = card.getAttribute('data-img') || card.querySelector('img')?.src;
+            if (!imgSrc) return;
 
             openModal(`
-              <div style="text-align: left;">
-                <div style="display: flex; gap: 18px; align-items: flex-start; margin-bottom: 20px;">
-                  <img src="${data.img}" alt="${data.title}" style="width: 110px; height: 146px; object-fit: cover; border-radius: 12px; border: 3px solid #ffffff; box-shadow: 0 8px 24px rgba(0,0,0,0.12); flex-shrink: 0;" />
-                  <div>
-                    <div style="display: inline-block; background: #f6f03b; color: #161c08; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 11px; padding: 3px 9px; border-radius: 4px; margin-bottom: 6px; letter-spacing: 0.04em; text-transform: uppercase;">
-                      ${data.category}
-                    </div>
-                    <h3 style="font-family: 'DM Serif Display', serif; font-size: 24px; line-height: 1.15; color: #161c08; margin: 4px 0 6px;">${data.title}</h3>
-                    <div style="font-size: 13px; color: #64748b; line-height: 1.4;">${data.format}</div>
-                  </div>
+              <div style="text-align: center; max-width: 640px; margin: 0 auto;">
+                <div style="max-height: 72vh; border-radius: 16px; overflow: hidden; background: #0f172a; box-shadow: 0 16px 40px rgba(0,0,0,0.22); margin-bottom: 20px; display: flex; align-items: center; justify-content: center;">
+                  <img src="${imgSrc}" alt="Affiche publicitaire plein écran" style="max-height: 72vh; max-width: 100%; width: auto; height: auto; object-fit: contain; display: block;" />
                 </div>
-
-                <!-- Technical Specs Grid -->
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 18px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px;">
-                  <div>
-                    <span style="display: block; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Optique & Focale</span>
-                    <span style="font-size: 13px; color: #1e293b; font-weight: 600;">${data.specs.focal}</span>
-                  </div>
-                  <div>
-                    <span style="display: block; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Éclairage de Studio</span>
-                    <span style="font-size: 13px; color: #1e293b; font-weight: 600;">${data.specs.lighting}</span>
-                  </div>
-                  <div>
-                    <span style="display: block; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Moteur de Rendu</span>
-                    <span style="font-size: 13px; color: #1e293b; font-weight: 600;">${data.specs.engine}</span>
-                  </div>
-                  <div>
-                    <span style="display: block; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Ratio & Résolution</span>
-                    <span style="font-size: 13px; color: #1e293b; font-weight: 600;">${data.specs.aspectRatio} · Ultra 8K</span>
-                  </div>
-                </div>
-
-                <button class="btn-enroll" style="width: 100%; background: #161c08; color: #ffffff; padding: 13px; border-radius: 12px; font-weight: 600; font-size: 15px; border: none; cursor: pointer; transition: background 0.2s; margin-top: 6px;">
-                  Rejoindre la formation pour créer ce type d'affiche
+                <button class="btn-enroll" style="background: #161c08; color: #ffffff; padding: 13px 32px; border-radius: 9999px; font-weight: 600; font-size: 15px; border: none; cursor: pointer; transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s; box-shadow: 0 6px 20px rgba(0,0,0,0.18);">
+                  Rejoindre la formation · Créer des affiches pro avec l'IA
                 </button>
               </div>
             `);
 
-            // Rebind the modal's inner enroll button
             const innerBtn = modalBody.querySelector('.btn-enroll');
             if (innerBtn) {
               innerBtn.addEventListener('click', () => {
