@@ -143,31 +143,48 @@
         z-index: 2;
       }
 
-      /* Nav bar: pinned to viewport edges with fit unit --n */
+      /* Nav bar: completely transparent on hero, disappears after hero */
       .site-nav {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        height: calc(88 * var(--n));
+        height: 72px;
         z-index: 100;
-        pointer-events: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 clamp(16px, 3.5vw, 48px);
+        background: transparent;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border-bottom: none;
+        box-shadow: none;
+        pointer-events: auto;
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1), transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .site-nav.nav-hidden {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        transform: translateY(-100%) !important;
       }
 
       .nav-interactive {
         pointer-events: auto;
       }
 
-      /* Flower Logo: 44x44 at (118, 22) */
+      /* Flower Logo on the left */
       .nav-logo-link {
-        position: absolute;
-        left: calc(118 * var(--n));
-        top: calc(22 * var(--n));
-        width: calc(44 * var(--n));
-        height: calc(44 * var(--n));
+        position: relative;
+        width: 40px;
+        height: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
         cursor: pointer;
         transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         text-decoration: none;
@@ -184,27 +201,29 @@
         filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15));
       }
 
-      /* Links: Story · Study Plan · Showcase · Classroom · Q&A, white, 17px, centred at y = 44, 35.5px apart */
+      /* Links: Histoire · Programme · Avant / Après · Galerie · Cours · FAQ */
       .nav-center-links {
-        position: absolute;
-        left: 50%;
-        top: calc(44 * var(--n));
-        transform: translate(-50%, -50%);
         display: flex;
         align-items: center;
-        gap: calc(35.5 * var(--n));
+        gap: clamp(14px, 1.8vw, 28px);
         white-space: nowrap;
+      }
+
+      @media (max-width: 920px) {
+        .nav-center-links {
+          display: none;
+        }
       }
 
       .nav-link {
         font-family: 'Poppins', sans-serif;
-        font-weight: 400;
-        font-size: calc(17 * var(--n));
+        font-weight: 500;
+        font-size: clamp(13px, 1.05vw, 15px);
         line-height: 1;
         color: #ffffff;
         text-decoration: none;
         transition: opacity 0.18s ease, transform 0.18s ease;
-        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
         position: relative;
         cursor: pointer;
       }
@@ -232,34 +251,40 @@
 
       .nav-sep {
         font-family: 'Poppins', sans-serif;
-        font-size: calc(17 * var(--n));
-        color: rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.5);
         user-select: none;
       }
 
-      /* X button: 50px translucent white circle, 283 from the right */
+      /* Right actions */
+      .mobile-nav-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-shrink: 0;
+      }
+
+      /* Atmosphere audio & loop motion button */
       .nav-x-button {
-        position: absolute;
-        right: calc(283 * var(--n));
-        top: calc(19 * var(--n));
-        width: calc(50 * var(--n));
-        height: calc(50 * var(--n));
+        position: relative;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.25);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.45);
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.35);
         display: flex;
         align-items: center;
         justify-content: center;
         color: #ffffff;
         cursor: pointer;
         transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
       }
 
       .nav-x-button:hover {
-        background: rgba(255, 255, 255, 0.38);
+        background: rgba(255, 255, 255, 0.35);
         transform: scale(1.06);
       }
 
@@ -267,34 +292,31 @@
         transform: scale(0.96);
       }
 
-      /* Nav Pill: white "Rejoindre la formation" pill, 107 from the right */
+      /* Nav Pill: white "Rejoindre la formation" button */
       .nav-pill-button {
-        position: absolute;
-        right: calc(107 * var(--n));
-        top: calc(22 * var(--n));
-        min-width: calc(168 * var(--n));
-        padding: 0 calc(20 * var(--n));
-        height: calc(44 * var(--n));
+        position: relative;
+        height: 42px;
+        padding: 0 clamp(16px, 1.8vw, 24px);
         border-radius: 9999px;
         background: #ffffff;
         color: #161c08;
         font-family: 'Poppins', sans-serif;
         font-weight: 600;
-        font-size: calc(13.2 * var(--n));
+        font-size: 14px;
         white-space: nowrap;
         display: flex;
         align-items: center;
         justify-content: center;
         text-decoration: none;
         cursor: pointer;
-        box-shadow: 0 calc(4 * var(--n)) calc(14 * var(--n)) rgba(0, 0, 0, 0.14);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
         border: none;
         transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background 0.2s ease;
       }
 
       .nav-pill-button:hover {
         transform: translateY(-1.5px) scale(1.02);
-        box-shadow: 0 calc(6 * var(--n)) calc(18 * var(--n)) rgba(0, 0, 0, 0.2);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
         background: #fbfbfb;
       }
 
@@ -590,26 +612,26 @@
 
       /* Entrance Animation setup: initial states */
       .anim-nav {
-        opacity: 0;
+        opacity: 1;
       }
 
       .anim-headline {
-        opacity: 0;
+        opacity: 1;
       }
 
       .anim-subline {
-        opacity: 0;
+        opacity: 1;
       }
 
       /* Highlighter swipe wrapper & word landing */
       .anim-hl::before {
-        clip-path: inset(0 100% 0 0);
+        clip-path: inset(0 0% 0 0);
       }
 
       .anim-hl .hl-text {
-        opacity: 0;
+        opacity: 1;
         display: inline-block;
-        transform: translateY(-4px) scale(0.96);
+        transform: none;
       }
 
       /* Modal Dialog (Interactive feedback for links and enroll CTA) */
@@ -713,20 +735,23 @@
           background: #3195e0;
         }
 
-        /* Top: compact nav (logo, the pill and a round menu button) */
+        /* Top: compact nav (logo, the pill and a round menu button) - transparent on hero */
         .site-nav {
-          position: sticky;
+          position: fixed;
           top: 0;
+          left: 0;
+          right: 0;
           height: 68px;
           display: flex;
           align-items: center;
           justify-content: space-between;
           padding: 0 16px;
-          background: rgba(49, 149, 224, 0.88);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
+          background: transparent;
+          backdrop-filter: none;
+          -webkit-backdrop-filter: none;
           z-index: 120;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+          border-bottom: none;
+          box-shadow: none;
         }
 
         .nav-logo-link {
@@ -769,7 +794,7 @@
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 24px 18px 14px;
+          padding: 76px 18px 14px;
           text-align: center;
           position: relative;
           z-index: 20;
@@ -1914,6 +1939,443 @@
         margin: 0 auto 28px;
         line-height: 1.6;
       }
+
+      /* ========================================================
+         FADE IN ON SCROLL (Vue Bits / FadeContent Style)
+         ======================================================== */
+      .reveal-on-scroll {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: opacity, transform;
+      }
+
+      .reveal-on-scroll.is-revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Gallery Cards Staggered Fade */
+      .sc-poster-card.reveal-card {
+        opacity: 0;
+        transform: translateY(24px) scale(0.97);
+        transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                    box-shadow 0.25s ease,
+                    border-color 0.25s ease;
+      }
+
+      .sc-poster-card.reveal-card.is-revealed {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .reveal-on-scroll,
+        .sc-poster-card.reveal-card {
+          opacity: 1 !important;
+          transform: none !important;
+          transition: none !important;
+        }
+      }
+
+      /* ========================================================
+         SECTION: À PROPOS DU FORMATEUR (#formateur)
+         Skyprompt Brand System: #3195e0, #f6f03b, #161c08, #f8fafc
+         Fonts: 'DM Serif Display' & 'Poppins'
+         Layout: 2-Column with Layered Card Frame from Capture_1cecac79.PNG
+         ======================================================== */
+      .instructor-section {
+        position: relative;
+        width: 100%;
+        background: #f8fafc;
+        color: #161c08;
+        padding: clamp(75px, 9vw, 120px) clamp(20px, 5vw, 64px);
+        border-top: 1.5px solid #e2e8f0;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+
+      /* Subtle ambient brand glow */
+      .inst-bg-glow {
+        position: absolute;
+        width: 550px;
+        height: 550px;
+        right: 4%;
+        top: 20%;
+        background: radial-gradient(circle, rgba(49, 149, 224, 0.08) 0%, rgba(246, 240, 59, 0.06) 50%, transparent 70%);
+        filter: blur(80px);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .inst-container {
+        max-width: 1220px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .inst-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.18fr) minmax(320px, 0.88fr);
+        gap: clamp(36px, 5vw, 76px);
+        align-items: center;
+      }
+
+      @media (max-width: 960px) {
+        .inst-grid {
+          grid-template-columns: 1fr;
+          gap: 48px;
+        }
+      }
+
+      /* Left Column: Editorial & Conversion Story */
+      .inst-content-col {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .inst-kicker {
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        font-size: 13.5px;
+        padding: 5px 16px;
+        margin-bottom: 20px;
+      }
+
+      .inst-hero-title {
+        font-family: 'DM Serif Display', Georgia, serif;
+        font-size: clamp(38px, 5.2vw, 56px);
+        font-weight: 800;
+        line-height: 1.1;
+        color: #161c08;
+        letter-spacing: -0.025em;
+        margin: 0 0 14px 0;
+      }
+
+      .inst-hero-name {
+        display: inline-block;
+        color: #161c08;
+        position: relative;
+      }
+
+      .inst-hero-name::after {
+        content: '';
+        position: absolute;
+        bottom: 4px;
+        left: 0;
+        width: 100%;
+        height: 8px;
+        background: #f6f03b;
+        border-radius: 4px;
+        opacity: 0.95;
+        z-index: -1;
+      }
+
+      .inst-hero-sub {
+        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: clamp(18px, 2.2vw, 23px);
+        font-weight: 600;
+        line-height: 1.35;
+        color: #3195e0;
+        margin: 0 0 24px 0;
+        letter-spacing: -0.01em;
+      }
+
+      .inst-hero-story {
+        font-family: 'Poppins', sans-serif;
+        font-size: clamp(14.5px, 1.4vw, 15.5px);
+        line-height: 1.75;
+        color: #475569;
+        margin: 0 0 34px 0;
+        max-width: 620px;
+      }
+
+      .inst-hero-story strong {
+        color: #161c08;
+        font-weight: 700;
+      }
+
+      .inst-hero-story em {
+        color: #161c08;
+        font-style: italic;
+      }
+
+      /* Objections Checklist */
+      .inst-objections-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin: 0 0 38px 0;
+        width: 100%;
+        max-width: 620px;
+      }
+
+      .inst-objection-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+      }
+
+      .inst-check-icon {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: #3195e0;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 1px;
+        box-shadow: 0 3px 8px rgba(49, 149, 224, 0.35);
+        transition: transform 0.25s ease, background 0.25s ease;
+      }
+
+      .inst-objection-item:hover .inst-check-icon {
+        transform: scale(1.12);
+        background: #1d7ec9;
+      }
+
+      .inst-objection-body {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+
+      .inst-objection-question {
+        font-family: 'Poppins', sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        color: #161c08;
+        line-height: 1.35;
+        margin: 0;
+      }
+
+      .inst-objection-answer {
+        font-family: 'Poppins', sans-serif;
+        font-size: 13.5px;
+        line-height: 1.6;
+        color: #64748b;
+        margin: 0;
+      }
+
+      /* Call to Action Button: Skyprompt Signature Style */
+      .inst-cta-row {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+      }
+
+      .inst-btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background: #f6f03b;
+        color: #161c08;
+        font-family: 'Poppins', sans-serif;
+        font-size: 15.5px;
+        font-weight: 700;
+        padding: 14px 32px;
+        border-radius: 9999px;
+        border: 2px solid #161c08;
+        cursor: pointer;
+        box-shadow: 3px 3px 0px #161c08;
+        transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+        text-decoration: none;
+      }
+
+      .inst-btn-primary:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 5px 5px 0px #161c08;
+        background: #fffb60;
+      }
+
+      .inst-btn-primary:active {
+        transform: translate(1px, 1px);
+        box-shadow: 2px 2px 0px #161c08;
+      }
+
+      .inst-btn-cart-svg {
+        width: 19px;
+        height: 19px;
+        stroke: #161c08;
+        transition: transform 0.25s ease;
+      }
+
+      .inst-btn-primary:hover .inst-btn-cart-svg {
+        transform: translateX(2px);
+      }
+
+      .inst-cta-microtext {
+        font-size: 12.5px;
+        color: #64748b;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+      }
+
+      /* Right Column: Layered Frame Card from Screenshot in Skyprompt Style */
+      .inst-photo-col {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .inst-frame-container {
+        position: relative;
+        width: 100%;
+        max-width: 440px;
+        margin: 16px auto 0;
+      }
+
+      /* Layered offset border card behind the portrait with brand color accent */
+      .inst-frame-backdrop {
+        position: absolute;
+        top: -14px;
+        left: -14px;
+        right: 14px;
+        bottom: 14px;
+        border: 2px solid #161c08;
+        border-radius: 32px;
+        background: #e0f2fe;
+        pointer-events: none;
+        z-index: 0;
+        box-shadow: 4px 4px 0px #161c08;
+        transition: transform 0.3s ease;
+      }
+
+      .inst-frame-container:hover .inst-frame-backdrop {
+        transform: translate(-3px, -3px);
+      }
+
+      /* Main photo container */
+      .inst-photo-card {
+        position: relative;
+        z-index: 1;
+        border-radius: 28px;
+        overflow: hidden;
+        background: #ffffff;
+        border: 2px solid #161c08;
+        box-shadow: 0 16px 36px -10px rgba(22, 28, 8, 0.15);
+      }
+
+      .inst-portrait-img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 425 / 560;
+        object-fit: cover;
+        object-position: center 15%;
+        display: block;
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .inst-frame-container:hover .inst-portrait-img {
+        transform: scale(1.025);
+      }
+
+      .inst-status-badge {
+        position: absolute;
+        bottom: 16px;
+        left: 16px;
+        background: rgba(22, 28, 8, 0.88);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        color: #ffffff;
+        padding: 6px 14px;
+        border-radius: 9999px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        z-index: 2;
+      }
+
+      .inst-status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #f6f03b;
+        box-shadow: 0 0 8px #f6f03b;
+        display: inline-block;
+      }
+
+      /* Site Footer */
+      .site-footer {
+        background: #0b1120;
+        color: #94a3b8;
+        padding: 56px clamp(20px, 4vw, 48px) 36px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .footer-top {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding-bottom: 32px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .footer-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 18px;
+        text-decoration: none;
+      }
+
+      .footer-brand-svg {
+        width: 32px;
+        height: 32px;
+      }
+
+      .footer-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .footer-link {
+        color: #94a3b8;
+        text-decoration: none;
+        font-size: 14px;
+        transition: color 0.2s;
+      }
+
+      .footer-link:hover {
+        color: #ffffff;
+      }
+
+      .footer-bottom {
+        padding-top: 24px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        font-size: 13px;
+        color: #64748b;
+      }
     </style>
   </head>
   <body>
@@ -1944,7 +2406,7 @@
           </svg>
         </a>
 
-        <!-- Links: Histoire · Programme · Avant / Après · Galerie · Cours · FAQ -->
+        <!-- Links: Histoire · Programme · Avant / Après · Galerie · Formateur · Cours · FAQ -->
         <nav class="nav-center-links nav-interactive" aria-label="Navigation principale" lang="fr">
           <a href="#story" class="nav-link" data-modal="story">Histoire</a>
           <span class="nav-sep" aria-hidden="true">·</span>
@@ -1953,6 +2415,8 @@
           <a href="#problem-solution" class="nav-link nav-scroll-link">Avant / Après</a>
           <span class="nav-sep" aria-hidden="true">·</span>
           <a href="#showcase" class="nav-link nav-scroll-link">Galerie</a>
+          <span class="nav-sep" aria-hidden="true">·</span>
+          <a href="#formateur" class="nav-link nav-scroll-link">Formateur</a>
           <span class="nav-sep" aria-hidden="true">·</span>
           <a href="#classroom" class="nav-link" data-modal="classroom">Cours</a>
           <span class="nav-sep" aria-hidden="true">·</span>
@@ -2836,6 +3300,155 @@
 
         </div>
       </section>
+
+      <!-- Section: À Propos du Formateur (#formateur) -->
+      <section class="instructor-section" id="formateur" lang="fr">
+        <div class="inst-bg-glow" aria-hidden="true"></div>
+        <div class="inst-container">
+          <div class="inst-grid">
+
+            <!-- Left Column: Story, Objections & CTA (Skyprompt Brand & Subject) -->
+            <div class="inst-content-col">
+              
+              <div class="highlighter-label inst-kicker">
+                <span class="hl-text">Le Formateur Skyprompt</span>
+              </div>
+
+              <h2 class="inst-hero-title">
+                Moi, c'est<br>
+                <span class="inst-hero-name">Carlos DJANATO.</span>
+              </h2>
+
+              <p class="inst-hero-sub">
+                Et les affiches publicitaires avec l'IA, c'est mon métier depuis 3 ans.
+              </p>
+
+              <p class="inst-hero-story">
+                Ça fait plus de 3 ans que je conçois des campagnes d'affichage publicitaire, des packshots produits et des visuels de marque percutants grâce à l'intelligence artificielle. Des packshots alimentaires ultra-frais aux affiches commerciales grand format, j'ai développé une méthode de prompt engineering rigoureuse pour éliminer les défauts récurrents de l'IA : typographies illisibles, packagings déformés et textures plastiques.
+                <br><br>
+                Un jour, face aux retombées de mes affiches, on a commencé à me demander : <em>« Carlos, comment tu obtiens des visuels publicitaires aussi nets et réalistes ? »</em> Alors j'ai décidé de tout filmer. Tout ce que je sais pour transformer de simples mots en affiches publicitaires prêtes pour le print et le web, je te le transmets pas à pas.
+              </p>
+
+              <!-- 3 Objection Handling Checklist Items (100% Focused on Poster Design Subject) -->
+              <div class="inst-objections-list">
+                
+                <div class="inst-objection-item">
+                  <div class="inst-check-icon" aria-hidden="true">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  </div>
+                  <div class="inst-objection-body">
+                    <h3 class="inst-objection-question">« Je n'ai jamais fait de graphisme ni de design de ma vie »</h3>
+                    <p class="inst-objection-answer">
+                      Tu n'as besoin d'aucun prérequis en dessin ni de maîtriser Photoshop. Les formules de prompts publicitaires, les réglages de focale 85mm et les recettes d'éclairage studio sont déjà entièrement rédigés pour toi.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="inst-objection-item">
+                  <div class="inst-check-icon" aria-hidden="true">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  </div>
+                  <div class="inst-objection-body">
+                    <h3 class="inst-objection-question">« Je n'ai qu'un simple ordinateur ou un smartphone »</h3>
+                    <p class="inst-objection-answer">
+                      C'est tout ce qu'il te faut : un simple navigateur web. Toutes les générations sont calculées sur les serveurs cloud de l'IA, sans aucun logiciel payant ni machine surpuissante.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="inst-objection-item">
+                  <div class="inst-check-icon" aria-hidden="true">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  </div>
+                  <div class="inst-objection-body">
+                    <h3 class="inst-objection-question">« Et si je bloque sur un prompt ou une affiche ? »</h3>
+                    <p class="inst-objection-answer">
+                      Tu poses ta question et partages ton visuel dans notre communauté privée. J'analyse tes générations, je t'aide à ajuster tes prompts et les autres créateurs t'épaulent à chaque étape.
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- CTA Button (Skyprompt Style) -->
+              <div class="inst-cta-row">
+                <button class="inst-btn-primary btn-enroll" aria-label="Commencer la formation Affiches Publicitaires IA">
+                  <span>Commencer la formation</span>
+                  <svg class="inst-btn-cart-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                  </svg>
+                </button>
+                <span class="inst-cta-microtext">Accès immédiat · 100 % gratuit · Prompts prêts à l'emploi inclus</span>
+              </div>
+
+            </div>
+
+            <!-- Right Column: Layered Card Framed Portrait (Skyprompt Branded) -->
+            <div class="inst-photo-col">
+              <div class="inst-frame-container">
+                <div class="inst-frame-backdrop" aria-hidden="true"></div>
+                <div class="inst-photo-card">
+                  <img
+                    class="inst-portrait-img"
+                    src="/images/841388324_122131466714917799_7029469907167913761_n.jpg"
+                    alt="Carlos DJANATO — Formateur et Directeur Artistique Skyprompt"
+                    loading="lazy"
+                  />
+                  <div class="inst-status-badge">
+                    <span class="inst-status-dot"></span>
+                    <span>Mentor Principal Skyprompt</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Site Footer -->
+      <footer class="site-footer" role="contentinfo">
+        <div class="footer-container">
+          <div class="footer-top">
+            <a href="#" class="footer-brand" aria-label="Skyprompt Accueil">
+              <svg class="footer-brand-svg" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g fill="#ffffff">
+                  <path d="M22 4 C17 4 14 14 22 22 C30 14 27 4 22 4Z" />
+                  <path d="M22 4 C17 4 14 14 22 22 C30 14 27 4 22 4Z" transform="rotate(60 22 22)" />
+                  <path d="M22 4 C17 4 14 14 22 22 C30 14 27 4 22 4Z" transform="rotate(120 22 22)" />
+                  <path d="M22 4 C17 4 14 14 22 22 C30 14 27 4 22 4Z" transform="rotate(180 22 22)" />
+                  <path d="M22 4 C17 4 14 14 22 22 C30 14 27 4 22 4Z" transform="rotate(240 22 22)" />
+                  <path d="M22 4 C17 4 14 14 22 22 C30 14 27 4 22 4Z" transform="rotate(300 22 22)" />
+                  <circle cx="22" cy="22" r="5" fill="#f6f03b" />
+                </g>
+              </svg>
+              <span>Skyprompt</span>
+            </a>
+
+            <nav class="footer-nav" aria-label="Liens de pied de page">
+              <a href="#story" class="footer-link nav-link" data-modal="story">Histoire</a>
+              <a href="#study-plan" class="footer-link nav-link" data-modal="study-plan">Programme</a>
+              <a href="#problem-solution" class="footer-link nav-link">Avant / Après</a>
+              <a href="#showcase" class="footer-link nav-link">Galerie</a>
+              <a href="#formateur" class="footer-link nav-link">Le Formateur</a>
+              <a href="#qa" class="footer-link nav-link" data-modal="qa">FAQ</a>
+            </nav>
+          </div>
+
+          <div class="footer-bottom">
+            <div>© 2026 Skyprompt. Formation en ligne gratuite à la création d'affiches publicitaires par IA.</div>
+            <div>Créé avec passion pour les créatifs et directeurs artistiques de demain.</div>
+          </div>
+        </div>
+      </footer>
     </div>
 
     <!-- Interactive Modal: Card Prompt Inspector & Enrollment Modal -->
@@ -2982,6 +3595,31 @@
         window.addEventListener('keydown', (e) => {
           if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
         });
+
+        // Navbar hero visibility: completely transparent on hero, disappears once past hero
+        const siteNav = document.querySelector('.site-nav');
+        const heroStage = document.querySelector('.hero-stage-container') || document.querySelector('.viewport-stage');
+        function handleNavScroll() {
+          if (!siteNav) return;
+          if (heroStage) {
+            const rect = heroStage.getBoundingClientRect();
+            // When the bottom of the hero stage scrolls past the top of the viewport, hide the nav
+            if (rect.bottom <= 60) {
+              siteNav.classList.add('nav-hidden');
+            } else {
+              siteNav.classList.remove('nav-hidden');
+            }
+          } else {
+            if (window.scrollY > 600) {
+              siteNav.classList.add('nav-hidden');
+            } else {
+              siteNav.classList.remove('nav-hidden');
+            }
+          }
+        }
+        window.addEventListener('scroll', handleNavScroll, { passive: true });
+        window.addEventListener('resize', handleNavScroll, { passive: true });
+        handleNavScroll();
 
         // "Begin the Journey" buttons
         document.querySelectorAll('.btn-enroll').forEach(btn => {
@@ -3416,6 +4054,87 @@
             }
           });
         });
+
+        // --- Fade In on Scroll (IntersectionObserver) ---
+        (function initScrollReveal() {
+          const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+          // Target key section components for fluid entrance
+          const sectionSelectors = [
+            '.ps-header-block',
+            '.ba-comparison-wrapper',
+            '.ba-analysis-block',
+            '.ps-problems-headline-wrap',
+            '.ps-problems-tabs',
+            '.ps-problems-grid',
+            '#ps-carousel-nav',
+            '.ps-solution-hero-card',
+            '.sc-header-block',
+            '.sc-filter-bar',
+            '.sc-cta-strip',
+            '.inst-header-block',
+            '.inst-card',
+            '.inst-story-content',
+            '.inst-stats-grid',
+            '.inst-cta-banner'
+          ];
+
+          const revealElements = [];
+          sectionSelectors.forEach(sel => {
+            document.querySelectorAll(sel).forEach(el => {
+              el.classList.add('reveal-on-scroll');
+              revealElements.push(el);
+            });
+          });
+
+          if (prefersReduced) {
+            revealElements.forEach(el => el.classList.add('is-revealed'));
+            document.querySelectorAll('.sc-portfolio-flow .sc-poster-card').forEach(c => c.classList.add('is-revealed'));
+            return;
+          }
+
+          if ('IntersectionObserver' in window) {
+            const sectionObserver = new IntersectionObserver((entries, obs) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add('is-revealed');
+                  obs.unobserve(entry.target);
+                }
+              });
+            }, {
+              threshold: 0.1,
+              rootMargin: '0px 0px -40px 0px'
+            });
+
+            revealElements.forEach(el => sectionObserver.observe(el));
+
+            // Gallery Cards Staggered Cascading Wave
+            const galleryCards = Array.from(document.querySelectorAll('.sc-portfolio-flow .sc-poster-card'));
+            const cardObserver = new IntersectionObserver((entries, obs) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  const card = entry.target;
+                  const idx = galleryCards.indexOf(card);
+                  const delay = (idx % 5) * 55; // ripple across columns
+                  setTimeout(() => {
+                    card.classList.add('is-revealed');
+                  }, delay);
+                  obs.unobserve(card);
+                }
+              });
+            }, {
+              threshold: 0.05,
+              rootMargin: '0px 0px -30px 0px'
+            });
+
+            galleryCards.forEach(card => {
+              card.classList.add('reveal-card');
+              cardObserver.observe(card);
+            });
+          } else {
+            revealElements.forEach(el => el.classList.add('is-revealed'));
+          }
+        })();
       })();
     </script>
   </body>
