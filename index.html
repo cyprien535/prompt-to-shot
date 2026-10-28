@@ -2036,6 +2036,8 @@
       .proof-card-icon svg { width: 15px; height: 15px; }
 
       .proof-number {
+        position: relative;
+        min-height: 76px;
         margin: 0;
         color: #ffffff;
         font-family: 'DM Serif Display', Georgia, serif;
@@ -2043,6 +2045,17 @@
         line-height: 0.9;
         letter-spacing: -0.04em;
       }
+
+      .proof-particle-canvas {
+        position: absolute;
+        inset: -8px 0 0;
+        width: 100%;
+        height: 84px;
+        pointer-events: none;
+      }
+
+      .proof-number.is-particle-ready { color: transparent; }
+      .proof-number.is-particle-ready .proof-accent { color: transparent; }
 
       .proof-number .proof-accent { color: #3195e0; }
 
@@ -3480,17 +3493,17 @@
         <div class="proof-grid">
           <article class="proof-card">
             <div class="proof-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg></div>
-            <p class="proof-number"><span class="proof-accent">+</span>3 ans</p>
+            <p class="proof-number" data-particle-text="+3 ans"><span class="proof-accent">+</span>3 ans</p>
             <p class="proof-copy"><strong>d'expérience</strong> à créer des sites pour des clients.</p>
           </article>
           <article class="proof-card">
             <div class="proof-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></svg></div>
-            <p class="proof-number"><span class="proof-accent">+</span>700</p>
+            <p class="proof-number" data-particle-text="+700"><span class="proof-accent">+</span>700</p>
             <p class="proof-copy"><strong>sites livrés</strong> à des clients.</p>
           </article>
           <article class="proof-card">
             <div class="proof-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="9" r="3"/><path d="M3.5 19c.8-3 2.7-4.5 5.5-4.5s4.7 1.5 5.5 4.5M16 8.5a2.5 2.5 0 1 1 0 5M16.5 15c2.2.2 3.6 1.5 4 4"/></svg></div>
-            <p class="proof-number"><span class="proof-accent">+</span>250</p>
+            <p class="proof-number" data-particle-text="+250"><span class="proof-accent">+</span>250</p>
             <p class="proof-copy"><strong>élèves formés.</strong> Chaque point, c'est une personne.</p>
           </article>
         </div>
@@ -4238,6 +4251,85 @@
           }
         })();
       })();
+      // ParticleText effect for the proof-point numbers: gathers into the existing brand typography.
+      const particleNumbers = document.querySelectorAll('[data-particle-text]');
+      if (particleNumbers.length) {
+        const particleObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const element = entry.target;
+            const text = element.dataset.particleText || '';
+            const canvas = document.createElement('canvas');
+            canvas.className = 'proof-particle-canvas';
+            canvas.setAttribute('aria-hidden', 'true');
+            element.appendChild(canvas);
+            element.classList.add('is-particle-ready');
+
+            const context = canvas.getContext('2d');
+            if (!context) return;
+            const rect = element.getBoundingClientRect();
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            const width = Math.max(1, Math.floor(rect.width));
+            const height = 84;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            context.scale(dpr, dpr);
+
+            const styles = window.getComputedStyle(element);
+            const font = `${styles.fontWeight} ${styles.fontSize} ${styles.fontFamily}`;
+            const sample = document.createElement('canvas');
+            const sampleContext = sample.getContext('2d');
+            if (!sampleContext) return;
+            sampleContext.font = font;
+            const textWidth = sampleContext.measureText(text).width;
+            sample.width = Math.ceil(textWidth + 12);
+            sample.height = height;
+            sampleContext.font = font;
+            sampleContext.textBaseline = 'middle';
+            sampleContext.fillStyle = '#fff';
+            sampleContext.fillText(text, 6, height / 2);
+            const pixels = sampleContext.getImageData(0, 0, sample.width, sample.height).data;
+            const points = [];
+            const step = 4;
+            for (let y = 0; y < sample.height; y += step) {
+              for (let x = 0; x < sample.width; x += step) {
+                if (pixels[(y * sample.width + x) * 4 + 3] > 80) {
+                  points.push({ x: width / 2 - sample.width / 2 + x, y });
+                }
+              }
+            }
+            const particles = points.map((point, index) => ({
+              targetX: point.x,
+              targetY: point.y,
+              x: point.x + (Math.random() - 0.5) * 140,
+              y: point.y + (Math.random() - 0.5) * 100,
+              delay: (index / Math.max(1, points.length)) * 480,
+              color: index % 5 === 0 ? '#3195e0' : '#ffffff'
+            }));
+            const start = performance.now();
+            const render = (now) => {
+              const elapsed = now - start;
+              context.clearRect(0, 0, width, height);
+              let complete = true;
+              particles.forEach((particle) => {
+                const progress = Math.min(1, Math.max(0, (elapsed - particle.delay) / 1050));
+                const eased = 1 - Math.pow(1 - progress, 3);
+                if (progress < 1) complete = false;
+                const x = particle.x + (particle.targetX - particle.x) * eased;
+                const y = particle.y + (particle.targetY - particle.y) * eased;
+                context.fillStyle = particle.color;
+                context.globalAlpha = 0.35 + eased * 0.65;
+                context.fillRect(x, y, 2.2, 2.2);
+              });
+              context.globalAlpha = 1;
+              if (!complete) requestAnimationFrame(render);
+            };
+            requestAnimationFrame(render);
+            observer.unobserve(element);
+          });
+        }, { threshold: 0.35 });
+        particleNumbers.forEach((number) => particleObserver.observe(number));
+      }
     </script>
   </body>
 </html>
