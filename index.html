@@ -2014,26 +2014,43 @@
       .proof-card {
         min-height: 228px;
         padding: 18px 16px 20px;
-        border: 1px solid rgba(11, 17, 32, 0.14);
+        border: 1px solid #86c96d;
         border-radius: 18px;
-        background: #f7f8fb;
+        background: linear-gradient(145deg, #efffdc 0%, #d7f3c0 100%);
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         box-sizing: border-box;
+        cursor: pointer;
+        transform: translateY(0) rotate(0deg);
+        transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
       }
+
+      .proof-card:hover,
+      .proof-card:focus-within,
+      .proof-card.is-touched {
+        transform: translateY(-7px) rotate(-0.5deg);
+        background: linear-gradient(145deg, #e6ffcc 0%, #bfe99f 100%);
+        box-shadow: 0 18px 35px rgba(91, 160, 63, 0.24);
+      }
+
+      .proof-card:active { transform: translateY(-2px) scale(0.985); }
 
       .proof-card-icon {
         width: 28px;
         height: 28px;
-        border: 1px solid rgba(11, 17, 32, 0.14);
+        border: 1px solid rgba(11, 17, 32, 0.18);
         border-radius: 50%;
         display: grid;
         place-items: center;
-        color: #3195e0;
+        color: #4d9b3e;
+        background: rgba(255, 255, 255, 0.48);
+        transition: transform 220ms ease, color 220ms ease;
       }
 
       .proof-card-icon svg { width: 15px; height: 15px; }
+      .proof-card:hover .proof-card-icon,
+      .proof-card.is-touched .proof-card-icon { transform: rotate(12deg) scale(1.12); color: #7d3cff; }
 
       .proof-number {
         position: relative;
@@ -4304,7 +4321,7 @@
               x: point.x + (Math.random() - 0.5) * 140,
               y: point.y + (Math.random() - 0.5) * 100,
               delay: (index / Math.max(1, points.length)) * 480,
-              color: index % 5 === 0 ? '#3195e0' : '#0b1120'
+              color: ['#7d3cff', '#3195e0', '#f04f9d', '#f6a623', '#4d9b3e'][index % 5]
             }));
             const start = performance.now();
             const render = (now) => {
@@ -4325,6 +4342,18 @@
               if (!complete) requestAnimationFrame(render);
             };
             requestAnimationFrame(render);
+            const card = element.closest('.proof-card');
+            if (card) {
+              const activate = () => {
+                card.classList.remove('is-touched');
+                void card.offsetWidth;
+                card.classList.add('is-touched');
+                window.setTimeout(() => card.classList.remove('is-touched'), 650);
+              };
+              card.addEventListener('pointerenter', activate);
+              card.addEventListener('pointerdown', activate, { passive: true });
+              card.addEventListener('focusin', activate);
+            }
             observer.unobserve(element);
           });
         }, { threshold: 0.35 });
