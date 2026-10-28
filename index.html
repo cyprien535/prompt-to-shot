@@ -2193,7 +2193,13 @@
         display: grid;
         grid-template-columns: minmax(0, 1.18fr) minmax(320px, 0.88fr);
         gap: clamp(36px, 5vw, 76px);
-        align-items: center;
+        align-items: start;
+      }
+
+      @media (min-width: 1101px) {
+        .inst-frame-container {
+          margin-top: 50px !important;
+        }
       }
 
       @media (max-width: 1100px) {
@@ -2427,7 +2433,7 @@
         position: relative;
         width: 100%;
         max-width: 440px;
-        margin: 16px auto 0;
+        margin: 0 auto;
       }
 
       /* Layered offset border card behind the portrait with brand color accent */
