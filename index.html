@@ -2186,9 +2186,11 @@
         margin: 0;
         color: #fff8c9;
         font-family: 'DM Serif Display', Georgia, serif;
-        font-size: clamp(52px, 7vw, 78px);
-        line-height: 0.9;
+        font-size: clamp(44px, 7vw, 78px);
+        line-height: 1;
         letter-spacing: -0.04em;
+        white-space: nowrap;
+        overflow: visible;
       }
 
       .proof-particle-canvas {
@@ -2199,8 +2201,8 @@
         pointer-events: none;
       }
 
-      .proof-number.is-particle-ready { color: transparent; }
-      .proof-number.is-particle-ready .proof-accent { color: transparent; }
+      .proof-number.is-particle-ready { color: #fff8c9; }
+      .proof-number.is-particle-ready .proof-accent { color: #3195e0; }
 
       .proof-number .proof-accent { color: #3195e0; }
 
@@ -2217,6 +2219,17 @@
       @media (max-width: 760px) {
         .proof-grid { grid-template-columns: 1fr; }
         .proof-card { min-height: 180px; }
+        .proof-number {
+          min-height: 66px;
+          font-size: clamp(42px, 15vw, 64px);
+          line-height: 1;
+          white-space: nowrap;
+        }
+        .proof-particle-canvas {
+          inset: -4px 0 0;
+          height: 70px;
+          max-width: 100%;
+        }
       }
 
       .testimonials-section {
