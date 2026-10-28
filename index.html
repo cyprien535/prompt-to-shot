@@ -818,8 +818,16 @@
 
         .mobile-copy-flow .hero-headline-mobile {
           font-family: 'DM Serif Display', Georgia, serif;
-          font-size: clamp(34px, 8.5vw, 48px);
+          width: min(100%, 680px);
+          max-width: calc(100vw - 32px);
+          margin: 6px auto 10px;
+          padding-inline: 8px;
+          box-sizing: border-box;
+          font-size: clamp(28px, 8vw, 48px);
           line-height: 1.08;
+          letter-spacing: -0.025em;
+          text-wrap: balance;
+          overflow-wrap: anywhere;
           color: #ffffff;
           -webkit-text-stroke: 0.8px #ffffff;
           text-align: center;
