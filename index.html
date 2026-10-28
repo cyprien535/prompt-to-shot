@@ -2161,8 +2161,8 @@
       .decision-section {
         position: relative;
         overflow: hidden;
-        background: #090a0c;
-        color: #ffffff;
+        background: #ffffff;
+        color: #0b1120;
         padding: clamp(72px, 10vw, 132px) clamp(20px, 5vw, 64px) clamp(76px, 9vw, 118px);
         text-align: center;
       }
@@ -2175,7 +2175,7 @@
         left: 50%;
         bottom: -170px;
         transform: translateX(-50%);
-        background: radial-gradient(ellipse, rgba(125, 60, 255, 0.25), transparent 68%);
+        background: radial-gradient(ellipse, rgba(49, 149, 224, 0.16), transparent 68%);
         filter: blur(22px);
         pointer-events: none;
       }
@@ -2193,9 +2193,9 @@
         gap: 10px;
         margin-bottom: 26px;
         padding: 7px 14px 7px 8px;
-        border: 1px solid rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(11, 17, 32, 0.16);
         border-radius: 999px;
-        color: rgba(255, 255, 255, 0.86);
+        color: #4b5563;
         font: 600 12px/1 'Poppins', sans-serif;
       }
 
@@ -2211,18 +2211,18 @@
         place-items: center;
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 50%;
-        color: #a8a1ff;
-        background: #171820;
+        color: #3195e0;
+        background: #eef7ff;
         font-size: 8px;
       }
 
-      .decision-proof strong { color: #ffffff; }
+      .decision-proof strong { color: #0b1120; }
 
       .decision-title {
         max-width: 800px;
         margin: 0 auto clamp(34px, 5vw, 52px);
-        font-family: 'Poppins', sans-serif;
-        font-size: clamp(36px, 6vw, 70px);
+        font-family: 'DM Serif Display', Georgia, serif;
+        font-size: clamp(42px, 6vw, 78px);
         font-weight: 700;
         line-height: 1.02;
         letter-spacing: -0.055em;
@@ -2230,8 +2230,8 @@
 
       .decision-title span {
         display: block;
-        color: #9d9aa5;
-        font-weight: 500;
+        color: #3195e0;
+        font-weight: 400;
       }
 
       .decision-choices {
@@ -2246,15 +2246,16 @@
       .decision-card {
         min-height: 192px;
         padding: 24px 20px;
-        border: 1px solid rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(11, 17, 32, 0.14);
         border-radius: 18px;
-        background: rgba(255, 255, 255, 0.015);
+        background: #f7f8fb;
         box-sizing: border-box;
       }
 
       .decision-card--join {
-        border-color: rgba(255, 255, 255, 0.36);
-        background: rgba(255, 255, 255, 0.035);
+        border-color: #3195e0;
+        background: #ffffff;
+        box-shadow: 0 12px 28px rgba(49, 149, 224, 0.12);
       }
 
       .decision-label {
@@ -2267,7 +2268,7 @@
 
       .decision-card h3 {
         margin: 0 0 16px;
-        color: #ffffff;
+        color: #0b1120;
         font: 700 22px/1.1 'Poppins', sans-serif;
         letter-spacing: -0.03em;
       }
@@ -2280,12 +2281,12 @@
         margin: 0;
         padding: 0;
         list-style: none;
-        color: #aaa8b0;
+        color: #4b5563;
         font: 400 12px/1.45 'Poppins', sans-serif;
       }
 
       .decision-list li { display: flex; gap: 9px; }
-      .decision-list li::before { content: '✓'; color: #ffffff; font-weight: 700; }
+      .decision-list li::before { content: '✓'; color: #3195e0; font-weight: 700; }
       .decision-card--leave .decision-list { color: #39383e; }
       .decision-card--leave .decision-list li::before { content: '×'; color: #3e3d44; }
 
@@ -2298,8 +2299,8 @@
         font-family: 'Poppins', sans-serif;
       }
 
-      .decision-old-price { color: #686672; font-size: 14px; text-decoration: line-through; }
-      .decision-current-price { color: #ffffff; font-size: clamp(38px, 5vw, 54px); font-weight: 600; letter-spacing: -0.04em; }
+      .decision-old-price { color: #6b7280; font-size: 14px; text-decoration: line-through; }
+      .decision-current-price { color: #0b1120; font-size: clamp(38px, 5vw, 54px); font-weight: 600; letter-spacing: -0.04em; }
 
       .decision-button {
         display: inline-flex;
@@ -2308,17 +2309,17 @@
         gap: 12px;
         min-width: 208px;
         padding: 14px 22px;
-        border: 1px solid rgba(206, 182, 255, 0.65);
+        border: 2px solid #0b1120;
         border-radius: 999px;
-        background: linear-gradient(135deg, #8b42ff, #5f24c4);
-        color: #ffffff;
-        box-shadow: 0 0 28px rgba(125, 60, 255, 0.58), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        background: #f6f03b;
+        color: #0b1120;
+        box-shadow: 3px 3px 0 #0b1120;
         font: 700 13px 'Poppins', sans-serif;
         text-decoration: none;
         transition: transform 180ms ease, box-shadow 180ms ease;
       }
 
-      .decision-button:hover { transform: translateY(-3px); box-shadow: 0 0 40px rgba(125, 60, 255, 0.78), inset 0 1px 0 rgba(255, 255, 255, 0.35); }
+      .decision-button:hover { transform: translateY(-3px); box-shadow: 5px 5px 0 #0b1120; }
       .decision-button svg { width: 17px; height: 17px; }
 
       @media (max-width: 680px) {
