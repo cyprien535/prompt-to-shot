@@ -1996,6 +1996,71 @@
         overflow: hidden;
       }
 
+      /* Proof points directly after À propos */
+      .proof-section {
+        background: #0b1120;
+        color: #ffffff;
+        padding: clamp(28px, 4vw, 48px) clamp(20px, 5vw, 64px) clamp(72px, 8vw, 108px);
+      }
+
+      .proof-grid {
+        max-width: 1220px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .proof-card {
+        min-height: 228px;
+        padding: 18px 16px 20px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.035);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-sizing: border-box;
+      }
+
+      .proof-card-icon {
+        width: 28px;
+        height: 28px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        color: #f6f03b;
+      }
+
+      .proof-card-icon svg { width: 15px; height: 15px; }
+
+      .proof-number {
+        margin: 0;
+        color: #ffffff;
+        font-family: 'DM Serif Display', Georgia, serif;
+        font-size: clamp(52px, 7vw, 78px);
+        line-height: 0.9;
+        letter-spacing: -0.04em;
+      }
+
+      .proof-number .proof-accent { color: #3195e0; }
+
+      .proof-copy {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.76);
+        font-family: 'Poppins', sans-serif;
+        font-size: 11px;
+        line-height: 1.5;
+      }
+
+      .proof-copy strong { color: #ffffff; font-weight: 700; }
+
+      @media (max-width: 760px) {
+        .proof-grid { grid-template-columns: 1fr; }
+        .proof-card { min-height: 180px; }
+      }
+
       /* Final CTA Section after À Propos */
       .bottom-cta-section {
         background: #f8fafc;
@@ -3408,6 +3473,26 @@
             </div>
 
           </div>
+        </div>
+      </section>
+
+      <section class="proof-section" aria-label="Quelques chiffres">
+        <div class="proof-grid">
+          <article class="proof-card">
+            <div class="proof-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg></div>
+            <p class="proof-number"><span class="proof-accent">+</span>3 ans</p>
+            <p class="proof-copy"><strong>d'expérience</strong> à créer des sites pour des clients.</p>
+          </article>
+          <article class="proof-card">
+            <div class="proof-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></svg></div>
+            <p class="proof-number"><span class="proof-accent">+</span>700</p>
+            <p class="proof-copy"><strong>sites livrés</strong> à des clients.</p>
+          </article>
+          <article class="proof-card">
+            <div class="proof-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="9" r="3"/><path d="M3.5 19c.8-3 2.7-4.5 5.5-4.5s4.7 1.5 5.5 4.5M16 8.5a2.5 2.5 0 1 1 0 5M16.5 15c2.2.2 3.6 1.5 4 4"/></svg></div>
+            <p class="proof-number"><span class="proof-accent">+</span>250</p>
+            <p class="proof-copy"><strong>élèves formés.</strong> Chaque point, c'est une personne.</p>
+          </article>
         </div>
       </section>
 
