@@ -2092,6 +2092,71 @@
         .proof-card { min-height: 180px; }
       }
 
+      .testimonials-section {
+        position: relative;
+        overflow: hidden;
+        background: #ffffff;
+        padding: clamp(72px, 10vw, 132px) 0 clamp(68px, 9vw, 116px);
+      }
+
+      .testimonials-heading {
+        max-width: 1220px;
+        margin: 0 auto clamp(34px, 5vw, 58px);
+        padding: 0 clamp(20px, 5vw, 64px);
+      }
+
+      .testimonials-heading h2 {
+        max-width: 620px;
+        margin: 0;
+        color: #0b1120;
+        font-family: 'DM Serif Display', Georgia, serif;
+        font-size: clamp(42px, 7vw, 82px);
+        line-height: 0.96;
+        letter-spacing: -0.045em;
+      }
+
+      .testimonials-heading h2::after {
+        content: '';
+        display: block;
+        width: 78px;
+        height: 9px;
+        margin-top: 18px;
+        border-radius: 999px;
+        background: #f6f03b;
+        transform: rotate(-2deg);
+      }
+
+      .testimonials-track {
+        display: flex;
+        width: max-content;
+        gap: clamp(14px, 2vw, 26px);
+        padding: 0 clamp(20px, 5vw, 64px);
+        will-change: transform;
+        transform: translate3d(0, 0, 0);
+      }
+
+      .testimonial-image {
+        width: clamp(220px, 26vw, 360px);
+        height: clamp(270px, 32vw, 430px);
+        flex: 0 0 auto;
+        object-fit: cover;
+        border: 1px solid rgba(11, 17, 32, 0.14);
+        border-radius: 22px;
+        background: #f1f3f0;
+        box-shadow: 0 14px 30px rgba(11, 17, 32, 0.1);
+        transition: transform 260ms ease, box-shadow 260ms ease;
+      }
+
+      .testimonial-image:hover {
+        transform: translateY(-8px) rotate(1deg);
+        box-shadow: 0 24px 42px rgba(11, 17, 32, 0.18);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .testimonials-track { transform: none !important; }
+        .testimonial-image { transition: none; }
+      }
+
       /* Final CTA Section after À Propos */
       .bottom-cta-section {
         background: #f8fafc;
@@ -3089,7 +3154,7 @@
             <div class="highlighter-label sc-kicker">
               <span class="hl-text">Galerie & Portfolio</span>
             </div>
-            <h2 class="sc-title">Campagnes & Affiches Réalisées par nos Étudiants</h2>
+            <h2 class="sc-title">Campagnes & Affiches R��alisées par nos Étudiants</h2>
             <p class="sc-subtitle">
               Du packshot cosmétique de prestige aux affiches de festivals, chaque visuel allie photoréalisme chirurgical, typographie nette et direction artistique primée.
             </p>
@@ -3524,6 +3589,20 @@
             <p class="proof-number" data-particle-text="+250"><span class="proof-accent">+</span>250</p>
             <p class="proof-copy"><strong>élèves formés.</strong> Chaque point, c'est une personne.</p>
           </article>
+        </div>
+      </section>
+
+      <section class="testimonials-section" id="temoignages" aria-labelledby="testimonials-title">
+        <div class="testimonials-heading">
+          <h2 id="testimonials-title">Et voilà ce qu&apos;ils en disent.</h2>
+        </div>
+        <div class="testimonials-track" data-testimonials-track>
+          <img class="testimonial-image" src="/testimonials/testimonial-01.avif" alt="Création graphique présentée dans un témoignage client" />
+          <img class="testimonial-image" src="/testimonials/testimonial-02.avif" alt="Projet visuel présenté dans un témoignage client" />
+          <img class="testimonial-image" src="/testimonials/testimonial-03.avif" alt="Interface de projet présentée dans un témoignage client" />
+          <img class="testimonial-image" src="/testimonials/testimonial-04.avif" alt="Création digitale présentée dans un témoignage client" />
+          <img class="testimonial-image" src="/testimonials/testimonial-05.avif" alt="Visuel de projet présenté dans un témoignage client" />
+          <img class="testimonial-image" src="/testimonials/testimonial-06.avif" alt="Dernière création présentée dans un témoignage client" />
         </div>
       </section>
 
@@ -4359,6 +4438,23 @@
           });
         }, { threshold: 0.35 });
         particleNumbers.forEach((number) => particleObserver.observe(number));
+      }
+      const testimonialsTrack = document.querySelector('[data-testimonials-track]');
+      if (testimonialsTrack && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        let testimonialsFrame = null;
+        const updateTestimonials = () => {
+          const section = testimonialsTrack.closest('.testimonials-section');
+          const bounds = section.getBoundingClientRect();
+          const progress = Math.max(0, Math.min(1, (window.innerHeight - bounds.top) / (window.innerHeight + bounds.height)));
+          const travel = Math.max(0, testimonialsTrack.scrollWidth - window.innerWidth + 80);
+          testimonialsTrack.style.transform = `translate3d(${-travel * progress}px, 0, 0)`;
+          testimonialsFrame = null;
+        };
+        window.addEventListener('scroll', () => {
+          if (!testimonialsFrame) testimonialsFrame = window.requestAnimationFrame(updateTestimonials);
+        }, { passive: true });
+        window.addEventListener('resize', updateTestimonials, { passive: true });
+        updateTestimonials();
       }
     </script>
   </body>
