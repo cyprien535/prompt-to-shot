@@ -2163,51 +2163,6 @@
 
       .proof-card:active { transform: translateY(-2px) scale(0.985); }
 
-      .proof-card-icon,
-      .proof-copy {
-        animation: proof-text-gather 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
-      }
-
-      .proof-card:nth-child(2) .proof-card-icon,
-      .proof-card:nth-child(2) .proof-copy { animation-delay: 180ms; }
-      .proof-card:nth-child(3) .proof-card-icon,
-      .proof-card:nth-child(3) .proof-copy { animation-delay: 360ms; }
-
-      .proof-copy { position: relative; }
-      .proof-copy::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: -9px;
-        width: 42px;
-        height: 2px;
-        border-radius: 99px;
-        background: #e5ed6e;
-        transform-origin: left center;
-        animation: proof-scan-line 1.4s 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
-      }
-
-      @keyframes proof-text-gather {
-        0% { opacity: 0; transform: translateY(22px) scale(0.92); filter: blur(9px); letter-spacing: 0.12em; }
-        55% { opacity: 1; transform: translateY(-3px) scale(1.015); filter: blur(0); }
-        100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); letter-spacing: normal; }
-      }
-
-      @keyframes proof-scan-line {
-        0% { opacity: 0; transform: scaleX(0); }
-        100% { opacity: 1; transform: scaleX(1); }
-      }
-
-      .proof-card:hover .proof-copy,
-      .proof-card.is-touched .proof-copy {
-        transform: translate3d(3px, -2px, 0);
-        transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        .proof-card-icon, .proof-copy, .proof-copy::after { animation: none; }
-      }
-
       .proof-card-icon {
         width: 28px;
         height: 28px;
