@@ -2203,6 +2203,7 @@
 
       .proof-number.is-particle-ready { color: #fff8c9; }
       .proof-number.is-particle-ready .proof-accent { color: #3195e0; }
+      .proof-particle-canvas { display: none !important; }
 
       .proof-number .proof-accent { color: #3195e0; }
 
@@ -4649,97 +4650,6 @@
           }
         })();
       })();
-      // ParticleText effect for the proof-point numbers: gathers into the existing brand typography.
-      const particleNumbers = document.querySelectorAll('[data-particle-text]');
-      if (particleNumbers.length) {
-        const particleObserver = new IntersectionObserver((entries, observer) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            const element = entry.target;
-            const text = element.dataset.particleText || '';
-            const canvas = document.createElement('canvas');
-            canvas.className = 'proof-particle-canvas';
-            canvas.setAttribute('aria-hidden', 'true');
-            element.appendChild(canvas);
-            element.classList.add('is-particle-ready');
-
-            const context = canvas.getContext('2d');
-            if (!context) return;
-            const rect = element.getBoundingClientRect();
-            const dpr = Math.min(window.devicePixelRatio || 1, 2);
-            const width = Math.max(1, Math.floor(rect.width));
-            const height = 84;
-            canvas.width = width * dpr;
-            canvas.height = height * dpr;
-            context.scale(dpr, dpr);
-
-            const styles = window.getComputedStyle(element);
-            const font = `${styles.fontWeight} ${styles.fontSize} ${styles.fontFamily}`;
-            const sample = document.createElement('canvas');
-            const sampleContext = sample.getContext('2d');
-            if (!sampleContext) return;
-            sampleContext.font = font;
-            const textWidth = sampleContext.measureText(text).width;
-            sample.width = Math.ceil(textWidth + 12);
-            sample.height = height;
-            sampleContext.font = font;
-            sampleContext.textBaseline = 'middle';
-            sampleContext.fillStyle = '#fff';
-            sampleContext.fillText(text, 6, height / 2);
-            const pixels = sampleContext.getImageData(0, 0, sample.width, sample.height).data;
-            const points = [];
-            const step = 4;
-            for (let y = 0; y < sample.height; y += step) {
-              for (let x = 0; x < sample.width; x += step) {
-                if (pixels[(y * sample.width + x) * 4 + 3] > 80) {
-                  points.push({ x: width / 2 - sample.width / 2 + x, y });
-                }
-              }
-            }
-            const particles = points.map((point, index) => ({
-              targetX: point.x,
-              targetY: point.y,
-              x: point.x + (Math.random() - 0.5) * 140,
-              y: point.y + (Math.random() - 0.5) * 100,
-              delay: (index / Math.max(1, points.length)) * 480,
-              color: ['#fff36a', '#d9e878', '#7dc8ff', '#f5e9a8', '#5fa9ff'][index % 5]
-            }));
-            const start = performance.now();
-            const render = (now) => {
-              const elapsed = now - start;
-              context.clearRect(0, 0, width, height);
-              let complete = true;
-              particles.forEach((particle) => {
-                const progress = Math.min(1, Math.max(0, (elapsed - particle.delay) / 1050));
-                const eased = 1 - Math.pow(1 - progress, 3);
-                if (progress < 1) complete = false;
-                const x = particle.x + (particle.targetX - particle.x) * eased;
-                const y = particle.y + (particle.targetY - particle.y) * eased;
-                context.fillStyle = particle.color;
-                context.globalAlpha = 0.35 + eased * 0.65;
-                context.fillRect(x, y, 2.2, 2.2);
-              });
-              context.globalAlpha = 1;
-              if (!complete) requestAnimationFrame(render);
-            };
-            requestAnimationFrame(render);
-            const card = element.closest('.proof-card');
-            if (card) {
-              const activate = () => {
-                card.classList.remove('is-touched');
-                void card.offsetWidth;
-                card.classList.add('is-touched');
-                window.setTimeout(() => card.classList.remove('is-touched'), 650);
-              };
-              card.addEventListener('pointerenter', activate);
-              card.addEventListener('pointerdown', activate, { passive: true });
-              card.addEventListener('focusin', activate);
-            }
-            observer.unobserve(element);
-          });
-        }, { threshold: 0.35 });
-        particleNumbers.forEach((number) => particleObserver.observe(number));
-      }
       const testimonialsTrack = document.querySelector('[data-testimonials-track]');
       if (testimonialsTrack && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         let animationFrame = null;
