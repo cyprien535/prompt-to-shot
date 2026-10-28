@@ -2199,10 +2199,28 @@
       @media (max-width: 960px) {
         .inst-grid {
           grid-template-columns: 1fr;
+          grid-template-areas:
+            "kicker"
+            "photo"
+            "title"
+            "sub"
+            "story"
+            "objections"
+            "cta";
           gap: 48px;
         }
 
+        .inst-content-col {
+          display: contents !important;
+        }
 
+        .inst-content-col > .inst-kicker { grid-area: kicker; }
+        .inst-photo-col { grid-area: photo; }
+        .inst-content-col > .inst-hero-title { grid-area: title; }
+        .inst-content-col > .inst-hero-sub { grid-area: sub; }
+        .inst-content-col > .inst-hero-story { grid-area: story; }
+        .inst-content-col > .inst-objections-list { grid-area: objections; }
+        .inst-content-col > .inst-cta-row { grid-area: cta; }
       }
 
       /* Left Column: Editorial & Conversion Story */
