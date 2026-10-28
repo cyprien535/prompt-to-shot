@@ -2166,8 +2166,30 @@
         overflow: hidden;
         background: #3195e0;
         color: #0b1120;
+        isolation: isolate;
         padding: clamp(72px, 10vw, 132px) clamp(20px, 5vw, 64px) clamp(76px, 9vw, 118px);
         text-align: center;
+      }
+
+      .decision-bg-video {
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        opacity: 0.9;
+        pointer-events: none;
+      }
+
+      .decision-section::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: rgba(49, 149, 224, 0.72);
+        pointer-events: none;
       }
 
       .decision-section::before {
@@ -3822,6 +3844,7 @@
       </section>
 
       <section class="decision-section" id="choix" aria-labelledby="decision-title">
+        <video class="decision-bg-video" src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/81764d30-8120-4ab5-8491-4dd852b82496.mp4" autoplay loop muted playsinline aria-hidden="true"></video>
         <div class="decision-inner">
           <div class="decision-proof">
             <span class="decision-proof-dots" aria-hidden="true"><span>J</span><span>C</span><span>+</span></span>
