@@ -2328,32 +2328,37 @@
       .decision-current-price { color: #0b1120; font-size: clamp(38px, 5vw, 54px); font-weight: 600; letter-spacing: -0.04em; }
 
       .decision-cta-wrap {
-        display: flex;
+        position: relative;
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 18px;
       }
 
-      .decision-arrow {
-        display: inline-flex;
-        width: 42px;
-        color: #0b1120;
-        animation: decision-arrow-pulse 1.6s ease-in-out infinite;
+      .decision-hand-arrow {
+        position: absolute;
+        width: 62px;
+        height: 48px;
+        pointer-events: none;
+        animation: decision-hand-arrow-float 2.2s ease-in-out infinite;
       }
 
-      .decision-arrow--right { animation-delay: 180ms; }
-      .decision-arrow svg { width: 100%; height: auto; overflow: visible; }
-      .decision-arrow path { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.4; }
+      .decision-hand-arrow--left { right: calc(100% + 18px); top: -28px; transform: rotate(-8deg); }
+      .decision-hand-arrow--right { left: calc(100% + 18px); bottom: -25px; transform: scaleX(-1) rotate(-8deg); animation-delay: 240ms; }
+      .decision-hand-arrow path { fill: none; stroke: #f6f03b; stroke-linecap: round; stroke-linejoin: round; stroke-width: 3; }
 
-      @keyframes decision-arrow-pulse {
-        0%, 100% { opacity: 0.45; transform: translateX(0) scale(0.96); }
-        50% { opacity: 1; transform: translateX(5px) scale(1); }
+      @keyframes decision-hand-arrow-float {
+        0%, 100% { opacity: 0.65; translate: 0 0; }
+        50% { opacity: 1; translate: 0 5px; }
       }
 
-      .decision-arrow--right svg { transform: scaleX(-1); }
+      @media (max-width: 680px) {
+        .decision-hand-arrow { width: 48px; height: 38px; }
+        .decision-hand-arrow--left { right: calc(100% + 6px); top: -22px; }
+        .decision-hand-arrow--right { left: calc(100% + 6px); bottom: -20px; }
+      }
 
       @media (prefers-reduced-motion: reduce) {
-        .decision-arrow { animation: none; }
+        .decision-hand-arrow { animation: none; }
       }
 
       .decision-button {
@@ -3902,9 +3907,9 @@
           </div>
           <div class="decision-price"><span class="decision-old-price">2600 F</span><strong class="decision-current-price">1000 FCFA</strong></div>
           <div class="decision-cta-wrap">
-            <span class="decision-arrow decision-arrow--left" aria-hidden="true"><svg viewBox="0 0 48 24"><path d="M45 12H5m0 0 9-8M5 12l9 8"/></svg></span>
+            <svg class="decision-hand-arrow decision-hand-arrow--left" viewBox="0 0 62 48" aria-hidden="true"><path d="M57 5C38 6 27 17 25 35"/><path d="M17 27 25 37 34 30"/></svg>
             <a class="decision-button" href="https://judechrist.mychariow.shop/prd_1xzdtb4v/checkout" target="_blank" rel="noopener noreferrer">Je choisis de rejoindre <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 7h2l1.5 9h9L20 10H8"/><circle cx="10" cy="19" r="1"/><circle cx="17" cy="19" r="1"/></svg></a>
-            <span class="decision-arrow decision-arrow--right" aria-hidden="true"><svg viewBox="0 0 48 24"><path d="M45 12H5m0 0 9-8M5 12l9 8"/></svg></span>
+            <svg class="decision-hand-arrow decision-hand-arrow--right" viewBox="0 0 62 48" aria-hidden="true"><path d="M57 5C38 6 27 17 25 35"/><path d="M17 27 25 37 34 30"/></svg>
           </div>
         </div>
       </section>
@@ -3918,7 +3923,7 @@
             </div>
             <h3 class="sc-cta-strip-title">Prêt à maîtriser la création d'affiches publicitaires de ce niveau ?</h3>
             <p class="sc-cta-strip-body">
-              Rejoignez plus de 14 000 créatifs et apprenez la méthodologie complète : de l'ingénierie de prompt avancée au photoréalisme chirurgical pour des marques réelles.
+              Rejoignez plus de 14 000 créatifs et apprenez la m��thodologie complète : de l'ingénierie de prompt avancée au photoréalisme chirurgical pour des marques réelles.
             </p>
             <button class="ps-cta-button btn-enroll" aria-label="Rejoindre la formation Créer des Affiches Pro">
               Rejoindre la formation · Accès Immédiat 100 % Gratuit
