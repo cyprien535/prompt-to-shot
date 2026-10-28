@@ -1036,14 +1036,39 @@
 
       /* Visual Before/After Comparison Showcase */
       .ba-showcase-grid {
-        display: flex;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(48px, 116px) minmax(0, 1fr);
         align-items: center;
-        width: 100%;
+        gap: clamp(16px, 3vw, 42px);
+        width: min(100%, 960px);
         margin: 0 auto 90px;
         padding-inline: clamp(12px, 3vw, 36px);
         box-sizing: border-box;
       }
+
+      .ba-card { margin: 0; text-align: center; }
+      .ba-card-frame {
+        position: relative;
+        aspect-ratio: 1 / 1;
+        padding: 14px;
+        border: 2px solid #20242b;
+        border-radius: 28px;
+        background: #ffffff;
+        box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #20242b;
+      }
+      .ba-card-frame img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 20px; }
+      .ba-card figcaption { margin-top: 16px; color: #0b1120; font: 600 clamp(13px, 1.5vw, 17px)/1.2 'Poppins', sans-serif; }
+      .ba-transition-arrow { color: #20242b; animation: ba-arrow-float 2.2s ease-in-out infinite; }
+      .ba-transition-arrow svg { display: block; width: 100%; overflow: visible; }
+      .ba-transition-arrow path { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.4; }
+      @keyframes ba-arrow-float { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(7px); } }
+      @media (max-width: 700px) {
+        .ba-showcase-grid { grid-template-columns: minmax(0, 1fr) minmax(34px, 58px) minmax(0, 1fr); gap: 10px; padding-inline: 8px; }
+        .ba-card-frame { padding: 8px; border-radius: 20px; box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px #20242b; }
+        .ba-card-frame img { border-radius: 14px; }
+        .ba-card figcaption { margin-top: 10px; font-size: 11px; }
+      }
+      @media (prefers-reduced-motion: reduce) { .ba-transition-arrow { animation: none; } }
 
       /* Comparison Interactive Viewer */
       .ba-comparison-wrapper {
@@ -3250,47 +3275,27 @@
           </div>
 
           <!-- Visual Before / After Comparison Showcase -->
-          <div class="ba-showcase-grid">
-            
-            <!-- Interactive Comparison Viewer -->
-            <div class="ba-comparison-wrapper">
-              <div class="ba-viewport" id="ba-viewport" aria-label="Comparatif interactif Avant / Après affiche IA">
-                <!-- After Image (Base Layer: Prompt Pro) -->
-                <img
-                  class="ba-img-after"
-                  id="ba-img-after"
-                  src="/images/818365479_122128349066917799_7606925868454223497_n.jpg"
-                  alt="Affiche publicitaire professionnelle Imdi Fruits réalisée avec Prompt Pro"
-                  loading="lazy"
-                />
-
-                <!-- Before Image (Clipped Top Layer: Prompt Amateur) -->
-                <div class="ba-layer-before" id="ba-layer-before">
-                  <img
-                    class="ba-img-before"
-                    id="ba-img-before"
-                    src="/images/Captu.png"
-                    alt="Photo brute amateur Imdi Fruits avant transformation"
-                    loading="lazy"
-                  />
-                </div>
-
-                <!-- Badges -->
-                <div class="ba-badge ba-badge-before">❌ Prompt Amateur</div>
-                <div class="ba-badge ba-badge-after">✨ Prompt Pro</div>
-
-                <!-- Draggable Center Handle -->
-                <div class="ba-handle" id="ba-handle">
-                  <div class="ba-handle-thumb" id="ba-handle-thumb" aria-label="Faire glisser pour comparer">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="15 18 9 12 15 6"></polyline>
-                      <polyline points="9 18 15 12 9 6" transform="rotate(180 12 12)"></polyline>
-                    </svg>
-                  </div>
-                </div>
+          <div class="ba-showcase-grid" aria-label="Comparaison entre un prompt amateur et un prompt pro">
+            <figure class="ba-card ba-card-before">
+              <div class="ba-card-frame">
+                <img src="/images/Captu.png" alt="Image créée avec un prompt amateur" loading="lazy" />
               </div>
+              <figcaption>Image du prompt amateur</figcaption>
+            </figure>
+
+            <div class="ba-transition-arrow" aria-hidden="true">
+              <svg viewBox="0 0 116 72" role="presentation">
+                <path d="M7 56C29 12 64 8 105 35" />
+                <path d="m88 31 18 4-12 13" />
+              </svg>
             </div>
 
+            <figure class="ba-card ba-card-after">
+              <div class="ba-card-frame">
+                <img src="/images/818365479_122128349066917799_7606925868454223497_n.jpg" alt="Image créée avec un prompt professionnel" loading="lazy" />
+              </div>
+              <figcaption>Image du prompt pro</figcaption>
+            </figure>
           </div>
 
           <!-- The 5 Common Problems (Interactive Animated Carousel) -->
@@ -4362,72 +4367,6 @@
           });
         });
 
-        // --- Before / After Interactive Slider ---
-        const baViewport = document.getElementById('ba-viewport');
-        const baLayerBefore = document.getElementById('ba-layer-before');
-        const baImgBefore = document.getElementById('ba-img-before');
-        const baHandle = document.getElementById('ba-handle');
-
-        function syncBeforeImgWidth() {
-          if (baViewport && baImgBefore) {
-            const w = baViewport.offsetWidth;
-            baImgBefore.style.width = w + 'px';
-            baImgBefore.style.maxWidth = w + 'px';
-          }
-        }
-
-        window.addEventListener('resize', syncBeforeImgWidth);
-        window.addEventListener('load', syncBeforeImgWidth);
-        syncBeforeImgWidth();
-        // Also sync after image loads
-        const imgAfter = document.getElementById('ba-img-after');
-        if (imgAfter) {
-          imgAfter.addEventListener('load', syncBeforeImgWidth);
-        }
-
-        let isDraggingBA = false;
-
-        function setBASplit(percent) {
-          const clamped = Math.max(0, Math.min(100, percent));
-          if (baLayerBefore) baLayerBefore.style.width = clamped + '%';
-          if (baHandle) baHandle.style.left = clamped + '%';
-        }
-
-        function updateFromPointer(e) {
-          if (!baViewport) return;
-          const rect = baViewport.getBoundingClientRect();
-          const clientX = (e.touches && e.touches.length > 0) ? e.touches[0].clientX : e.clientX;
-          const x = clientX - rect.left;
-          const percent = (x / rect.width) * 100;
-          setBASplit(percent);
-        }
-
-        if (baViewport) {
-          baViewport.addEventListener('mousedown', (e) => {
-            isDraggingBA = true;
-            updateFromPointer(e);
-          });
-          window.addEventListener('mousemove', (e) => {
-            if (!isDraggingBA) return;
-            updateFromPointer(e);
-          });
-          window.addEventListener('mouseup', () => {
-            isDraggingBA = false;
-          });
-
-          baViewport.addEventListener('touchstart', (e) => {
-            isDraggingBA = true;
-            updateFromPointer(e);
-          }, { passive: true });
-          window.addEventListener('touchmove', (e) => {
-            if (!isDraggingBA) return;
-            updateFromPointer(e);
-          }, { passive: true });
-          window.addEventListener('touchend', () => {
-            isDraggingBA = false;
-          });
-        }
-
         // --- Problems Interactive Animated Carousel ---
         (function initProblemsCarousel() {
           const grid = document.getElementById('ps-problems-grid');
@@ -4590,7 +4529,7 @@
                   <img src="${imgSrc}" alt="Affiche publicitaire plein écran" style="max-height: 72vh; max-width: 100%; width: auto; height: auto; object-fit: contain; display: block;" />
                 </div>
                 <button class="btn-enroll" style="background: #161c08; color: #ffffff; padding: 13px 32px; border-radius: 9999px; font-weight: 600; font-size: 15px; border: none; cursor: pointer; transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s; box-shadow: 0 6px 20px rgba(0,0,0,0.18);">
-                  Rejoindre la formation · Cr��er des affiches pro avec l'IA
+                  Rejoindre la formation · Cr����er des affiches pro avec l'IA
                 </button>
               </div>
             `);
