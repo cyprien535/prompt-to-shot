@@ -4064,6 +4064,8 @@
         document.querySelectorAll('.btn-enroll').forEach(btn => {
           btn.addEventListener('click', (e) => {
             e.preventDefault();
+            document.getElementById('choix')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return;
             openModal(`
               <div style="text-align: left;">
                 <div style="display: inline-block; background: #f6f03b; color: #161c08; font-family: 'Poppins', sans-serif; font-weight: 700; padding: 4px 10px; font-size: 13px; border-radius: 4px; margin-bottom: 12px;">Zero Cost · Instant Access</div>
