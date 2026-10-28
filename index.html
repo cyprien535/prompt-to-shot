@@ -1998,8 +1998,8 @@
 
       /* Proof points directly after À propos */
       .proof-section {
-        background: #0b1120;
-        color: #ffffff;
+        background: #ffffff;
+        color: #0b1120;
         padding: clamp(28px, 4vw, 48px) clamp(20px, 5vw, 64px) clamp(72px, 8vw, 108px);
       }
 
@@ -2014,9 +2014,9 @@
       .proof-card {
         min-height: 228px;
         padding: 18px 16px 20px;
-        border: 1px solid rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(11, 17, 32, 0.14);
         border-radius: 18px;
-        background: rgba(255, 255, 255, 0.035);
+        background: #f7f8fb;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -2026,11 +2026,11 @@
       .proof-card-icon {
         width: 28px;
         height: 28px;
-        border: 1px solid rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(11, 17, 32, 0.14);
         border-radius: 50%;
         display: grid;
         place-items: center;
-        color: #f6f03b;
+        color: #3195e0;
       }
 
       .proof-card-icon svg { width: 15px; height: 15px; }
@@ -2039,7 +2039,7 @@
         position: relative;
         min-height: 76px;
         margin: 0;
-        color: #ffffff;
+        color: #0b1120;
         font-family: 'DM Serif Display', Georgia, serif;
         font-size: clamp(52px, 7vw, 78px);
         line-height: 0.9;
@@ -2061,13 +2061,13 @@
 
       .proof-copy {
         margin: 0;
-        color: rgba(255, 255, 255, 0.76);
+        color: rgba(11, 17, 32, 0.7);
         font-family: 'Poppins', sans-serif;
         font-size: 11px;
         line-height: 1.5;
       }
 
-      .proof-copy strong { color: #ffffff; font-weight: 700; }
+      .proof-copy strong { color: #0b1120; font-weight: 700; }
 
       @media (max-width: 760px) {
         .proof-grid { grid-template-columns: 1fr; }
@@ -4304,7 +4304,7 @@
               x: point.x + (Math.random() - 0.5) * 140,
               y: point.y + (Math.random() - 0.5) * 100,
               delay: (index / Math.max(1, points.length)) * 480,
-              color: index % 5 === 0 ? '#3195e0' : '#ffffff'
+              color: index % 5 === 0 ? '#3195e0' : '#0b1120'
             }));
             const start = performance.now();
             const render = (now) => {
