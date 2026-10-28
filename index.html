@@ -4447,7 +4447,7 @@
           const bounds = section.getBoundingClientRect();
           const progress = Math.max(0, Math.min(1, (window.innerHeight - bounds.top) / (window.innerHeight + bounds.height)));
           const travel = Math.max(0, testimonialsTrack.scrollWidth - window.innerWidth + 80);
-          testimonialsTrack.style.transform = `translate3d(${-travel * progress}px, 0, 0)`;
+          testimonialsTrack.style.transform = `translate3d(${-travel * (1 - progress)}px, 0, 0)`;
           testimonialsFrame = null;
         };
         window.addEventListener('scroll', () => {
