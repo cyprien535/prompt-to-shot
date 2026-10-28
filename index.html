@@ -2868,14 +2868,6 @@
           <a class="social-link nav-social-link" href="https://www.facebook.com/people/Proph%C3%A8te-Jude-Christ-Exauc%C3%A9/61577533991254/" target="_blank" rel="noopener noreferrer" aria-label="Facebook de Jude Christ">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 8h3V4h-3c-3.3 0-5 2-5 5v3H6v4h3v8h4v-8h3.2l.8-4H13V9c0-.7.3-1 1-1Z"/></svg>
           </a>
-          <!-- X button: 50px translucent white circle, 283 from the right -->
-          <button class="nav-x-button" id="btn-sound-toggle" aria-label="Toggle Atmosphere Motion & Audio" title="Toggle Loop Motion & Info">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
-
           <!-- Nav Pill: white "Rejoindre la formation" pill, 107 from the right -->
           <button class="nav-pill-button btn-enroll" aria-label="Rejoindre la formation - Inscription gratuite">
             Rejoindre la formation
@@ -4356,25 +4348,6 @@
           }, { passive: true });
           window.addEventListener('touchend', () => {
             isDraggingBA = false;
-          });
-        }
-
-        // X Button: Replays entrance animation & toggles background video
-        const xBtn = document.getElementById('btn-sound-toggle');
-        if (xBtn) {
-          xBtn.addEventListener('click', () => {
-            const vids = document.querySelectorAll('.scene-video');
-            let isPaused = false;
-            vids.forEach(v => {
-              if (v.paused) {
-                v.play();
-              } else {
-                v.pause();
-                isPaused = true;
-              }
-            });
-            xBtn.setAttribute('title', isPaused ? 'Resume looping motion' : 'Pause looping motion');
-            xBtn.style.opacity = isPaused ? '0.6' : '1';
           });
         }
 
