@@ -3607,7 +3607,7 @@
         </div>
       </section>
 
-      <!-- Final CTA Invitation Section (Après À Propos) -->
+      <!-- Final CTA Invitation Section (Après �� Propos) -->
       <section class="bottom-cta-section" id="inscription">
         <div class="sc-container">
           <div class="sc-cta-strip">
@@ -4442,20 +4442,30 @@
       }
       const testimonialsTrack = document.querySelector('[data-testimonials-track]');
       if (testimonialsTrack && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        let testimonialsFrame = null;
-        const updateTestimonials = () => {
-          const section = testimonialsTrack.closest('.testimonials-section');
-          const bounds = section.getBoundingClientRect();
-          const progress = Math.max(0, Math.min(1, (window.innerHeight - bounds.top) / (window.innerHeight + bounds.height)));
+        let animationFrame = null;
+        let startTime = null;
+        const duration = 18000;
+        const animateTestimonials = (timestamp) => {
+          if (!startTime) startTime = timestamp;
           const travel = Math.max(0, testimonialsTrack.scrollWidth - window.innerWidth + 80);
-          testimonialsTrack.style.transform = `translate3d(${-travel * (1 - progress)}px, 0, 0)`;
-          testimonialsFrame = null;
+          const progress = ((timestamp - startTime) % duration) / duration;
+          const position = -travel + travel * progress;
+          testimonialsTrack.style.transform = `translate3d(${position}px, 0, 0)`;
+          animationFrame = window.requestAnimationFrame(animateTestimonials);
         };
-        window.addEventListener('scroll', () => {
-          if (!testimonialsFrame) testimonialsFrame = window.requestAnimationFrame(updateTestimonials);
+        const testimonialsObserver = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting && !animationFrame) {
+            startTime = null;
+            animationFrame = window.requestAnimationFrame(animateTestimonials);
+          } else if (!entry.isIntersecting && animationFrame) {
+            window.cancelAnimationFrame(animationFrame);
+            animationFrame = null;
+          }
+        }, { threshold: 0.05 });
+        testimonialsObserver.observe(testimonialsTrack.closest('.testimonials-section'));
+        window.addEventListener('resize', () => {
+          startTime = null;
         }, { passive: true });
-        window.addEventListener('resize', updateTestimonials, { passive: true });
-        updateTestimonials();
       }
     </script>
   </body>
