@@ -973,15 +973,23 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-bottom: 90px;
+        width: 100%;
+        margin: 0 auto 90px;
+        padding-inline: clamp(12px, 3vw, 36px);
+        box-sizing: border-box;
       }
 
       /* Comparison Interactive Viewer */
       .ba-comparison-wrapper {
         position: relative;
-        width: 100%;
-        max-width: 520px;
+        width: min(100%, 680px);
+        max-width: 680px;
         margin: 0 auto;
+      }
+
+      @media (max-width: 680px) {
+        .ba-showcase-grid { padding-inline: 10px; }
+        .ba-comparison-wrapper { width: 100%; }
       }
 
       .ba-viewport {
