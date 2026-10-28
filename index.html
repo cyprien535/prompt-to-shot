@@ -2204,26 +2204,6 @@
         text-decoration: none;
       }
 
-      .inst-btn-primary::after {
-        content: '';
-        position: absolute;
-        right: 4px;
-        bottom: -10px;
-        width: 0;
-        height: 0;
-        border-top: 15px solid #161c08;
-        border-right: 7px solid transparent;
-        transform: rotate(-18deg);
-        filter: drop-shadow(1px 1px 0 #ffffff);
-        pointer-events: none;
-        animation: inst-cursor-bob 1.8s ease-in-out infinite;
-      }
-
-      @keyframes inst-cursor-bob {
-        0%, 100% { transform: translate(0, 0) rotate(-18deg); }
-        50% { transform: translate(-4px, -5px) rotate(-18deg); }
-      }
-
       .inst-btn-primary:hover {
         transform: translate(-2px, -2px);
         box-shadow: 5px 5px 0px #161c08;
