@@ -2967,8 +2967,75 @@
         font-size: 13px;
         color: #64748b;
       }
-    </style>
-  </head>
+  /* Formation assistant chat */
+.formation-chat-launcher {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  width: 58px;
+  height: 58px;
+  border: 2px solid #161c08;
+  border-radius: 50%;
+  padding: 0;
+  background: #f6f03b;
+  color: #161c08;
+  cursor: pointer;
+  box-shadow: 5px 5px 0 #3195e0;
+  transition: transform .2s ease, box-shadow .2s ease;
+  }
+.formation-chat-launcher:hover { transform: translateY(-2px); box-shadow: 7px 7px 0 #3195e0; }
+ .formation-chat-launcher:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+ .formation-chat-launcher svg { width: 24px; height: 24px; }
+ .formation-chat-launcher span { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+  .formation-chat-panel {
+    position: fixed;
+    right: 22px;
+    bottom: 82px;
+    z-index: 79;
+    display: none;
+    flex-direction: column;
+    width: min(380px, calc(100vw - 32px));
+    height: min(590px, calc(100vh - 120px));
+    overflow: hidden;
+    border: 2px solid #161c08;
+    border-radius: 20px;
+    background: #fffdf0;
+    box-shadow: 9px 9px 0 #3195e0;
+    font-family: 'Poppins', sans-serif;
+  }
+  .formation-chat-panel.is-open { display: flex; }
+  .formation-chat-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 17px 18px; background: #161c08; color: #fff; }
+  .formation-chat-header strong { display: block; font-family: 'DM Serif Display', serif; font-size: 21px; font-weight: 400; }
+  .formation-chat-header span { display: block; margin-top: 3px; color: #f6f03b; font-size: 11px; }
+  .formation-chat-close { border: 0; background: transparent; color: #fff; font-size: 24px; line-height: 1; cursor: pointer; }
+  .formation-chat-messages { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 11px; padding: 17px; }
+  .formation-chat-message { max-width: 88%; border-radius: 14px; padding: 10px 12px; color: #161c08; font-size: 13px; line-height: 1.5; white-space: pre-wrap; }
+  .formation-chat-message.assistant { align-self: flex-start; border: 1px solid rgba(49,149,224,.35); background: #eef7ff; }
+  .formation-chat-message.user { align-self: flex-end; background: #f6f03b; }
+  .formation-chat-form { display: flex; gap: 8px; padding: 12px; border-top: 1px solid rgba(22,28,8,.15); background: #fff; }
+  .formation-chat-input { min-width: 0; flex: 1; resize: none; border: 1px solid rgba(22,28,8,.35); border-radius: 10px; padding: 10px 11px; color: #161c08; font: inherit; font-size: 13px; outline: none; }
+  .formation-chat-input:focus { border-color: #3195e0; box-shadow: 0 0 0 3px rgba(49,149,224,.18); }
+  .formation-chat-send { display: inline-flex; align-items: center; justify-content: center; width: 42px; border: 0; border-radius: 10px; background: #3195e0; color: #fff; cursor: pointer; }
+  .formation-chat-send:disabled { cursor: wait; opacity: .55; }
+  @media (max-width: 540px) {
+  .formation-chat-launcher { right: 16px; bottom: 16px; width: 52px; height: 52px; }
+  .formation-chat-panel { right: 12px; left: 12px; bottom: 80px; width: auto; height: min(70vh, 520px); max-height: calc(100vh - 104px); border-radius: 16px; box-shadow: 5px 5px 0 #3195e0; }
+  .formation-chat-header { padding: 14px 15px; }
+  .formation-chat-header strong { font-size: 18px; }
+  .formation-chat-messages { padding: 13px; }
+  .formation-chat-form { padding: 10px; }
+ }
+ @media (max-width: 360px) {
+  .formation-chat-panel { left: 8px; right: 8px; bottom: 76px; height: calc(100vh - 96px); max-height: none; }
+  .formation-chat-header span { font-size: 10px; }
+  .formation-chat-input { font-size: 12px; }
+ }
+</style>
+</head>
   <body>
     <!-- SVG Defs for Glow Filter and Arrowheads -->
     <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
@@ -4051,6 +4118,24 @@
       </footer>
     </div>
 
+    <button class="formation-chat-launcher" id="formation-chat-launcher" type="button" aria-expanded="false" aria-controls="formation-chat-panel">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.5 9.6 9.6 0 0 1-4-.9L3 21l1.9-4.5A8.3 8.3 0 0 1 3 11.5a8.4 8.4 0 0 1 9-8.5 8.4 8.4 0 0 1 9 8.5Z"/><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg>
+  <span>Ouvrir l’assistant de formation</span>
+  </button>
+    <section class="formation-chat-panel" id="formation-chat-panel" aria-label="Assistant de la formation">
+      <header class="formation-chat-header">
+        <div><strong>Assistant Prompt-to-Pixel</strong><span>Formation · Formateur · Créateur du site</span></div>
+        <button class="formation-chat-close" id="formation-chat-close" type="button" aria-label="Fermer le chat">×</button>
+      </header>
+      <div class="formation-chat-messages" id="formation-chat-messages" aria-live="polite">
+        <div class="formation-chat-message assistant">Bonjour. Je peux répondre à tes questions sur la formation, les prompts, le formateur et le site. Que veux-tu savoir ?</div>
+      </div>
+      <form class="formation-chat-form" id="formation-chat-form">
+        <textarea class="formation-chat-input" id="formation-chat-input" rows="1" maxlength="1200" placeholder="Écris ta question…" aria-label="Votre question"></textarea>
+        <button class="formation-chat-send" type="submit" aria-label="Envoyer la question"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></button>
+      </form>
+    </section>
+
     <!-- Interactive Modal: Card Prompt Inspector & Enrollment Modal -->
     <div class="modal-backdrop" id="app-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div class="modal-card">
@@ -4071,6 +4156,61 @@
       (function() {
         // --- Web Animations Timeline for Entrance ---
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // Formation-only Gemini assistant through the server-side AI Gateway route.
+        const chatLauncher = document.getElementById('formation-chat-launcher');
+        const chatPanel = document.getElementById('formation-chat-panel');
+        const chatClose = document.getElementById('formation-chat-close');
+        const chatForm = document.getElementById('formation-chat-form');
+        const chatInput = document.getElementById('formation-chat-input');
+        const chatMessages = document.getElementById('formation-chat-messages');
+        const chatHistory = [];
+
+        function toggleFormationChat(open) {
+          chatPanel?.classList.toggle('is-open', open);
+          chatLauncher?.setAttribute('aria-expanded', String(open));
+          if (open) chatInput?.focus();
+        }
+        chatLauncher?.addEventListener('click', () => toggleFormationChat(!chatPanel?.classList.contains('is-open')));
+        chatClose?.addEventListener('click', () => toggleFormationChat(false));
+        chatForm?.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          const question = chatInput?.value.trim();
+          if (!question) return;
+          const submit = chatForm.querySelector('button[type="submit"]');
+          const userBubble = document.createElement('div');
+          userBubble.className = 'formation-chat-message user';
+          userBubble.textContent = question;
+          chatMessages.appendChild(userBubble);
+          chatHistory.push({role: 'user', content: question});
+  if (chatHistory.length > 10) chatHistory.splice(0, chatHistory.length - 10);
+          chatInput.value = '';
+          submit.disabled = true;
+          const assistantBubble = document.createElement('div');
+          assistantBubble.className = 'formation-chat-message assistant';
+          assistantBubble.textContent = 'Je prépare une réponse…';
+          chatMessages.appendChild(assistantBubble);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+          try {
+            const response = await fetch('/api/chat', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({messages: chatHistory})});
+            if (!response.ok || !response.body) throw new Error('chat_request_failed');
+            assistantBubble.textContent = '';
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            while (true) {
+              const {value, done} = await reader.read();
+              if (done) break;
+              assistantBubble.textContent += decoder.decode(value, {stream: true});
+              chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            chatHistory.push({role: 'assistant', content: assistantBubble.textContent});
+          } catch (error) {
+            assistantBubble.textContent = 'Le chat est momentanément indisponible. Réessaie dans un instant.';
+          } finally {
+            submit.disabled = false;
+            chatInput.focus();
+          }
+        });
 
         if (!prefersReducedMotion) {
           const nav = document.querySelector('.anim-nav');
