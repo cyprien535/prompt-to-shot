@@ -713,12 +713,18 @@
         transition: opacity 0.24s ease;
       }
 
-      .modal-backdrop.active {
-        opacity: 1;
-        pointer-events: auto;
-      }
+.modal-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+  }
 
-      .modal-card {
+/* The enrollment and lesson inspector overlays are intentionally removed from the experience. */
+#app-modal {
+  display: none !important;
+  pointer-events: none !important;
+  }
+
+.modal-card {
         background: #ffffff;
         color: #161c08;
         border-radius: 20px;
