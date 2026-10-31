@@ -1101,7 +1101,7 @@
         background: #0f172a;
         cursor: ew-resize;
         user-select: none;
-        touch-action: pan-y;
+        touch-action: none;
       }
 
       .ba-img-after {
@@ -4869,9 +4869,10 @@
     <script>
     (() => {
       const range = document.getElementById('ba-range');
+      const viewport = document.getElementById('ba-viewport');
       const beforeLayer = document.getElementById('ba-layer-before');
       const divider = document.getElementById('ba-divider');
-      if (!range || !beforeLayer || !divider) return;
+      if (!range || !viewport || !beforeLayer || !divider) return;
 
       const updateComparison = () => {
         const value = `${range.value}%`;
@@ -4879,6 +4880,24 @@
         divider.style.left = value;
       };
 
+      const updateFromPointer = (event) => {
+        const rect = viewport.getBoundingClientRect();
+        const percentage = Math.max(0, Math.min(100, ((event.clientX - rect.left) / rect.width) * 100));
+        range.value = String(Math.round(percentage));
+        updateComparison();
+      };
+
+      let isDragging = false;
+      viewport.addEventListener('pointerdown', (event) => {
+        isDragging = true;
+        viewport.setPointerCapture(event.pointerId);
+        updateFromPointer(event);
+      });
+      viewport.addEventListener('pointermove', (event) => {
+        if (isDragging) updateFromPointer(event);
+      });
+      viewport.addEventListener('pointerup', () => { isDragging = false; });
+      viewport.addEventListener('pointercancel', () => { isDragging = false; });
       range.addEventListener('input', updateComparison);
       updateComparison();
     })();
