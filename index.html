@@ -3035,6 +3035,52 @@
   .formation-chat-header span { font-size: 10px; }
   .formation-chat-input { font-size: 12px; }
  }
+  .ba-divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    z-index: 4;
+    width: 2px;
+    background: #f6f03b;
+    box-shadow: 0 0 0 1px rgba(22, 28, 8, .22), 0 0 18px rgba(246, 240, 59, .35);
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+  .ba-divider-handle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border: 2px solid #f6f03b;
+    border-radius: 999px;
+    background: #161c08;
+    color: #f6f03b;
+    font: 700 18px/1 'Poppins', sans-serif;
+    transform: translate(-50%, -50%);
+  }
+  .ba-range-label {
+    display: block;
+    margin-top: 14px;
+    color: #161c08;
+    font: 600 12px/1.4 'Poppins', sans-serif;
+    text-align: center;
+  }
+  .ba-range {
+    display: block;
+    width: min(100%, 360px);
+    height: 24px;
+    margin: 4px auto 0;
+    accent-color: #3195e0;
+    cursor: ew-resize;
+  }
+  @media (max-width: 540px) {
+    .ba-divider-handle { width: 34px; height: 34px; font-size: 15px; }
+    .ba-range-label { font-size: 11px; }
+  }
 </style>
 </head>
   <body>
@@ -3365,26 +3411,21 @@
             </p>
           </div>
 
-          <!-- Visual Before / After Comparison Showcase -->
-          <div class="ba-showcase-grid" aria-label="Comparaison entre un prompt amateur et un prompt pro">
-            <figure class="ba-card ba-card-before">
-              <div class="ba-card-frame">
-                <img src="/images/Captu.png" alt="Image créée avec un prompt amateur" loading="lazy" decoding="async" />
+          <!-- Interactive Before / After comparison slider -->
+          <div class="ba-showcase-grid" aria-label="Comparaison avant après entre un prompt amateur et un prompt professionnel">
+            <div class="ba-comparison-wrapper">
+              <div class="ba-viewport" id="ba-viewport">
+                <img class="ba-img-after" src="/images/818365479_122128349066917799_7606925868454223497_n.jpg" alt="Résultat créé avec un prompt professionnel" loading="lazy" decoding="async" />
+                <div class="ba-layer-before" id="ba-layer-before">
+                  <img class="ba-img-before" src="/images/Captu.png" alt="Résultat créé avec un prompt amateur" loading="lazy" decoding="async" />
+                </div>
+                <span class="ba-badge ba-badge-before">AVANT</span>
+                <span class="ba-badge ba-badge-after">APRÈS</span>
+                <div class="ba-divider" id="ba-divider" aria-hidden="true"><span class="ba-divider-handle">↔</span></div>
               </div>
-            </figure>
-
-            <div class="ba-transition-arrow" aria-hidden="true">
-              <svg viewBox="0 0 116 72" role="presentation">
-                <path d="M7 56C29 12 64 8 105 35" />
-                <path d="m88 31 18 4-12 13" />
-              </svg>
+              <label class="ba-range-label" for="ba-range">Fais glisser pour comparer</label>
+              <input id="ba-range" class="ba-range" type="range" min="0" max="100" value="50" aria-label="Position de la comparaison avant après" />
             </div>
-
-            <figure class="ba-card ba-card-after">
-              <div class="ba-card-frame">
-                <img src="/images/818365479_122128349066917799_7606925868454223497_n.jpg" alt="Image créée avec un prompt professionnel" loading="lazy" decoding="async" />
-              </div>
-            </figure>
           </div>
 
           <!-- The 5 Common Problems (Interactive Animated Carousel) -->
@@ -4825,5 +4866,22 @@
         }, { passive: true });
       }
     </script>
-  </body>
+    <script>
+    (() => {
+      const range = document.getElementById('ba-range');
+      const beforeLayer = document.getElementById('ba-layer-before');
+      const divider = document.getElementById('ba-divider');
+      if (!range || !beforeLayer || !divider) return;
+
+      const updateComparison = () => {
+        const value = `${range.value}%`;
+        beforeLayer.style.width = value;
+        divider.style.left = value;
+      };
+
+      range.addEventListener('input', updateComparison);
+      updateComparison();
+    })();
+  </script>
+</body>
 </html>
