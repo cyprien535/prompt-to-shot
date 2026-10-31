@@ -1042,16 +1042,17 @@
       }
 
       /* Visual Before/After Comparison Showcase */
-      .ba-showcase-grid {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(48px, 116px) minmax(0, 1fr);
-        align-items: center;
-        gap: clamp(16px, 3vw, 42px);
-        width: min(100%, 960px);
-        margin: 0 auto 90px;
-        padding-inline: clamp(12px, 3vw, 36px);
-        box-sizing: border-box;
-      }
+ .ba-showcase-grid {
+   display: grid;
+   grid-template-columns: minmax(0, 1fr);
+   justify-items: center;
+   gap: 10px;
+   align-items: center;
+   width: 100%;
+   max-width: 980px;
+   margin-inline: auto;
+   padding-inline: 8px;
+ }
 
       .ba-card { margin: 0; text-align: center; }
       .ba-card-frame {
