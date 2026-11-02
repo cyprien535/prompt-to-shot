@@ -1090,6 +1090,11 @@
         .ba-showcase-grid { padding-inline: 10px; }
         .ba-comparison-wrapper { width: 100%; }
       }
+      .ba-divider { position: absolute; top: 0; bottom: 0; left: 50%; z-index: 4; width: 2px; background: #f6f03b; transform: translateX(-50%); pointer-events: none; }
+      .ba-divider-handle { position: absolute; top: 50%; left: 50%; display: grid; width: 42px; height: 42px; place-items: center; border: 2px solid #f6f03b; border-radius: 999px; background: #161c08; color: #f6f03b; font: 700 18px/1 'Poppins', sans-serif; transform: translate(-50%, -50%); }
+      .ba-range-label { display: block; margin-top: 14px; color: #161c08; font: 600 12px/1.4 'Poppins', sans-serif; text-align: center; }
+      .ba-range { display: block; width: min(100%, 360px); height: 24px; margin: 4px auto 0; accent-color: #3195e0; cursor: ew-resize; }
+      @media (max-width: 540px) { .ba-divider-handle { width: 34px; height: 34px; font-size: 15px; } .ba-range-label { font-size: 11px; } }
 
       .ba-viewport {
         position: relative;
@@ -4874,7 +4879,6 @@
       const beforeLayer = document.getElementById('ba-layer-before');
       const divider = document.getElementById('ba-divider');
       if (!range || !viewport || !beforeLayer || !divider) return;
-
       const updateComparison = () => {
         const value = `${range.value}%`;
         beforeLayer.style.width = value;
