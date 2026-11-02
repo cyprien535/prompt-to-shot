@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preload" as="image" href="/images/Captu.png" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/818365479_122128349066917799_7606925868454223497_n.jpg" fetchpriority="high" />
     <title>Prompt-to-Pixel Art | Formation affiches IA</title>
     <meta name="description" content="Apprends à créer des affiches publicitaires professionnelles avec l'intelligence artificielle grâce à la méthode Prompt-to-Pixel Art de Prophète Jude-Christ Exaucé." />
     <meta name="google" content="notranslate" />
@@ -1071,7 +1073,7 @@
       .ba-transition-arrow path { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.4; }
       @keyframes ba-arrow-float { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(7px); } }
       @media (max-width: 700px) {
-        .ba-showcase-grid { grid-template-columns: minmax(0, 1fr) minmax(34px, 58px) minmax(0, 1fr); gap: 10px; padding-inline: 8px; }
+        .ba-showcase-grid { grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 10px; padding-inline: 8px; }
         .ba-card-frame { padding: 8px; border-radius: 20px; box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px #20242b; }
         .ba-card-frame img { border-radius: 14px; }
         .ba-card figcaption { margin-top: 10px; font-size: 11px; }
@@ -1090,6 +1092,11 @@
         .ba-showcase-grid { padding-inline: 10px; }
         .ba-comparison-wrapper { width: 100%; }
       }
+      .ba-divider { position: absolute; top: 0; bottom: 0; left: 50%; z-index: 4; width: 2px; background: #f6f03b; transform: translateX(-50%); pointer-events: none; }
+      .ba-divider-handle { position: absolute; top: 50%; left: 50%; display: grid; width: 42px; height: 42px; place-items: center; border: 2px solid #f6f03b; border-radius: 999px; background: #161c08; color: #f6f03b; font: 700 18px/1 'Poppins', sans-serif; transform: translate(-50%, -50%); }
+      .ba-range-label { display: block; margin-top: 14px; color: #161c08; font: 600 12px/1.4 'Poppins', sans-serif; text-align: center; }
+      .ba-range { display: block; width: min(100%, 360px); height: 24px; margin: 4px auto 0; accent-color: #3195e0; cursor: ew-resize; }
+      @media (max-width: 540px) { .ba-divider-handle { width: 34px; height: 34px; font-size: 15px; } .ba-range-label { font-size: 11px; } }
 
       .ba-viewport {
         position: relative;
@@ -1102,7 +1109,7 @@
         background: #0f172a;
         cursor: ew-resize;
         user-select: none;
-        touch-action: pan-y;
+        touch-action: none;
       }
 
       .ba-img-after {
@@ -3036,6 +3043,52 @@
   .formation-chat-header span { font-size: 10px; }
   .formation-chat-input { font-size: 12px; }
  }
+  .ba-divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    z-index: 4;
+    width: 2px;
+    background: #f6f03b;
+    box-shadow: 0 0 0 1px rgba(22, 28, 8, .22), 0 0 18px rgba(246, 240, 59, .35);
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+  .ba-divider-handle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border: 2px solid #f6f03b;
+    border-radius: 999px;
+    background: #161c08;
+    color: #f6f03b;
+    font: 700 18px/1 'Poppins', sans-serif;
+    transform: translate(-50%, -50%);
+  }
+  .ba-range-label {
+    display: block;
+    margin-top: 14px;
+    color: #161c08;
+    font: 600 12px/1.4 'Poppins', sans-serif;
+    text-align: center;
+  }
+  .ba-range {
+    display: block;
+    width: min(100%, 360px);
+    height: 24px;
+    margin: 4px auto 0;
+    accent-color: #3195e0;
+    cursor: ew-resize;
+  }
+  @media (max-width: 540px) {
+    .ba-divider-handle { width: 34px; height: 34px; font-size: 15px; }
+    .ba-range-label { font-size: 11px; }
+  }
 </style>
 </head>
   <body>
@@ -3366,26 +3419,21 @@
             </p>
           </div>
 
-          <!-- Visual Before / After Comparison Showcase -->
-          <div class="ba-showcase-grid" aria-label="Comparaison entre un prompt amateur et un prompt pro">
-            <figure class="ba-card ba-card-before">
-              <div class="ba-card-frame">
-                <img src="/images/Captu.png" alt="Image créée avec un prompt amateur" loading="lazy" decoding="async" />
+          <!-- Interactive Before / After comparison slider -->
+          <div class="ba-showcase-grid" aria-label="Comparaison avant après entre un prompt amateur et un prompt professionnel">
+            <div class="ba-comparison-wrapper">
+              <div class="ba-viewport" id="ba-viewport">
+                <img class="ba-img-after" src="/images/818365479_122128349066917799_7606925868454223497_n.jpg" alt="Résultat créé avec un prompt professionnel" loading="eager" fetchpriority="high" decoding="async" />
+                <div class="ba-layer-before" id="ba-layer-before">
+                  <img class="ba-img-before" src="/images/Captu.png" alt="Résultat créé avec un prompt amateur" loading="eager" fetchpriority="high" decoding="async" />
+                </div>
+                <span class="ba-badge ba-badge-before">AVANT</span>
+                <span class="ba-badge ba-badge-after">APRÈS</span>
+                <div class="ba-divider" id="ba-divider" aria-hidden="true"><span class="ba-divider-handle">↔</span></div>
               </div>
-            </figure>
-
-            <div class="ba-transition-arrow" aria-hidden="true">
-              <svg viewBox="0 0 116 72" role="presentation">
-                <path d="M7 56C29 12 64 8 105 35" />
-                <path d="m88 31 18 4-12 13" />
-              </svg>
+              <label class="ba-range-label" for="ba-range">Fais glisser pour comparer</label>
+              <input id="ba-range" class="ba-range" type="range" min="0" max="100" value="50" aria-label="Position de la comparaison avant après" />
             </div>
-
-            <figure class="ba-card ba-card-after">
-              <div class="ba-card-frame">
-                <img src="/images/818365479_122128349066917799_7606925868454223497_n.jpg" alt="Image créée avec un prompt professionnel" loading="lazy" decoding="async" />
-              </div>
-            </figure>
           </div>
 
           <!-- The 5 Common Problems (Interactive Animated Carousel) -->
@@ -4024,17 +4072,17 @@
         <div class="proof-grid">
           <article class="proof-card">
             <div class="proof-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg></div>
-            <p class="proof-number" data-particle-text="+3 ans"><span class="proof-accent">+</span>3 ans</p>
+            <p class="proof-number" data-particle-text="+ 2 ans">+ 2 ans</p>
             <p class="proof-copy"><strong>d'expérience</strong> à concevoir des affiches &amp; visuels pour des clients.</p>
           </article>
           <article class="proof-card">
             <div class="proof-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></svg></div>
-            <p class="proof-number" data-particle-text="+700"><span class="proof-accent">+</span>700</p>
+            <p class="proof-number" data-particle-text="+100">+100</p>
             <p class="proof-copy"><strong>campagnes &amp; affiches livrées</strong> à des clients &amp; marques.</p>
           </article>
           <article class="proof-card">
             <div class="proof-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="9" r="3"/><path d="M3.5 19c.8-3 2.7-4.5 5.5-4.5s4.7 1.5 5.5 4.5M16 8.5a2.5 2.5 0 1 1 0 5M16.5 15c2.2.2 3.6 1.5 4 4"/></svg></div>
-            <p class="proof-number" data-particle-text="+250"><span class="proof-accent">+</span>250</p>
+            <p class="proof-number" data-particle-text="+100">+100</p>
             <p class="proof-copy"><strong>élèves formés.</strong> Chaque point, c'est une personne.</p>
           </article>
         </div>
@@ -4826,5 +4874,40 @@
         }, { passive: true });
       }
     </script>
-  </body>
+    <script>
+    (() => {
+      const range = document.getElementById('ba-range');
+      const viewport = document.getElementById('ba-viewport');
+      const beforeLayer = document.getElementById('ba-layer-before');
+      const divider = document.getElementById('ba-divider');
+      if (!range || !viewport || !beforeLayer || !divider) return;
+      const updateComparison = () => {
+        const value = `${range.value}%`;
+        beforeLayer.style.width = value;
+        divider.style.left = value;
+      };
+
+      const updateFromPointer = (event) => {
+        const rect = viewport.getBoundingClientRect();
+        const percentage = Math.max(0, Math.min(100, ((event.clientX - rect.left) / rect.width) * 100));
+        range.value = String(Math.round(percentage));
+        updateComparison();
+      };
+
+      let isDragging = false;
+      viewport.addEventListener('pointerdown', (event) => {
+        isDragging = true;
+        viewport.setPointerCapture(event.pointerId);
+        updateFromPointer(event);
+      });
+      viewport.addEventListener('pointermove', (event) => {
+        if (isDragging) updateFromPointer(event);
+      });
+      viewport.addEventListener('pointerup', () => { isDragging = false; });
+      viewport.addEventListener('pointercancel', () => { isDragging = false; });
+      range.addEventListener('input', updateComparison);
+      updateComparison();
+    })();
+  </script>
+</body>
 </html>
